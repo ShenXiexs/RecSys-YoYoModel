@@ -1,5 +1,5 @@
 # models/rankmixer_main.py
-# RankMixer Estimator：GPU 友好的 Token Mixing + Per-token FFN，复用 TFRA 动态表与 InfoNCE 头
+# RankMixer Estimator: 重写版，参考 RankMixer 论文 + HSTU/TOP5 输入处理
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import tensorflow_recommenders_addons as tfra
@@ -13,7 +13,7 @@ from common.metrics import evaluate
 logger = tf.compat.v1.logging
 
 
-# 若未定义 seq_length，按 seq_features_config 自动生成
+# 若 TrainConfig 内未显式指定 seq_length，则根据 seq_features_config 自动生成
 if not hasattr(TrainConfig, "seq_length"):
     TrainConfig.seq_length = OrderedDict(
         (cfg["name"], cfg["length"])
@@ -27,7 +27,7 @@ def gelu(x):
 
 
 class MultiHeadTokenMixer(tf.layers.Layer):
-    """多头 Token Mixing：对 token 维度做 head 级混合，替代自注意力"""
+    """RankMixer 中的多头 Token Mixing（近似 MLP-Mixer 的 token-mixing MLP）。"""
     def __init__(self, num_tokens, d_model, num_heads=8, dropout=0.0, name=None):
         super(MultiHeadTokenMixer, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -37,10 +37,10 @@ class MultiHeadTokenMixer(tf.layers.Layer):
 
     def build(self, input_shape):
         if self.d_model % self.num_heads != 0:
-            raise ValueError("d_model 必须被 num_heads 整除, got %d vs %d" % (self.d_model, self.num_heads))
+            raise ValueError("d_model 必须能整除 num_heads, got d_model=%d num_heads=%d" %
+                             (self.d_model, self.num_heads))
         self.d_head = self.d_model // self.num_heads
         init = tf.variance_scaling_initializer(scale=2.0)
-        # 每个 head 一个 T×T 混合矩阵
         self.mix_weight = self.add_weight(
             "mix_weight",
             shape=[self.num_heads, self.num_tokens, self.num_tokens],
@@ -54,18 +54,18 @@ class MultiHeadTokenMixer(tf.layers.Layer):
         T = self.num_tokens
         h = self.num_heads
         d = self.d_head
-        x_heads = tf.reshape(x, [B, T, h, d])         # [B,T,h,d]
-        x_heads = tf.transpose(x_heads, [0, 2, 1, 3]) # [B,h,T,d]
-        mixed = tf.einsum("bhtd,hkt->bhkd", x_heads, self.mix_weight)  # [B,h,T,d]
-        mixed = tf.transpose(mixed, [0, 2, 1, 3])     # [B,T,h,d]
-        mixed = tf.reshape(mixed, [B, T, h * d])      # [B,T,D]
+        x_heads = tf.reshape(x, [B, T, h, d])
+        x_heads = tf.transpose(x_heads, [0, 2, 1, 3])  # [B,h,T,d]
+        mixed = tf.einsum("bhtd,hkt->bhkd", x_heads, self.mix_weight)
+        mixed = tf.transpose(mixed, [0, 2, 1, 3])      # [B,T,h,d]
+        mixed = tf.reshape(mixed, [B, T, h * d])
         if self.dropout and training:
             mixed = tf.nn.dropout(mixed, keep_prob=1.0 - self.dropout)
         return mixed
 
 
 class PerTokenFFN(tf.layers.Layer):
-    """每个 token 独立参数的 FFN，增强异构子空间建模"""
+    """每个 token 拥有独立 FFN，建模异构 slot。"""
     def __init__(self, num_tokens, d_model, mult=4, dropout=0.0, name=None):
         super(PerTokenFFN, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -83,7 +83,6 @@ class PerTokenFFN(tf.layers.Layer):
         super(PerTokenFFN, self).build(input_shape)
 
     def call(self, x, training=False):
-        # x: [B,T,D]
         h = tf.einsum("btd,tdh->bth", x, self.W1) + self.b1
         h = gelu(h)
         if self.dropout and training:
@@ -95,7 +94,7 @@ class PerTokenFFN(tf.layers.Layer):
 
 
 class RankMixerBlock(tf.layers.Layer):
-    """LN -> Token Mixing -> Residual -> LN -> Per-token FFN -> Residual"""
+    """标准 RankMixer Block: LN -> TokenMixer -> Residual -> LN -> PerTokenFFN -> Residual。"""
     def __init__(self, num_tokens, d_model, num_heads, ffn_mult, token_dp=0.0, ffn_dp=0.0, name=None):
         super(RankMixerBlock, self).__init__(name=name)
         self.ln1 = LayerNorm(name="ln1")
@@ -115,12 +114,13 @@ class RankMixerBlock(tf.layers.Layer):
 
 
 class RankMixerEncoder(tf.layers.Layer):
+    """堆叠 RankMixerBlock。"""
     def __init__(self, num_layers, num_tokens, d_model, num_heads, ffn_mult,
                  token_dp=0.0, ffn_dp=0.0, name=None):
         super(RankMixerEncoder, self).__init__(name=name)
         self.blocks = [
             RankMixerBlock(num_tokens=num_tokens, d_model=d_model, num_heads=num_heads,
-                           ffn_mult=ffn_mult, token_dp=token_dp, ffn_dp=ffn_dp, name=f"block_{i}")
+                           ffn_mult=ffn_mult, token_dp=token_dp, ffn_dp=ffn_dp, name="block_%d" % i)
             for i in range(num_layers)
         ]
         self.final_ln = LayerNorm(name="encoder_ln")
@@ -164,26 +164,32 @@ def _get_dense_emb_from_features(features, embeddings_table, policy):
     x = _dense_if_sparse(x, default_value="")
     B = tf.shape(x)[0]
     fea_size = len(select_feature)
-
     flat = tf.reshape(x, [-1])
     uniq, idx = tf.unique(flat)
     ids = tf.strings.to_hash_bucket_strong(uniq, 2 ** 63 - 1, [1, 2])
-
     update_tstp_op = policy.apply_update(ids)
     restrict_op = policy.apply_restriction(int(1e8))
-
-    emb_u, _ = de.embedding_lookup(
-        embeddings_table, ids, return_trainable=True, name="features_lookup")
+    emb_u, _ = de.embedding_lookup(embeddings_table, ids, return_trainable=True, name="features_lookup")
     gathered = tf.gather(emb_u, idx)
     dense_emb = tf.reshape(gathered, [B, fea_size * embeddings_table.dim])
     return dense_emb, update_tstp_op, restrict_op
 
 
 def _sequence_pool(seq_emb, tokens, mode="mean"):
-    mode = mode.lower()
+    """支持 mean/max/target 等模式的 pooling。"""
+    mode = str(mode).lower()
     pad_mask = tf.logical_or(tf.equal(tokens, ""), tf.equal(tokens, "0"))
-    valid = 1.0 - tf.cast(pad_mask, tf.float32)
+    valid = tf.cast(tf.logical_not(pad_mask), tf.float32)
     denom = tf.reduce_sum(valid, axis=1, keepdims=True) + 1e-6
+    if mode == "mean":
+        summed = tf.reduce_sum(seq_emb * tf.expand_dims(valid, -1), axis=1)
+        return summed / denom
+    if mode == "max":
+        neg_inf = tf.cast(-1e9, seq_emb.dtype)
+        masked = tf.where(tf.expand_dims(pad_mask, -1), tf.fill(tf.shape(seq_emb), neg_inf), seq_emb)
+        max_val = tf.reduce_max(masked, axis=1)
+        has_valid = tf.reduce_any(tf.logical_not(pad_mask), axis=1, keepdims=True)
+        return tf.where(has_valid, max_val, tf.zeros_like(max_val))
     if mode == "target":
         counts = tf.reduce_sum(valid, axis=1)
         last_idx = tf.maximum(tf.cast(counts, tf.int32) - 1, 0)
@@ -192,56 +198,97 @@ def _sequence_pool(seq_emb, tokens, mode="mean"):
         gathered = tf.gather_nd(seq_emb, gather_idx)
         gathered = tf.where(tf.expand_dims(counts > 0, -1), gathered, tf.zeros_like(gathered))
         return gathered
-    summed = tf.reduce_sum(seq_emb * tf.expand_dims(valid, -1), axis=1)
-    return summed / denom
+    raise ValueError("Unsupported seq_pool mode: %s" % mode)
+
+
+def _parse_pool_modes(value, default="mean"):
+    if isinstance(value, (list, tuple)):
+        items = [str(v).strip().lower() for v in value if str(v).strip()]
+    elif isinstance(value, str):
+        items = [v.strip().lower() for v in value.split(",") if v.strip()]
+    else:
+        items = []
+    return items or [default]
+
+
+def _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg, pool_modes,
+                        restrict, update_ops):
+    if not seq_cfg:
+        return None, 0
+    if "seq_features" not in features:
+        logger.warning("features 中缺少 seq_features，RankMixer 仅使用非序列特征。")
+        return None, 0
+    seq_features_flat = _dense_if_sparse(features["seq_features"], default_value="0")
+    start = 0
+    seq_tokens = []
+    for seq_col, L in seq_cfg.items():
+        tokens_slice = seq_features_flat[:, start:start + L]
+        start += L
+        mask = tf.equal(tokens_slice, tf.constant("0", dtype=tf.string))
+        empty = tf.fill(tf.shape(tokens_slice), "")
+        tokens_slice = tf.where(mask, empty, tokens_slice)
+        tokens = _pad_trunc_to_length(tokens_slice, L)
+        seq_emb, up_s, rs_s = _get_seq_embedding(tokens, embeddings_table, policy, name="%s_lookup" % seq_col)
+        update_ops.append(up_s)
+        if restrict:
+            update_ops.append(rs_s)
+        for pool_mode in pool_modes:
+            pooled = _sequence_pool(seq_emb, tokens, mode=pool_mode)
+            seq_tokens.append(pooled)
+    if not seq_tokens:
+        return None, 0
+    seq_stack = tf.stack(seq_tokens, axis=1)
+    return seq_stack, len(seq_tokens)
 
 
 def _binary_cross_entropy_from_probs(labels, probs, eps=1e-7):
-    """Compute BCE directly from probabilities to mimic ESMM style losses."""
     labels = tf.cast(labels, tf.float32)
     probs = tf.clip_by_value(probs, eps, 1.0 - eps)
     loss = -labels * tf.math.log(probs) - (1.0 - labels) * tf.math.log(1.0 - probs)
     return tf.reduce_mean(loss)
 
 
-def _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg, seq_pool_mode, restrict, update_ops):
-    if "seq_features" not in features:
-        return None
-    seq_features_flat = _dense_if_sparse(features["seq_features"], default_value="0")
-    start = 0
-    seq_tokens = []
-    for seq_col, L in seq_cfg.items():
-        tokens_slice = seq_features_flat[:, start:start+L]
-        start += L
-        mask = tf.equal(tokens_slice, tf.constant("0", dtype=tf.string))
-        empty = tf.fill(tf.shape(tokens_slice), "")
-        tokens_slice = tf.where(mask, empty, tokens_slice)
-        tokens = _pad_trunc_to_length(tokens_slice, L)
-        seq_emb, up_s, rs_s = _get_seq_embedding(tokens, embeddings_table, policy, name=f"{seq_col}_lookup")
-        update_ops.append(up_s)
-        if restrict:
-            update_ops.append(rs_s)
-        pooled = _sequence_pool(seq_emb, tokens, mode=seq_pool_mode)
-        seq_tokens.append(pooled)
-    if not seq_tokens:
-        return None
-    return tf.stack(seq_tokens, axis=1)  # [B, num_seq, D]
+def _compute_bce_from_logits(logits, labels):
+    labels = tf.cast(labels, tf.float32)
+    labels = tf.reshape(labels, [-1, 1])
+    logits = tf.reshape(tf.cast(logits, tf.float32), [-1, 1])
+    ce = tf.nn.sigmoid_cross_entropy_with_logits(labels=labels, logits=logits)
+    loss = tf.reduce_mean(ce)
+    prob = tf.nn.sigmoid(logits)
+    return loss, prob
+
+
+def _pick_label(source_features, source_labels, candidates):
+    for key in candidates:
+        if key in source_features:
+            return source_features[key]
+    if source_labels is not None:
+        if isinstance(source_labels, dict):
+            for key in candidates:
+                if key in source_labels:
+                    return source_labels[key]
+        else:
+            return source_labels
+    return None
 
 
 def model_fn(features, labels, mode, params):
     is_training = (mode == tf.estimator.ModeKeys.TRAIN)
-    cfg = params.get("rankmixer", {}) if params is not None else {}
-    d_model = int(cfg.get("d_model", 128))
-    num_layers = int(cfg.get("num_layers", 6))
-    num_heads = int(cfg.get("num_heads", 8))
-    ffn_mult = int(cfg.get("ffn_mult", 4))
-    token_dp = float(cfg.get("token_mixing_dropout", 0.0))
-    ffn_dp = float(cfg.get("ffn_dropout", 0.0))
-    use_other = bool(cfg.get("use_other_features", True))
-    seq_pool_mode = str(cfg.get("seq_pool", "mean"))
-    dense_group_size = int(cfg.get("dense_token_group_size", 0))
-    dense_group_pool = str(cfg.get("dense_token_pool", "mean")).lower()
-    embedding_size = int(cfg.get("embedding_size", 9))
+    rank_cfg = params.get("rankmixer", {}) if params else {}
+    d_model = int(rank_cfg.get("d_model", 128))
+    num_layers = int(rank_cfg.get("num_layers", 4))
+    num_heads = int(rank_cfg.get("num_heads", 8))
+    ffn_mult = int(rank_cfg.get("ffn_mult", 4))
+    token_dp = float(rank_cfg.get("token_mixing_dropout", 0.0))
+    ffn_dp = float(rank_cfg.get("ffn_dropout", 0.0))
+    use_other = bool(rank_cfg.get("use_other_features", True))
+    seq_pool_modes = _parse_pool_modes(rank_cfg.get("seq_pool", ["mean"]))
+    dense_group_size = int(rank_cfg.get("dense_token_group_size", 0))
+    dense_group_pool = str(rank_cfg.get("dense_token_pool", "mean")).lower()
+    embedding_size = int(rank_cfg.get("embedding_size", 9))
+    add_cls_token = bool(rank_cfg.get("add_cls_token", True))
+    input_dropout = float(rank_cfg.get("input_dropout", 0.0))
+    head_dropout = float(rank_cfg.get("head_dropout", 0.0))
 
     ps_num = int(params.get("ps_num", 0)) if params else 0
     restrict = bool(params.get("restrict", False)) if params else False
@@ -266,16 +313,24 @@ def model_fn(features, labels, mode, params):
     policy = tfra.dynamic_embedding.TimestampRestrictPolicy(embeddings_table)
     update_tstp_op = policy.apply_update(tf.constant([0], dtype=tf.int64))
     restrict_op = policy.apply_restriction(int(1e8))
-    groups = [update_tstp_op] + ([restrict_op] if restrict else [])
+    groups = [update_tstp_op]
+    if restrict:
+        groups.append(restrict_op)
 
     seq_cfg = TrainConfig.seq_length
     update_ops = []
 
     token_chunks = []
     token_count = 0
+    dense_token_count = 0
+    seq_token_count = 0
+
+    other_emb = None
     if use_other:
         other_emb, up_t, rs_t = _get_dense_emb_from_features(features, embeddings_table, policy)
-        update_ops += [up_t, rs_t]
+        update_ops.append(up_t)
+        if restrict:
+            update_ops.append(rs_t)
         fea_size = len(select_feature)
         dense_tokens = tf.reshape(other_emb, [-1, fea_size, embedding_size])
         fea_token_count = fea_size
@@ -293,71 +348,94 @@ def model_fn(features, labels, mode, params):
             fea_token_count = group_count
         token_chunks.append(dense_tokens)
         token_count += fea_token_count
+        dense_token_count = fea_token_count
 
-    seq_tokens = _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg,
-                                     seq_pool_mode, restrict, update_ops)
+    seq_tokens, seq_token_count = _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg,
+                                                      seq_pool_modes, restrict, update_ops)
     if seq_tokens is not None:
         token_chunks.append(seq_tokens)
-        token_count += len(seq_cfg)
+        token_count += seq_token_count
 
     if not token_chunks:
-        raise ValueError("RankMixer 没有可用 token，请检查 use_other_features 或 seq_features 配置。")
+        raise ValueError("RankMixer 无可用 token，请确认 use_other_features 或 seq_features 配置。")
 
-    tokens = tf.concat(token_chunks, axis=1)  # [B,T,emb]
+    tokens = tf.concat(token_chunks, axis=1)
     tokens.set_shape([None, token_count, embedding_size])
     if embedding_size != d_model:
         tokens = tf.compat.v1.layers.dense(tokens, units=d_model, activation=None, name="token_projection")
     tokens.set_shape([None, token_count, d_model])
 
+    slice_map = {}
+    cursor = 0
+    if add_cls_token:
+        cls_embed = tf.compat.v1.get_variable(
+            "rankmixer_cls_token", shape=[1, 1, d_model],
+            initializer=tf.random_normal_initializer(stddev=0.02))
+        cls_token = tf.tile(cls_embed, [tf.shape(tokens)[0], 1, 1])
+        tokens = tf.concat([cls_token, tokens], axis=1)
+        token_count += 1
+        slice_map["cls"] = (0, 1)
+        cursor = 1
+    if dense_token_count > 0:
+        slice_map["dense"] = (cursor, dense_token_count)
+        cursor += dense_token_count
+    if seq_token_count > 0:
+        slice_map["seq"] = (cursor, seq_token_count)
+        cursor += seq_token_count
+    tokens.set_shape([None, token_count, d_model])
+
+    input_ln = LayerNorm(name="input_ln")
+    tokens = input_ln(tokens)
+    if input_dropout and is_training:
+        tokens = tf.nn.dropout(tokens, keep_prob=1.0 - input_dropout)
+
     encoder = RankMixerEncoder(num_layers=num_layers, num_tokens=token_count, d_model=d_model,
                                num_heads=num_heads, ffn_mult=ffn_mult,
                                token_dp=token_dp, ffn_dp=ffn_dp, name="rankmixer_encoder")
-    encoded = encoder(tokens, training=is_training)  # [B,T,D]
+    encoded = encoder(tokens, training=is_training)
+    encoded.set_shape([None, token_count, d_model])
 
-    flat = tf.reshape(encoded, [-1, token_count * d_model])
-    flat.set_shape([None, token_count * d_model])
-    h = tf.compat.v1.layers.dense(flat, units=d_model * 4, activation=tf.nn.relu, name="rankmixer_dense1")
-    h = tf.compat.v1.layers.dense(h, units=d_model * 2, activation=tf.nn.relu, name="rankmixer_dense2")
+    summaries = []
+    if slice_map.get("cls"):
+        summaries.append(encoded[:, 0, :])
+    summaries.append(tf.reduce_mean(encoded, axis=1))
+    summaries.append(tf.reduce_max(encoded, axis=1))
+    if slice_map.get("dense"):
+        beg, length = slice_map["dense"]
+        dense_encoded = encoded[:, beg:beg + length, :]
+        summaries.append(tf.reduce_mean(dense_encoded, axis=1))
+    if slice_map.get("seq"):
+        beg, length = slice_map["seq"]
+        seq_encoded = encoded[:, beg:beg + length, :]
+        summaries.append(tf.reduce_mean(seq_encoded, axis=1))
+    head_input = tf.concat(summaries, axis=1)
+    if head_dropout and is_training:
+        head_input = tf.nn.dropout(head_input, keep_prob=1.0 - head_dropout)
+    head_hidden = tf.compat.v1.layers.dense(head_input, units=d_model * 2, activation=gelu,
+                                            name="rankmixer_head_dense1")
+    if head_dropout and is_training:
+        head_hidden = tf.nn.dropout(head_hidden, keep_prob=1.0 - head_dropout)
+    head_hidden = tf.compat.v1.layers.dense(head_hidden, units=d_model, activation=gelu,
+                                            name="rankmixer_head_dense2")
 
-    ctr_logits = tf.compat.v1.layers.dense(h, units=1, activation=None, name="ctr_logit")
-    cvr_logits = tf.compat.v1.layers.dense(h, units=1, activation=None, name="cvr_logit")
-    ctr_prob = tf.nn.sigmoid(ctr_logits)
-    cvr_prob = tf.nn.sigmoid(cvr_logits)
-    ctcvr_prob = ctr_prob * cvr_prob
+    ctr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="ctr_logit")
+    cvr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="cvr_logit")
 
-    def _pick_label(candidates):
-        x = None
-        for k in candidates:
-            if k in features:
-                x = features[k]
-                break
-        if x is None and labels is not None:
-            if isinstance(labels, dict):
-                for k in candidates:
-                    if k in labels:
-                        x = labels[k]
-                        break
-            else:
-                x = labels
-        return x
-
-    ctr_label_raw = _pick_label(["click_label", "ctr_label", "is_click"])
+    ctr_label_raw = _pick_label(features, labels, ["click_label", "ctr_label", "is_click"])
     if ctr_label_raw is None:
-        ctr_label_raw = tf.zeros((tf.shape(ctr_prob)[0],), tf.float32)
-    ctr_label_raw = tf.reshape(tf.cast(ctr_label_raw, tf.float32), [-1])
-    ctr_label = tf.reshape(ctr_label_raw, [-1, 1])
+        ctr_label_raw = tf.zeros([tf.shape(ctr_logits)[0]], tf.float32)
+    ctr_label = tf.reshape(tf.cast(ctr_label_raw, tf.float32), [-1, 1])
 
-    ctcvr_label_raw = _pick_label(["ctcvr_label", "is_conversion"])
+    ctcvr_label_raw = _pick_label(features, labels, ["ctcvr_label", "is_conversion"])
     has_ctcvr = ctcvr_label_raw is not None
     if ctcvr_label_raw is None:
-        ctcvr_label_raw = tf.zeros((tf.shape(ctcvr_prob)[0],), tf.float32)
+        ctcvr_label_raw = tf.zeros([tf.shape(ctr_logits)[0]], tf.float32)
     ctcvr_label = tf.reshape(tf.cast(ctcvr_label_raw, tf.float32), [-1, 1])
 
-    ctr_loss = _binary_cross_entropy_from_probs(ctr_label, ctr_prob)
-    if has_ctcvr:
-        ctcvr_loss = _binary_cross_entropy_from_probs(ctcvr_label, ctcvr_prob)
-    else:
-        ctcvr_loss = tf.constant(0.0, dtype=tf.float32)
+    ctr_loss, ctr_prob = _compute_bce_from_logits(ctr_logits, ctr_label)
+    cvr_prob = tf.nn.sigmoid(cvr_logits)
+    ctcvr_prob = ctr_prob * cvr_prob
+    ctcvr_loss = _binary_cross_entropy_from_probs(ctcvr_label, ctcvr_prob) if has_ctcvr else tf.constant(0.0)
     total_loss = ctr_loss + ctcvr_loss
 
     eval_metric_ops = OrderedDict()
@@ -384,6 +462,7 @@ def model_fn(features, labels, mode, params):
         "combination_un_id": features.get("combination_un_id", tf.as_string(tf.zeros((batch_size,), tf.int16))),
         "out": out_tensor
     }
+
     class _ModelView(object):
         pass
 
@@ -403,6 +482,7 @@ def model_fn(features, labels, mode, params):
         "cvr_output": cvr_prob,
         "ctcvr_output": ctcvr_prob
     }
+
     if mode == tf.estimator.ModeKeys.PREDICT:
         export_outputs = {"serving_default": tf.compat.v1.estimator.export.PredictOutput(model.outputs)}
         return tf.estimator.EstimatorSpec(mode=mode, predictions=model.predictions, export_outputs=export_outputs)
@@ -419,7 +499,12 @@ def model_fn(features, labels, mode, params):
         model.losses = model.losses + l2_loss
         loggings["l2_loss"] = l2_loss
 
-    opt = tf.compat.v1.train.AdamOptimizer()
+    opt_cfg = params.get("optimize_config", {}) if params else {}
+    learning_rate = float(opt_cfg.get("learning_rate", 1e-3))
+    beta1 = float(opt_cfg.get("beta1", 0.9))
+    beta2 = float(opt_cfg.get("beta2", 0.999))
+    epsilon = float(opt_cfg.get("epsilon", 1e-8))
+    opt = tf.compat.v1.train.AdamOptimizer(learning_rate=learning_rate, beta1=beta1, beta2=beta2, epsilon=epsilon)
     opt = tfra.dynamic_embedding.DynamicEmbeddingOptimizer(opt)
     dense_op = opt.minimize(model.losses, global_step=global_step)
     train_op = tf.group(dense_op, *groups)
