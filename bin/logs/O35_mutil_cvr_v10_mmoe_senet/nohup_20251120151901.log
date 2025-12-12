@@ -1,0 +1,812 @@
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+--> time_str: 202511190000, end_date: 202511190000
+---------------------------------main-train-------------------------------------
+---------------------------------export.sh-------------------------------------
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+---------------------------------main-export-------------------------------------
+WARNING:tensorflow:dynamic_embedding.GraphKeys has already been deprecated. The Variable will not be added to collections because it does not actully own any value, but only a holder of tables, which may lead to import_meta_graph failed since non-valued object has been added to collection. If you need to use `tf.compat.v1.train.Saver` and access all Variables from collection, you could manually add it to the collection by tf.compat.v1.add_to_collections(names, var) instead.
+/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/tensorflow_recommenders_addons/utils/resource_loader.py:34: UserWarning: Fail to get TFRA package information, if you are running on bazel test mode, please ignore this warning, 
+or you should check TFRA installation.
+  warnings.warn(
+2025-11-20 15:19:55.873420: E tensorflow/stream_executor/cuda/cuda_driver.cc:271] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2025-11-20 15:19:55.873444: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: iZ2zegp68bfkz6q7nfj48eZ
+2025-11-20 15:19:55.873448: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: iZ2zegp68bfkz6q7nfj48eZ
+2025-11-20 15:19:55.873527: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 535.216.3
+2025-11-20 15:19:55.873540: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 535.216.3
+2025-11-20 15:19:55.873543: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 535.216.3
+INFO:tensorflow:>>>>>>>>>>>>>>>data_path=/data/share/opt/data/O35_mutil_cvr<<<<<<<<<<<<<<<<<<
+INFO:tensorflow:Using CPU for training
+INFO:tensorflow:time_str=20251119, end_time_str=20251119
+INFO:tensorflow:train_date={'20251119': 32}
+INFO:tensorflow:len(filenames)=32, filenames: ['/data/share/opt/data/O35_mutil_cvr/20251119/part-r-15-958845-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-22-1406306-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-14-894922-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-05-319615-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-25-1598075-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-11-703153-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-30-1917690-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-20-1278460-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-01-63923-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-24-1534152-63923.gz']
+INFO:tensorflow:Using config: {'_model_dir': '/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/202511190000', '_tf_random_seed': None, '_save_summary_steps': 10000, '_save_checkpoints_steps': 100000, '_save_checkpoints_secs': None, '_session_config': device_count {
+  key: "GPU"
+  value: 0
+}
+intra_op_parallelism_threads: 16
+inter_op_parallelism_threads: 16
+, '_keep_checkpoint_max': 1, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 5000, '_train_distribute': None, '_device_fn': None, '_protocol': None, '_eval_distribute': None, '_experimental_distribute': None, '_experimental_max_worker_delay_secs': None, '_session_creation_timeout_secs': 7200, '_checkpoint_save_graph_def': True, '_service': None, '_cluster_spec': ClusterSpec({}), '_task_type': 'worker', '_task_id': 0, '_global_id_in_cluster': 0, '_master': '', '_evaluation_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+INFO:tensorflow:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INFO:tensorflow:Device configuration: CPU
+INFO:tensorflow:Batch sizes - Train: 5120, Eval: 1024
+INFO:tensorflow:{'train_spec': {'max_steps': None}, 'eval_spec': {'start_delay_secs': 1e+20, 'steps': None}, 'train_batch_size': 5120, 'train_epoch': 1, 'batch_size': 1024}
+defalut feature:Tensor("StringJoin:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_1:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_2:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_3:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_4:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_5:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_6:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_7:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_8:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_9:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_10:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_11:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_12:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_13:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_14:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_15:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_16:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_17:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_18:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_19:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_20:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_21:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_22:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_23:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_24:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_25:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_26:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_27:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_28:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_29:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_30:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_31:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_32:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_33:0", shape=(None,), dtype=string)
+feature:user__imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_34:0", shape=(None,), dtype=string)
+feature:user__clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_35:0", shape=(None,), dtype=string)
+feature:user__kv_day_h_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_36:0", shape=(None,), dtype=string)
+feature:user__kv_ad_idea_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_37:0", shape=(None,), dtype=string)
+feature:user__kv_template_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_38:0", shape=(None,), dtype=string)
+feature:user__kv_adslot_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_39:0", shape=(None,), dtype=string)
+feature:user__kv_app_first_type_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_40:0", shape=(None,), dtype=string)
+feature:user__kv_ad_plan_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_41:0", shape=(None,), dtype=string)
+feature:user__kv_package_name_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_42:0", shape=(None,), dtype=string)
+feature:user__kv_template_type_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_43:0", shape=(None,), dtype=string)
+feature:user__kv_product_name_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_44:0", shape=(None,), dtype=string)
+feature:user__kv_first_industry_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_45:0", shape=(None,), dtype=string)
+feature:user__kv_industry_id_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_46:0", shape=(None,), dtype=string)
+feature:user__kv_day_h_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_47:0", shape=(None,), dtype=string)
+feature:user__kv_ad_idea_id_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_48:0", shape=(None,), dtype=string)
+feature:user__kv_template_id_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_49:0", shape=(None,), dtype=string)
+feature:user__kv_adslot_id_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_50:0", shape=(None,), dtype=string)
+feature:user__kv_app_first_type_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_51:0", shape=(None,), dtype=string)
+feature:user__kv_ad_plan_id_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_52:0", shape=(None,), dtype=string)
+feature:user__kv_package_name_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_53:0", shape=(None,), dtype=string)
+feature:user__kv_template_type_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_54:0", shape=(None,), dtype=string)
+feature:user__kv_product_name_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_55:0", shape=(None,), dtype=string)
+feature:user__kv_first_industry_id_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_56:0", shape=(None,), dtype=string)
+feature:user__imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_57:0", shape=(None,), dtype=string)
+feature:user__clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_58:0", shape=(None,), dtype=string)
+feature:user__kv_day_h_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_59:0", shape=(None,), dtype=string)
+feature:user__kv_ad_idea_id_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_60:0", shape=(None,), dtype=string)
+feature:user__kv_template_id_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_61:0", shape=(None,), dtype=string)
+feature:user__kv_adslot_id_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_62:0", shape=(None,), dtype=string)
+feature:user__kv_app_first_type_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_63:0", shape=(None,), dtype=string)
+feature:user__kv_ad_plan_id_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_64:0", shape=(None,), dtype=string)
+feature:user__kv_package_name_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_65:0", shape=(None,), dtype=string)
+feature:user__kv_template_type_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_66:0", shape=(None,), dtype=string)
+feature:user__kv_product_name_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_67:0", shape=(None,), dtype=string)
+feature:user__kv_first_industry_id_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_68:0", shape=(None,), dtype=string)
+feature:user__kv_day_h_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_69:0", shape=(None,), dtype=string)
+feature:user__kv_ad_idea_id_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_70:0", shape=(None,), dtype=string)
+feature:user__kv_template_id_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_71:0", shape=(None,), dtype=string)
+feature:user__kv_adslot_id_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_72:0", shape=(None,), dtype=string)
+feature:user__kv_app_first_type_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_73:0", shape=(None,), dtype=string)
+feature:user__kv_ad_plan_id_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_74:0", shape=(None,), dtype=string)
+feature:user__kv_package_name_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_75:0", shape=(None,), dtype=string)
+feature:user__kv_template_type_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_76:0", shape=(None,), dtype=string)
+feature:user__kv_product_name_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_77:0", shape=(None,), dtype=string)
+feature:user__kv_first_industry_id_clk_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_78:0", shape=(None,), dtype=string)
+feature:user__kv_day_h_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_79:0", shape=(None,), dtype=string)
+feature:user__kv_ad_idea_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_80:0", shape=(None,), dtype=string)
+feature:user__kv_template_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_81:0", shape=(None,), dtype=string)
+feature:user__kv_adslot_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_82:0", shape=(None,), dtype=string)
+feature:user__kv_app_first_type_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_83:0", shape=(None,), dtype=string)
+feature:user__kv_ad_plan_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_84:0", shape=(None,), dtype=string)
+feature:user__kv_package_name_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_85:0", shape=(None,), dtype=string)
+feature:user__kv_template_type_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_86:0", shape=(None,), dtype=string)
+feature:user__kv_product_name_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_87:0", shape=(None,), dtype=string)
+feature:user__kv_first_industry_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_88:0", shape=(None,), dtype=string)
+feature:user__kv_industry_id_clk_div_imp_cnt_30d in boundaries_map, boundary idx:Tensor("StringJoin_89:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_90:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_91:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_92:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_93:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_94:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_95:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_96:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_97:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_98:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_99:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_100:0", shape=(None,), dtype=string)
+defalut feature:Tensor("StringJoin_101:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_102:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_103:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_104:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_105:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_106:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_107:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_108:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_109:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_110:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_111:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_112:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_113:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_114:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_115:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_116:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_117:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_118:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_119:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_120:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_121:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_122:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_123:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_124:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_125:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_126:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_127:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_128:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_129:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_130:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_131:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_132:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_133:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_134:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_135:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_136:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_137:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_138:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_139:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_140:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_141:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_142:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_143:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_144:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_145:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_146:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_147:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_148:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_149:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_150:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_151:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_152:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_153:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_154:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_155:0", shape=(None,), dtype=string)
+feature:doc__key_five__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_156:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_157:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_158:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_159:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_160:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_161:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_162:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_163:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_164:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_165:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_166:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_167:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_168:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_169:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_170:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_171:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_172:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_173:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_174:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_175:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_176:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_177:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_178:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_179:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_180:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_181:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_182:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_183:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_184:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_185:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_186:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_187:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_188:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_189:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_190:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_191:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_192:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_193:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_194:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_195:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_196:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_197:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_198:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_199:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_200:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_201:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_202:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_203:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_204:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_205:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_206:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_207:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_208:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_209:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_210:0", shape=(None,), dtype=string)
+feature:doc__key_four__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_211:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_212:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_213:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_214:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_215:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_216:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_217:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_218:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_219:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_220:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_221:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_222:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_223:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_224:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_225:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_226:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_227:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_228:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_229:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_230:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_231:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_232:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_233:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_234:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_235:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_236:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_237:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_238:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_239:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_240:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_241:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_242:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_243:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_244:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_245:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_246:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_247:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_248:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_249:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_250:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_251:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_252:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_253:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_254:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_255:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_256:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_257:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_258:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_259:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_260:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_261:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_262:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_263:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_264:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_265:0", shape=(None,), dtype=string)
+feature:doc__key_one__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_266:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_267:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_268:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_269:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_270:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_271:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_272:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_273:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_274:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_275:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_276:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_277:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_278:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_279:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_280:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_281:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_282:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_283:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_284:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_285:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_286:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_287:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_288:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_289:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_290:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_291:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_292:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_293:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_294:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_295:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_296:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_297:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_298:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_299:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_300:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_301:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_302:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_303:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_304:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_305:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_306:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_307:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_308:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_309:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_310:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_311:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_312:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_313:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_314:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_315:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_316:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_317:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_318:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_319:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_320:0", shape=(None,), dtype=string)
+feature:doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_321:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_322:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_323:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_324:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_325:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_326:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_327:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_328:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_329:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_330:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_331:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_332:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_333:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_334:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_335:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_336:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_337:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_338:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_339:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_340:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_341:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_342:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_343:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_344:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_345:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_346:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_347:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_348:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_349:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_350:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_351:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_352:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_353:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_354:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_355:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_356:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_357:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_358:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_359:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_360:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_361:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_362:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_363:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_364:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_365:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_366:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_367:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_368:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_369:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_370:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_371:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_372:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_373:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_374:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_375:0", shape=(None,), dtype=string)
+feature:doc__key_six__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_376:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_377:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_378:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_379:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_380:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_381:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_382:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_383:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_384:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_385:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_386:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_387:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_388:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_389:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_390:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_391:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_392:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_393:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_394:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_395:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_396:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_397:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_398:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_399:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_400:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_401:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_402:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_403:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_404:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_405:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_406:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_407:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_408:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_409:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_410:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_411:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_412:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_413:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_414:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_415:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_416:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_417:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_418:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_419:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_420:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_421:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_422:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_423:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_424:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_425:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_426:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_427:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_428:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_429:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_430:0", shape=(None,), dtype=string)
+feature:doc__key_three__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_431:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_network_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_432:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_433:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_city_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_434:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_435:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_436:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_clk_div_imp_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_437:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_438:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_439:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_network_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_440:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_441:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_city_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_442:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_city_level_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_443:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_brand_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_444:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_445:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_446:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_size_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_447:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_carrier_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_448:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_version_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_449:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_450:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_clk_div_imp_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_451:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_452:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_453:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_454:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_455:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_456:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_clk_div_imp_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_457:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_network_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_458:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_459:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_city_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_460:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_city_level_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_461:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_brand_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_462:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_463:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_464:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_465:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_466:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_dci_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_467:0", shape=(None,), dtype=string)
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:------ mode: infer strategy is <tensorflow.python.distribute.distribute_lib._DefaultDistributionStrategy object at 0x7efeb8eddd00> -------
+INFO:tensorflow:------ features: {'features': <tf.Tensor 'concat:0' shape=(None, 487) dtype=string>} -------
+INFO:tensorflow:------ params: {'mode': 'export', 'ps_num': 0, 'task_number': 1, 'task_type': 'chief', 'task_idx': 0, 'slot': '', 'restrict': False, 'device': 'CPU', 'gpu_ids': [], 'optimize_config': {'learning_rate': 0.005, 'beta1': 0.9, 'beta2': 0.999, 'epsilon': 1e-08}, 'use_senet': True, 'senet_type': 'SeNet', 'senet_config': {'reduction_ratio': 3, 'excitation_activation': 'relu'}, 'mlp_config': {'hidden_units': [256, 128, 64, 32], 'hidden_activations': 'relu', 'output_dim': 1, 'output_activation': None, 'dropout_rates': 0, 'batch_norm': False, 'bn_only_once': False, 'kernel_initializer': 'glorot_uniform', 'output_kernel_initializer': 'glorot_uniform', 'bias_initializer': 'glorot_uniform', 'use_bias': True}, 'awake_fusion_type': 'mlp', 'awake_fusion_hidden_units': [32], 'mmoe_fusion_type': 'mlp', 'mmoe_fusion_hidden_units': [32], 'mmoe_config': {'num_domains': 3, 'num_experts': 6, 'exprt_units': [128, 64, 128], 'hidden_units': [128, 64, 32], 'hidden_activations': 'relu', 'dropout_rates': 0, 'batch_norm': False}} -------
+INFO:tensorflow:------ dynamic_embedding devices_info is /job:localhost/replica:0/task:0/CPU:0 -------
+WARNING:tensorflow:From /root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/tensorflow_recommenders_addons/dynamic_embedding/python/ops/dynamic_embedding_variable.py:588: calling Zeros.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+INFO:tensorflow:------embeddings: <tensorflow_recommenders_addons.dynamic_embedding.python.ops.dynamic_embedding_variable.Variable object at 0x7efeb8e6c130> emb_lookuped: Tensor("Reshape_1329:0", shape=(None, 4383), dtype=float32) -------
+INFO:tensorflow:------senet out embedding: Tensor("Reshape_1331:0", shape=(None, 4383), dtype=float32) -------
+INFO:tensorflow:mlp-0-inputs=Tensor("Reshape_1331:0", shape=(None, 4383), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("ctr_tower/dense_2/activation_2/Relu:0", shape=(None, 256), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("ctr_tower/dense_3/activation_3/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-3-inputs=Tensor("ctr_tower/dense_4/activation_4/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:---click_label=Tensor("ctr_tower/zeros:0", shape=(None,), dtype=float32), ctr_logits=Tensor("ctr_tower/Sigmoid:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("Reshape_1331:0", shape=(None, 4383), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("awake_tower/dense_7/activation_6/Relu:0", shape=(None, 256), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("awake_tower/dense_8/activation_7/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-3-inputs=Tensor("awake_tower/dense_9/activation_8/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------awake-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("awake_tower/concat:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:---awake_label=Tensor("awake_tower/zeros:0", shape=(None,), dtype=float32), awake_logits=Tensor("awake_tower/Sigmoid:0", shape=(None,), dtype=float32), awake_ctcvr=Tensor("awake_tower/Reshape_1:0", shape=(None,), dtype=float32)---
+/opt/huangmian/yoyo_model/layers/mmoe.py:20: UserWarning: `tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+  fea = tf.compat.v1.layers.dense(inputs=deep_feas, units=unit, name=name)
+/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/keras/legacy_tf_layers/core.py:261: UserWarning: `layer.apply` is deprecated and will be removed in a future version. Please use `layer.__call__` method instead.
+  return layer.apply(inputs)
+INFO:tensorflow:multi_task_outlist=[<tf.Tensor 'mmoe_tower/Sum:0' shape=(None, 128) dtype=float32>, <tf.Tensor 'mmoe_tower/Sum_1:0' shape=(None, 128) dtype=float32>, <tf.Tensor 'mmoe_tower/Sum_2:0' shape=(None, 128) dtype=float32>]
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_14/activation_30/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_15/activation_31/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------sd-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---sd_label-label:Tensor("mmoe_tower/zeros:0", shape=(None,), dtype=float32), task_out:Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_1:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_18/activation_33/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_19/activation_34/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------lhb-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat_1:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---lhb_label-label:Tensor("mmoe_tower/zeros_1:0", shape=(None,), dtype=float32), task_out:Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid_1:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_3:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_22/activation_36/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_23/activation_37/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------ymfw-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat_2:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---ymfw_label-label:Tensor("mmoe_tower/zeros_2:0", shape=(None,), dtype=float32), task_out:Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid_2:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_5:0", shape=(None,), dtype=float32)---
+WARNING:tensorflow:From /opt/huangmian/yoyo_model/common/metrics.py:51: auc (from tensorflow.python.ops.metrics_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+The value of AUC returned by this may race with the update so this is deprecated. Please use tf.keras.metrics.AUC instead.
+INFO:tensorflow:Done calling model_fn.
+WARNING:tensorflow:From /root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/tensorflow/python/saved_model/signature_def_utils_impl.py:203: build_tensor_info (from tensorflow.python.saved_model.utils_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This function will only be available through the v1 compatibility library as tf.compat.v1.saved_model.utils.build_tensor_info or tf.compat.v1.saved_model.build_tensor_info.
+INFO:tensorflow:Signatures INCLUDED in export for Classify: None
+INFO:tensorflow:Signatures INCLUDED in export for Regress: None
+INFO:tensorflow:Signatures INCLUDED in export for Predict: ['serving_default']
+INFO:tensorflow:Signatures INCLUDED in export for Train: None
+INFO:tensorflow:Signatures INCLUDED in export for Eval: None
+2025-11-20 15:19:59.184777: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+INFO:tensorflow:Restoring parameters from /data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/202511190000/model.ckpt-62245
+2025-11-20 15:19:59.451664: I ./tensorflow_recommenders_addons/dynamic_embedding/core/kernels/lookup_impl/lookup_table_op_cpu.h:157] HashTable on CPU is created on optimized mode: K=l, V=f, DIM=9, init_size=8192
+2025-11-20 15:19:59.451876: I ./tensorflow_recommenders_addons/dynamic_embedding/core/kernels/lookup_impl/lookup_table_op_cpu.h:157] HashTable on CPU is created on optimized mode: K=l, V=i, DIM=1, init_size=8192
+INFO:tensorflow:Assets added to graph.
+INFO:tensorflow:No assets to write.
+INFO:tensorflow:SavedModel written to: /data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/temp-1763623195/saved_model.pb
+INFO:tensorflow:mode: export device: CPU task_type: chief task_idx: 0 time_str: 202511190000 end_time_str: None waste: 0.07 mins
+feature:doc__key_two__kv_network_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_468:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_469:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_city_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_470:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_471:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_472:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_conv_awake_div_clk_cnt_1d in boundaries_map, boundary idx:Tensor("StringJoin_473:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_network_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_474:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_region_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_475:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_ip_city_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_476:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_city_level_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_477:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_brand_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_478:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_479:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_model_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_480:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_size_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_481:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_carrier_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_482:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_device_os_version_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_483:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_day_h_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_484:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_conv_awake_div_clk_cnt_7d in boundaries_map, boundary idx:Tensor("StringJoin_485:0", shape=(None,), dtype=string)
+feature:doc__key_two__kv_keywords_conv_awake_div_clk_cnt_15d in boundaries_map, boundary idx:Tensor("StringJoin_486:0", shape=(None,), dtype=string)
+features: {'features': <tf.Tensor 'concat:0' shape=(None, 487) dtype=string>} tensors: 487
+expert_outlist---- Tensor("mmoe_tower/stack:0", shape=(None, 6, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims_1:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims_2:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32)
+-------------------------------generate_body---------------------------------------
+(Namespace(day='20251119'), [])
+[INFO/MainProcess] process shutting down
+==================warmup.py:  export_dir:/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir ====================
+2025-11-20 15:20:03.605168: E tensorflow/stream_executor/cuda/cuda_driver.cc:271] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2025-11-20 15:20:03.605198: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: iZ2zegp68bfkz6q7nfj48eZ
+2025-11-20 15:20:03.605202: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: iZ2zegp68bfkz6q7nfj48eZ
+2025-11-20 15:20:03.605276: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:200] libcuda reported version is: 535.216.3
+2025-11-20 15:20:03.605290: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:204] kernel reported version is: 535.216.3
+2025-11-20 15:20:03.605293: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:310] kernel version seems to match DSO: 535.216.3
+model_dir:/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir
+body_file:/opt/huangmian/yoyo_model/config/O35_mutil_cvr_v10_mmoe_senet/body.json
+files: [1763552958, 1763553175, 1763553610, 1763554105, 1763554575, 1763555049, 1763555486, 1763555884, 1763556238, 1763556734, 1763558089, 1763558781, 1763559092, 1763559385, 1763559577, 1763559780, 1763559988, 1763560304, 1763560585, 1763560866, 1763561170, 1763561664, 1763562408, 1763563095, 1763563590, 1763564219, 1763564598, 1763564928, 1763565253, 1763565599, 1763565828, 1763566140, 1763566423, 1763566707, 1763566994, 1763567276, 1763567589, 1763567868, 1763568199, 1763568554, 1763568851, 1763569122, 1763569373, 1763569545, 1763570024, 1763570573, 1763570927, 1763571345, 1763571837, 1763572292, 1763572907, 1763573434, 1763573902, 1763574311, 1763574726, 1763575080, 1763575483, 1763575818, 1763576134, 1763576418, 1763576712, 1763577069, 1763577386, 1763577711, 1763578025, 1763578219, 1763578509, 1763578835, 1763579141, 1763579401, 1763579592, 1763579859, 1763580092, 1763580233, 1763580327, 1763580387, 1763580487, 1763580593, 1763580710, 1763623195]
+/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet
+eval data:202511190000
+---------------------------------eval.sh-------------------------------------
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+---------------------------------main-eval-------------------------------------
+---------------------------------save_eval_metric------------------------------------
+(Namespace(dm_date='202511190000', eval_path='/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/logs/eval', model_version='O35_mutil_cvr_v10_mmoe_senet'), [])
+/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet
+infer data:202511190000
+---------------------------------infer.sh-------------------------------------
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+---------------------------------main-infer-------------------------------------
+ckpt_dir=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/202511180000, time_str=202511190000
+WARNING:tensorflow:dynamic_embedding.GraphKeys has already been deprecated. The Variable will not be added to collections because it does not actully own any value, but only a holder of tables, which may lead to import_meta_graph failed since non-valued object has been added to collection. If you need to use `tf.compat.v1.train.Saver` and access all Variables from collection, you could manually add it to the collection by tf.compat.v1.add_to_collections(names, var) instead.
+/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/tensorflow_recommenders_addons/utils/resource_loader.py:34: UserWarning: Fail to get TFRA package information, if you are running on bazel test mode, please ignore this warning, 
+or you should check TFRA installation.
+  warnings.warn(
+2025-11-20 15:21:03.080435: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:03.080585: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:03.086301: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:03.086427: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:03.086519: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:03.086597: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+INFO:tensorflow:>>>>>>>>>>>>>>>data_path=/data/share/opt/data/O35_mutil_cvr<<<<<<<<<<<<<<<<<<
+INFO:tensorflow:time_str=20251119, end_time_str=20251119
+INFO:tensorflow:train_date={'20251119': 32}
+INFO:tensorflow:len(filenames)=32, filenames: ['/data/share/opt/data/O35_mutil_cvr/20251119/part-r-04-255692-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-06-383538-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-25-1598075-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-18-1150614-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-03-191769-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-15-958845-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-19-1214537-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-21-1342383-63923.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-31-1981613-25.gz', '/data/share/opt/data/O35_mutil_cvr/20251119/part-r-01-63923-63923.gz']
+INFO:tensorflow:Using config: {'_model_dir': '/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/202511180000', '_tf_random_seed': None, '_save_summary_steps': 10000, '_save_checkpoints_steps': 100000, '_save_checkpoints_secs': None, '_session_config': device_count {
+  key: "GPU"
+  value: 2
+}
+intra_op_parallelism_threads: 8
+inter_op_parallelism_threads: 8
+gpu_options {
+  per_process_gpu_memory_fraction: 0.9
+  allow_growth: true
+  visible_device_list: "0"
+}
+allow_soft_placement: true
+, '_keep_checkpoint_max': 1, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 5000, '_train_distribute': None, '_device_fn': None, '_protocol': None, '_eval_distribute': None, '_experimental_distribute': None, '_experimental_max_worker_delay_secs': None, '_session_creation_timeout_secs': 7200, '_checkpoint_save_graph_def': True, '_service': None, '_cluster_spec': ClusterSpec({}), '_task_type': 'worker', '_task_id': 0, '_global_id_in_cluster': 0, '_master': '', '_evaluation_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+INFO:tensorflow:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+INFO:tensorflow:Device configuration: GPU
+INFO:tensorflow:Using GPUs: 0
+INFO:tensorflow:Batch sizes - Train: 5120, Eval: 1024
+INFO:tensorflow:{'train_spec': {'max_steps': None}, 'eval_spec': {'start_delay_secs': 1e+20, 'steps': None}, 'train_batch_size': 5120, 'train_epoch': 1, 'batch_size': 1024}
+----predict file:/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/logs/pred_202511190000_0.csv,data_file:/data/share/opt/data/O35_mutil_cvr/20251119/part-r-04-255692-63923.gz------
+0it [00:00, ?it/s]INFO:tensorflow:filenames=['/data/share/opt/data/O35_mutil_cvr/20251119/part-r-04-255692-63923.gz']
+INFO:tensorflow:('>>>', '/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet', 1, 0, True, 1, 1024)
+INFO:tensorflow:Calling model_fn.
+INFO:tensorflow:------ mode: infer strategy is <tensorflow.python.distribute.distribute_lib._DefaultDistributionStrategy object at 0x7fef6bcbcdc0> -------
+INFO:tensorflow:------ features: {'user_id': <tf.Tensor 'IteratorGetNext:0' shape=(None,) dtype=string>, 'requestid': <tf.Tensor 'IteratorGetNext:1' shape=(None,) dtype=string>, 'combination_un_id': <tf.Tensor 'IteratorGetNext:2' shape=(None,) dtype=string>, 'ctr_label': <tf.Tensor 'IteratorGetNext:3' shape=(None,) dtype=float32>, 'awake_label': <tf.Tensor 'IteratorGetNext:4' shape=(None,) dtype=float32>, 'sd_label': <tf.Tensor 'IteratorGetNext:5' shape=(None,) dtype=float32>, 'sd_weight': <tf.Tensor 'IteratorGetNext:6' shape=(None,) dtype=float32>, 'lhb_label': <tf.Tensor 'IteratorGetNext:7' shape=(None,) dtype=float32>, 'lhb_weight': <tf.Tensor 'IteratorGetNext:8' shape=(None,) dtype=float32>, 'ymfw_label': <tf.Tensor 'IteratorGetNext:9' shape=(None,) dtype=float32>, 'ymfw_weight': <tf.Tensor 'IteratorGetNext:10' shape=(None,) dtype=float32>, 'features': <tf.Tensor 'IteratorGetNext:11' shape=(None, 487) dtype=string>} -------
+INFO:tensorflow:------ params: {'mode': 'infer', 'ps_num': 1, 'task_number': 1, 'task_type': 'chief', 'task_idx': 0, 'slot': '', 'restrict': False, 'device': 'GPU', 'gpu_ids': ['0'], 'optimize_config': {'learning_rate': 0.005, 'beta1': 0.9, 'beta2': 0.999, 'epsilon': 1e-08}, 'use_senet': True, 'senet_type': 'SeNet', 'senet_config': {'reduction_ratio': 3, 'excitation_activation': 'relu'}, 'mlp_config': {'hidden_units': [256, 128, 64, 32], 'hidden_activations': 'relu', 'output_dim': 1, 'output_activation': None, 'dropout_rates': 0, 'batch_norm': False, 'bn_only_once': False, 'kernel_initializer': 'glorot_uniform', 'output_kernel_initializer': 'glorot_uniform', 'bias_initializer': 'glorot_uniform', 'use_bias': True}, 'awake_fusion_type': 'mlp', 'awake_fusion_hidden_units': [32], 'mmoe_fusion_type': 'mlp', 'mmoe_fusion_hidden_units': [32], 'mmoe_config': {'num_domains': 3, 'num_experts': 6, 'exprt_units': [128, 64, 128], 'hidden_units': [128, 64, 32], 'hidden_activations': 'relu', 'dropout_rates': 0, 'batch_norm': False}} -------
+INFO:tensorflow:------ dynamic_embedding devices_info is ['/job:localhost/replica:0/task:0/GPU:0'] -------
+WARNING:tensorflow:From /root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/tensorflow_recommenders_addons/dynamic_embedding/python/ops/dynamic_embedding_variable.py:588: calling Zeros.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+INFO:tensorflow:------embeddings: <tensorflow_recommenders_addons.dynamic_embedding.python.ops.dynamic_embedding_variable.Variable object at 0x7fef6bcf2e50> emb_lookuped: Tensor("Reshape_6:0", shape=(None, 4383), dtype=float32) -------
+INFO:tensorflow:------senet out embedding: Tensor("Reshape_8:0", shape=(None, 4383), dtype=float32) -------
+INFO:tensorflow:mlp-0-inputs=Tensor("Reshape_8:0", shape=(None, 4383), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("ctr_tower/dense_2/activation_2/Relu:0", shape=(None, 256), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("ctr_tower/dense_3/activation_3/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-3-inputs=Tensor("ctr_tower/dense_4/activation_4/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:---click_label=Tensor("IteratorGetNext:3", shape=(None,), dtype=float32, device=/device:CPU:0), ctr_logits=Tensor("ctr_tower/Sigmoid:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("Reshape_8:0", shape=(None, 4383), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("awake_tower/dense_7/activation_6/Relu:0", shape=(None, 256), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("awake_tower/dense_8/activation_7/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-3-inputs=Tensor("awake_tower/dense_9/activation_8/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------awake-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("awake_tower/concat:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:---awake_label=Tensor("IteratorGetNext:4", shape=(None,), dtype=float32, device=/device:CPU:0), awake_logits=Tensor("awake_tower/Sigmoid:0", shape=(None,), dtype=float32), awake_ctcvr=Tensor("awake_tower/Reshape_1:0", shape=(None,), dtype=float32)---
+/opt/huangmian/yoyo_model/layers/mmoe.py:20: UserWarning: `tf.layers.dense` is deprecated and will be removed in a future version. Please use `tf.keras.layers.Dense` instead.
+  fea = tf.compat.v1.layers.dense(inputs=deep_feas, units=unit, name=name)
+/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/keras/legacy_tf_layers/core.py:261: UserWarning: `layer.apply` is deprecated and will be removed in a future version. Please use `layer.__call__` method instead.
+  return layer.apply(inputs)
+INFO:tensorflow:multi_task_outlist=[<tf.Tensor 'mmoe_tower/Sum:0' shape=(None, 128) dtype=float32>, <tf.Tensor 'mmoe_tower/Sum_1:0' shape=(None, 128) dtype=float32>, <tf.Tensor 'mmoe_tower/Sum_2:0' shape=(None, 128) dtype=float32>]
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_14/activation_30/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_15/activation_31/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------sd-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---sd_label-label:Tensor("IteratorGetNext:5", shape=(None,), dtype=float32, device=/device:CPU:0), task_out:Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_1:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_18/activation_33/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_19/activation_34/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------lhb-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat_1:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---lhb_label-label:Tensor("IteratorGetNext:7", shape=(None,), dtype=float32, device=/device:CPU:0), task_out:Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid_1:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_3:0", shape=(None,), dtype=float32)---
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-1-inputs=Tensor("mmoe_tower/dense_22/activation_36/Relu:0", shape=(None, 128), dtype=float32)
+INFO:tensorflow:mlp-2-inputs=Tensor("mmoe_tower/dense_23/activation_37/Relu:0", shape=(None, 64), dtype=float32)
+INFO:tensorflow:------ymfw-ctcvr_fusion.type=mlp-----------
+INFO:tensorflow:mlp-0-inputs=Tensor("mmoe_tower/concat_2:0", shape=(None, 96), dtype=float32)
+INFO:tensorflow:---ymfw_label-label:Tensor("IteratorGetNext:9", shape=(None,), dtype=float32, device=/device:CPU:0), task_out:Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32), task_logits:Tensor("mmoe_tower/Sigmoid_2:0", shape=(None,), dtype=float32), task_ctcvr:Tensor("mmoe_tower/Reshape_5:0", shape=(None,), dtype=float32)---
+WARNING:tensorflow:From /opt/huangmian/yoyo_model/common/metrics.py:51: auc (from tensorflow.python.ops.metrics_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+The value of AUC returned by this may race with the update so this is deprecated. Please use tf.keras.metrics.AUC instead.
+INFO:tensorflow:Done calling model_fn.
+INFO:tensorflow:Graph was finalized.
+2025-11-20 15:21:04.441800: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-11-20 15:21:04.442294: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:04.442447: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:04.442538: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:05.007593: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:05.007738: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:05.008414: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-20 15:21:05.008513: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 43784 MB memory:  -> device: 0, name: NVIDIA L20, pci bus id: 0000:00:03.0, compute capability: 8.9
+INFO:tensorflow:Restoring parameters from /data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/202511180000/model.ckpt-62245
+2025-11-20 15:21:05.060205: W tensorflow/core/common_runtime/colocation_graph.cc:1203] Failed to place the graph without changing the devices of some resources. Some of the operations (that had to be colocated with resource generating operations) are not supported on the resources' devices. Current candidate devices are [
+  /job:localhost/replica:0/task:0/device:CPU:0].
+See below for details of this colocation group:
+Colocation Debug Info:
+Colocation group had the following types and supported devices: 
+Root Member(assigned_device_name_index_=-1 requested_device_name_='/job:localhost/replica:0/task:0/device:GPU:0' assigned_device_name_='' resource_device_name_='/job:localhost/replica:0/task:0/device:GPU:0' supported_device_types_=[CPU] possible_devices_=[]
+TFRA>CuckooHashTableRemove: CPU 
+TFRA>CuckooHashTableExport: CPU 
+Identity: GPU CPU 
+TFRA>CuckooHashTableOfTensors: CPU 
+TFRA>CuckooHashTableSize: CPU 
+TFRA>CuckooHashTableImport: CPU 
+TFRA>CuckooHashTableFind: CPU 
+Switch: GPU CPU 
+
+Colocation members, user-requested devices, and framework assigned devices, if any:
+  embeddings_embeddings/embeddings_embeddings_mht_1of1 (TFRA>CuckooHashTableOfTensors) /job:localhost/replica:0/task:0/device:GPU:0
+  embeddings_embeddings/embeddings_embeddings_mht_1of1_lookup_table_export_values/TFRA>CuckooHashTableExport (TFRA>CuckooHashTableExport) /job:localhost/replica:0/task:0/device:GPU:0
+  embeddings_embeddings/embeddings_embeddings_mht_1of1_lookup_table_export_values_1/TFRA>CuckooHashTableExport (TFRA>CuckooHashTableExport) /job:localhost/replica:0/task:0/device:GPU:0
+  embeddings_embeddings_mht_1of1_Size/TFRA>CuckooHashTableSize (TFRA>CuckooHashTableSize) /job:localhost/replica:0/task:0/device:GPU:0
+  lookup/lookup/Read/embeddings_embeddings_mht_1of1_lookup_table_find/TFRA>CuckooHashTableFind (TFRA>CuckooHashTableFind) /job:localhost/replica:0/task:0/device:GPU:0
+  save/embeddings_embeddings_mht_1of1_table_restore/TFRA>CuckooHashTableImport (TFRA>CuckooHashTableImport) /job:localhost/replica:0/task:0/device:GPU:0
+  cond/embeddings_embeddings/embeddings_embeddings_mht_1of1/_6 (Switch) /job:localhost/replica:0/task:0/device:GPU:0
+  Func/cond/then/_0/input/_112 (Identity) /job:localhost/replica:0/task:0/device:GPU:0
+  cond/then/_0/embeddings_embeddings_mht_1of1_lookup_table_remove/TFRA>CuckooHashTableRemove (TFRA>CuckooHashTableRemove) /job:localhost/replica:0/task:0/device:GPU:0
+  Func/cond/else/_1/input/_118 (Identity) /job:localhost/replica:0/task:0/device:GPU:0
+
+2025-11-20 15:21:05.060312: W tensorflow/core/common_runtime/colocation_graph.cc:1203] Failed to place the graph without changing the devices of some resources. Some of the operations (that had to be colocated with resource generating operations) are not supported on the resources' devices. Current candidate devices are [
+  /job:localhost/replica:0/task:0/device:CPU:0].
+See below for details of this colocation group:
+Colocation Debug Info:
+Colocation group had the following types and supported devices: 
+Root Member(assigned_device_name_index_=-1 requested_device_name_='/job:localhost/replica:0/task:0/device:GPU:0' assigned_device_name_='' resource_device_name_='/job:localhost/replica:0/task:0/device:GPU:0' supported_device_types_=[CPU] possible_devices_=[]
+TFRA>CuckooHashTableRemove: CPU 
+TFRA>CuckooHashTableExport: CPU 
+TFRA>CuckooHashTableImport: CPU 
+TFRA>CuckooHashTableInsert: CPU 
+TFRA>CuckooHashTableOfTensors: CPU 
+Identity: GPU CPU 
+Switch: GPU CPU 
+
+Colocation members, user-requested devices, and framework assigned devices, if any:
+  status/timestamp/status_embeddings_embeddings_timestamp_mht_1of1 (TFRA>CuckooHashTableOfTensors) /job:localhost/replica:0/task:0/device:GPU:0
+  status/timestamp/status_embeddings_embeddings_timestamp_mht_1of1_lookup_table_export_values/TFRA>CuckooHashTableExport (TFRA>CuckooHashTableExport) /job:localhost/replica:0/task:0/device:GPU:0
+  status/timestamp/status_embeddings_embeddings_timestamp_mht_1of1_lookup_table_export_values_1/TFRA>CuckooHashTableExport (TFRA>CuckooHashTableExport) /job:localhost/replica:0/task:0/device:GPU:0
+  status_embeddings_embeddings_timestamp_mht_1of1_lookup_table_insert/TFRA>CuckooHashTableInsert (TFRA>CuckooHashTableInsert) /job:localhost/replica:0/task:0/device:GPU:0
+  save/status_embeddings_embeddings_timestamp_mht_1of1_table_restore/TFRA>CuckooHashTableImport (TFRA>CuckooHashTableImport) /job:localhost/replica:0/task:0/device:GPU:0
+  cond/status/timestamp/status_embeddings_embeddings_timestamp_mht_1of1/_5 (Switch) /job:localhost/replica:0/task:0/device:GPU:0
+  Func/cond/then/_0/input/_111 (Identity) /job:localhost/replica:0/task:0/device:GPU:0
+  cond/then/_0/status_embeddings_embeddings_timestamp_mht_1of1_lookup_table_export_values/TFRA>CuckooHashTableExport (TFRA>CuckooHashTableExport) /job:localhost/replica:0/task:0/device:GPU:0
+  cond/then/_0/status_embeddings_embeddings_timestamp_mht_1of1_lookup_table_remove/TFRA>CuckooHashTableRemove (TFRA>CuckooHashTableRemove) /job:localhost/replica:0/task:0/device:GPU:0
+  Func/cond/else/_1/input/_117 (Identity) /job:localhost/replica:0/task:0/device:GPU:0
+
+2025-11-20 15:21:05.131447: I ./tensorflow_recommenders_addons/dynamic_embedding/core/kernels/lookup_impl/lookup_table_op_cpu.h:157] HashTable on CPU is created on optimized mode: K=l, V=i, DIM=1, init_size=8192
+2025-11-20 15:21:05.132347: I ./tensorflow_recommenders_addons/dynamic_embedding/core/kernels/lookup_impl/lookup_table_op_cpu.h:157] HashTable on CPU is created on optimized mode: K=l, V=f, DIM=9, init_size=8192
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+0it [00:03, ?it/s]
+expert_outlist---- Tensor("mmoe_tower/stack:0", shape=(None, 6, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum:0", shape=(None, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims_1:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum_1:0", shape=(None, 128), dtype=float32)
+gate_i-- Tensor("mmoe_tower/ExpandDims_2:0", shape=(None, 6, 1), dtype=float32)
+--domain_input Tensor("mmoe_tower/Sum_2:0", shape=(None, 128), dtype=float32)
+Traceback (most recent call last):
+  File "/opt/huangmian/yoyo_model/main.py", line 307, in <module>
+    app.run(main)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/absl/app.py", line 316, in run
+    _run_main(main, args)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/absl/app.py", line 261, in _run_main
+    sys.exit(main(argv))
+  File "/opt/huangmian/yoyo_model/main.py", line 295, in main
+    train(filenames, params, model_config, strategy=strategy)
+  File "/opt/huangmian/yoyo_model/main.py", line 185, in train
+    df: DataFrame = pd.read_csv(file_path, delimiter='\t', header=None)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 912, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 577, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1407, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1679, in _make_engine
+    return mapping[engine](f, **self.options)
+  File "/root/anaconda3/envs/env_gpu/lib/python3.8/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 93, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+  File "pandas/_libs/parsers.pyx", line 557, in pandas._libs.parsers.TextReader.__cinit__
+pandas.errors.EmptyDataError: No columns to parse from file
+----------------------------clear history data--------------------------------
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+(Namespace(data_path='/data/share/opt/data', del_date='20250821'), [])
+---------del_path=/data/share/opt/data/O35_mutil_cvr/20250821--------
+/opt/huangmian/yoyo_model/bin

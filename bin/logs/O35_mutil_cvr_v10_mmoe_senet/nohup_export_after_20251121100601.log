@@ -1,0 +1,86 @@
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+curr_export_timestamp=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/1763623552
+export_timestamp=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/1763623552
+export_timestamp=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/1763623552
+export_timestamp=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/1763623552
+export_timestamp=/data/share/opt/model/O35_mutil_cvr_v10_mmoe_senet/export_dir/1763691262
+---------------------------------upload-------------------------------------
+2025-11-21 10:15:03.755994: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03.756131: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03.761554: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03.761681: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03.761760: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03.761833: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:936] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-11-21 10:15:03,762 - [feat_file_exists-->line:71] - INFO:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS
+I1121 10:15:03.762130 139703505295168 upload.py:71] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS
+I1121 10:15:03.807781 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCB2783E6FC3239427FC3', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCB2783E6FC3239427FC3', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:15:03,807 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:15:03.807945 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:15:03,808 - [feat_file_exists-->line:79] - WARNING:已经等待: 0 次，curr_time: 202511211015
+W1121 10:15:03.808010 139703505295168 upload.py:79] 已经等待: 0 次，curr_time: 202511211015
+I1121 10:17:03.951948 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCB9FE9055F33395238FA', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCB9FE9055F33395238FA', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:17:03,952 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:17:03.952128 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:17:03,952 - [feat_file_exists-->line:79] - WARNING:已经等待: 1 次，curr_time: 202511211017
+W1121 10:17:03.952200 139703505295168 upload.py:79] 已经等待: 1 次，curr_time: 202511211017
+I1121 10:19:04.096485 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCC18D59CB43332A5D688', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCC18D59CB43332A5D688', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:19:04,096 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:19:04.096680 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:19:04,096 - [feat_file_exists-->line:79] - WARNING:已经等待: 2 次，curr_time: 202511211019
+W1121 10:19:04.096759 139703505295168 upload.py:79] 已经等待: 2 次，curr_time: 202511211019
+I1121 10:21:04.240126 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCC90CE6D613434BDEA95', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCC90CE6D613434BDEA95', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:21:04,240 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:21:04.240288 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:21:04,240 - [feat_file_exists-->line:79] - WARNING:已经等待: 3 次，curr_time: 202511211021
+W1121 10:21:04.240343 139703505295168 upload.py:79] 已经等待: 3 次，curr_time: 202511211021
+I1121 10:23:04.374009 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCD0883E6FC3034C7C7D5', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCD0883E6FC3034C7C7D5', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:23:04,374 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:23:04.374177 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:23:04,374 - [feat_file_exists-->line:79] - WARNING:已经等待: 4 次，curr_time: 202511211023
+W1121 10:23:04.374233 139703505295168 upload.py:79] 已经等待: 4 次，curr_time: 202511211023
+I1121 10:25:04.513953 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCD805FCE0B363064A08A', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCD805FCE0B363064A08A', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:25:04,514 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:25:04.514153 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:25:04,514 - [feat_file_exists-->line:79] - WARNING:已经等待: 5 次，curr_time: 202511211025
+W1121 10:25:04.514240 139703505295168 upload.py:79] 已经等待: 5 次，curr_time: 202511211025
+I1121 10:27:04.654500 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCDF85A7A543532CA0595', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCDF85A7A543532CA0595', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:27:04,654 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:27:04.654673 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:27:04,654 - [feat_file_exists-->line:79] - WARNING:已经等待: 6 次，curr_time: 202511211027
+W1121 10:27:04.654728 139703505295168 upload.py:79] 已经等待: 6 次，curr_time: 202511211027
+I1121 10:29:04.802165 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCE707AB4F03536045F80', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCE707AB4F03536045F80', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:29:04,802 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:29:04.802316 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:29:04,802 - [feat_file_exists-->line:79] - WARNING:已经等待: 7 次，curr_time: 202511211029
+W1121 10:29:04.802369 139703505295168 upload.py:79] 已经等待: 7 次，curr_time: 202511211029
+I1121 10:31:04.934955 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCEE8561E773034C597A1', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCEE8561E773034C597A1', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:31:04,935 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:31:04.935103 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:31:04,935 - [feat_file_exists-->line:79] - WARNING:已经等待: 8 次，curr_time: 202511211031
+W1121 10:31:04.935156 139703505295168 upload.py:79] 已经等待: 8 次，curr_time: 202511211031
+I1121 10:33:05.086393 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCF615FCE0B3535DFC89C', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCF615FCE0B3535DFC89C', 'HostId': 'adx-oss.oss-cn-beijing.aliyuncs.com', 'Key': 'deep_model/offline/O35/20251120/_FEATURE_SUCCESS', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:33:05,086 - [feat_file_exists-->line:78] - WARNING:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+W1121 10:33:05.086547 139703505295168 upload.py:78] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is not exist, sleep 2m ...
+2025-11-21 10:33:05,086 - [feat_file_exists-->line:79] - WARNING:已经等待: 9 次，curr_time: 202511211033
+W1121 10:33:05.086601 139703505295168 upload.py:79] 已经等待: 9 次，curr_time: 202511211033
+2025-11-21 10:35:05,218 - [feat_file_exists-->line:82] - INFO:offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is exist.. model train success...
+I1121 10:35:05.218949 139703505295168 upload.py:82] offline_feat_path: deep_model/offline/O35/20251120/_FEATURE_SUCCESS is exist.. model train success...
+I1121 10:35:05.265842 139703505295168 api.py:240] Exception: {'status': 404, 'x-oss-request-id': '691FCFD9094F933233B62B36', 'details': {'Code': 'NoSuchKey', 'Message': 'The specified key does not exist.', 'RequestId': '691FCFD9094F933233B62B36', 'HostId': 'dnnmodel.oss-cn-beijing-internal.aliyuncs.com', 'Key': 'O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/saved_model.pb', 'EC': '0026-00000001', 'RecommendDoc': 'https://api.aliyun.com/troubleshoot?q=0026-00000001'}}
+2025-11-21 10:35:05,266 - [upload_folder-->line:49] - INFO:put file:1763691262/saved_model.pb to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/saved_model.pb
+I1121 10:35:05.266071 139703505295168 upload.py:49] put file:1763691262/saved_model.pb to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/saved_model.pb
+2025-11-21 10:35:05,321 - [upload_folder-->line:49] - INFO:put file:1763691262/assets.extra/tf_serving_warmup_requests to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/assets.extra/tf_serving_warmup_requests
+I1121 10:35:05.321376 139703505295168 upload.py:49] put file:1763691262/assets.extra/tf_serving_warmup_requests to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/assets.extra/tf_serving_warmup_requests
+2025-11-21 10:35:05,410 - [upload_folder-->line:49] - INFO:put file:1763691262/variables/variables.index to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.index
+I1121 10:35:05.410475 139703505295168 upload.py:49] put file:1763691262/variables/variables.index to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.index
+2025-11-21 10:35:05,423 - [upload_folder-->line:49] - INFO:put file:1763691262/variables/variables.data-00001-of-00002 to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.data-00001-of-00002
+I1121 10:35:05.423290 139703505295168 upload.py:49] put file:1763691262/variables/variables.data-00001-of-00002 to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.data-00001-of-00002
+2025-11-21 10:35:05,519 - [upload_folder-->line:49] - INFO:put file:1763691262/variables/variables.data-00000-of-00002 to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.data-00000-of-00002
+I1121 10:35:05.519582 139703505295168 upload.py:49] put file:1763691262/variables/variables.data-00000-of-00002 to oss target_path:O35_model_v2/O35_mutil_cvr_v10_mmoe_senet/1763691262/variables/variables.data-00000-of-00002
+files: [1763552958, 1763553175, 1763553610, 1763554105, 1763554575, 1763555049, 1763555486, 1763555884, 1763556238, 1763556734, 1763558089, 1763558781, 1763559092, 1763559385, 1763559577, 1763559780, 1763559988, 1763560304, 1763560585, 1763560866, 1763561170, 1763561664, 1763562408, 1763563095, 1763563590, 1763564219, 1763564598, 1763564928, 1763565253, 1763565599, 1763565828, 1763566140, 1763566423, 1763566707, 1763566994, 1763567276, 1763567589, 1763567868, 1763568199, 1763568554, 1763568851, 1763569122, 1763569373, 1763569545, 1763570024, 1763570573, 1763570927, 1763571345, 1763571837, 1763572292, 1763572907, 1763573434, 1763573902, 1763574311, 1763574726, 1763575080, 1763575483, 1763575818, 1763576134, 1763576418, 1763576712, 1763577069, 1763577386, 1763577711, 1763578025, 1763578219, 1763578509, 1763578835, 1763579141, 1763579401, 1763579592, 1763579859, 1763580092, 1763580233, 1763580327, 1763580387, 1763580487, 1763580593, 1763580710, 1763623195, 1763623552, 1763691262], 1763691262 True
+upload_folder: 1763691262
+file_path: 1763691262/saved_model.pb
+file_path: 1763691262/assets.extra/tf_serving_warmup_requests
+file_path: 1763691262/variables/variables.index
+file_path: 1763691262/variables/variables.data-00001-of-00002
+file_path: 1763691262/variables/variables.data-00000-of-00002

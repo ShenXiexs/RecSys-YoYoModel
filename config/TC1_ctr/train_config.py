@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+# @Time : 2025/8/25 18:20
+# @Author : huangmian
+# @File : train_config.py
+import os
+import pandas as pd
+
+dirname = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+class TrainConfig:
+    model_version = "TC1_ctr"
+    model_modul = "models.ctr_model_fn.model_fn"
+    dataset_modul = "dataset.dataset.input_fn"
+    train_params = {}
+    ### downodps
+    data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "features",
+                   "uid_embedding","target_item_embedding"]
+    label_schema = {"is_click": "ctr_label"}
+    features_sep = "\002"
+    compression_type = "GZIP"
+    # 定义分桶且特征选择表
+    binning_table_name = "ad_rank_multimodal_ctr_sample_data"
+    partitions = "ds_date='{day}',feature_version='TC1_ctr',durations='1'"
+    downodps_datas = pd.date_range("20250804", "20250824").map(lambda x: x.strftime("%Y%m%d")).tolist()
+    ### config path
+    schema_path = f"{dirname}/config/{model_version}/schema.conf"
+    slot_path = f"{dirname}/config/{model_version}/slot.conf"
+    sel_feat_path = f"{dirname}/config/{model_version}/select_feature.conf"
+    boundaries_map_path = f"{dirname}/config/{model_version}/boundaries_map.json"
+    fg_path = f"{dirname}/config/{model_version}/fg.json"
+    feature_config_path = f"{dirname}/config/{model_version}/feature_config.json"
+    body_json_name = f"{dirname}/config/{model_version}/body.json"
+    ### es config
+    es_run_config = {
+        "keep_checkpoint_max": 1,
+        "save_checkpoints_steps": 100000,
+        "log_step_count_steps": 5000,
+        "save_summary_steps": 10000
+    }
+    ### dataset input_fn config
+    data_nm = "TC1_ctr"
+    inp_fn_config = {
+        "train_spec": {
+            "max_steps": None
+        },
+        "eval_spec": {
+            "start_delay_secs": 1e20,
+            "steps": None
+        },
+        "train_batch_size": 4096,
+        "train_epoch": 1,
+        "batch_size": 1024
+    }
+    ###
+    # infer数据写入的结果表
+    infer_table_name = 'adx_dmp.cpc_offline_predict'
+    ### upload
+    oss_bucket_name = "adx-oss"
+    upload_oss_path = "TC1_ctr_model"  #dnnmodel->定义模型导出OSS路径
+    oss_offline_root_path = "deep_model/offline"  # 离线特征推送OSS路径，判断特征是否推线上，再推模型到OSS供线上推理使用
+    # 模型训练指标写入表,针对ocpc模型
+    metric_table = ''
