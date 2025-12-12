@@ -13,8 +13,8 @@ def get_odps(your_default_project='adx_dmp'):
 
 def get_oss(bucket_name='adx-oss',if_inner_net=False):
     """ 链接oss """
-    access_key_id = os.getenv('OSS_TEST_ACCESS_KEY_ID', 'ALIYUN_ACCESS_KEY_ID_PLACEHOLDER')
-    access_key_secret = os.getenv('OSS_TEST_ACCESS_KEY_SECRET', 'ALIYUN_ACCESS_KEY_SECRET_PLACEHOLDER')
+    access_key_id = os.getenv('OSS_TEST_ACCESS_KEY_ID', '')
+    access_key_secret = os.getenv('OSS_TEST_ACCESS_KEY_SECRET', '')
     bucket_name = os.getenv('OSS_TEST_BUCKET', bucket_name)
     endpoint = os.getenv('OSS_TEST_ENDPOINT', 'http://oss-cn-beijing.aliyuncs.com')  # 外网
     if if_inner_net:

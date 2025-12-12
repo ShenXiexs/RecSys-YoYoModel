@@ -47,8 +47,8 @@ def logger():
 
 def get_oss():
     """ 链接oss """
-    access_key_id = os.getenv('OSS_TEST_ACCESS_KEY_ID', 'ALIYUN_ACCESS_KEY_ID_PLACEHOLDER')
-    access_key_secret = os.getenv('OSS_TEST_ACCESS_KEY_SECRET', 'ALIYUN_ACCESS_KEY_SECRET_PLACEHOLDER')
+    access_key_id = os.getenv('OSS_TEST_ACCESS_KEY_ID', '')
+    access_key_secret = os.getenv('OSS_TEST_ACCESS_KEY_SECRET', '')
     bucket_name = os.getenv('OSS_TEST_BUCKET', 'adx-oss')
     endpoint = os.getenv('OSS_TEST_ENDPOINT', 'http://oss-cn-beijing-internal.aliyuncs.com')  # 内网
     # endpoint = os.getenv('OSS_TEST_ENDPOINT', 'http://oss-cn-beijing.aliyuncs.com') # 外网
