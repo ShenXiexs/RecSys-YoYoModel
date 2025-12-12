@@ -26,6 +26,43 @@ from tqdm import tqdm
 from odps import ODPS
 from redis.client import Redis
 
+try:
+    from common.connect_config import (
+        your_accesskey_id,
+        your_accesskey_secret,
+        your_default_project,
+        tunnel_endpoint,
+        your_end_point,
+        redis_username,
+        redis_password,
+        redis_host,
+        redis_port,
+        redis_feature_username,
+        redis_feature_password,
+        redis_feature_host,
+        redis_feature_port,
+    )
+except ImportError:
+    CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+    ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
+    if ROOT_DIR not in sys.path:
+        sys.path.append(ROOT_DIR)
+    from common.connect_config import (
+        your_accesskey_id,
+        your_accesskey_secret,
+        your_default_project,
+        tunnel_endpoint,
+        your_end_point,
+        redis_username,
+        redis_password,
+        redis_host,
+        redis_port,
+        redis_feature_username,
+        redis_feature_password,
+        redis_feature_host,
+        redis_feature_port,
+    )
+
 model_date = args["model_date"]
 model_hour = args["model_hour"]
 print(f"---> model_date: {model_date} <--- ")
@@ -57,41 +94,31 @@ def get_oss():
     return bucket
 
 
+def _env_or_config(name, fallback):
+    """Resolve secret from environment with config fallback."""
+    return os.getenv(name, fallback if fallback is not None else "")
+
+
 def get_redis():
     """ 链接redis """
-    host = "r-2ze21m48ddjhxh71le.redis.rds.aliyuncs.com"  # 生产
-    # host = "39.105.126.28"  # 开发
-    # host = "123.56.217.71"  # 测试
-    # host = "r-2ze1xrbawl2qdpveca.redis.rds.aliyuncs.com"
-    port = 6379
-    user = "yoyo"
-    pwd = "YOYO_REDIS_PASSWORD_PLACEHOLDER"  # 生产
-    # pwd = "1234567s"  # 开发
-    # pwd = "1234567s"
-    # pwd = "YOYO_REDIS_FEATURE_PASSWORD_PLACEHOLDER"
-    db = 1
-    # rc = RedisCluster(host=host, port=port, username=user, password=pwd, db=db)
-    rc = Redis(host=host, port=port, username=user, password=pwd, db=db)
-
-    return rc
+    host = _env_or_config("YOYO_REDIS_HOST", redis_host)
+    port = int(os.getenv("YOYO_REDIS_PORT", str(redis_port)))
+    user = _env_or_config("YOYO_REDIS_USERNAME", redis_username)
+    pwd = _env_or_config("YOYO_REDIS_PASSWORD", redis_password)
+    if not host or not pwd:
+        raise EnvironmentError("缺少Redis连接配置，请设置 YOYO_REDIS_HOST/YOYO_REDIS_PASSWORD 环境变量。")
+    return Redis(host=host, port=port, username=user or None, password=pwd, db=1)
 
 
 def get_redis_feature():
     """ 链接redis """
-    # host = "r-2ze21m48ddjhxh71le.redis.rds.aliyuncs.com"  # 生产
-    # host = "39.105.126.28"  # 开发
-    # host = "123.56.217.71"  # 测试
-    host = "r-2ze1xrbawl2qdpveca.redis.rds.aliyuncs.com"
-    port = 6379
-    user = "yoyo"
-    # pwd = "YOYO_REDIS_PASSWORD_PLACEHOLDER"  # 生产
-    # pwd = "1234567s"  # 开发
-    # pwd = "1234567s"
-    pwd = "YOYO_REDIS_FEATURE_PASSWORD_PLACEHOLDER"
-    db = 0
-    # rc = RedisCluster(host=host, port=port, username=user, password=pwd, db=db)
-    rc = Redis(host=host, port=port, username=user, password=pwd, db=db)
-    return rc
+    host = _env_or_config("YOYO_REDIS_FEATURE_HOST", redis_feature_host)
+    port = int(os.getenv("YOYO_REDIS_FEATURE_PORT", str(redis_feature_port)))
+    user = _env_or_config("YOYO_REDIS_FEATURE_USERNAME", redis_feature_username)
+    pwd = _env_or_config("YOYO_REDIS_FEATURE_PASSWORD", redis_feature_password)
+    if not host or not pwd:
+        raise EnvironmentError("缺少特征Redis连接配置，请设置 YOYO_REDIS_FEATURE_HOST/YOYO_REDIS_FEATURE_PASSWORD 环境变量。")
+    return Redis(host=host, port=port, username=user or None, password=pwd, db=0)
 
 
 def oss_sync_file(org_file, target_file):
@@ -130,16 +157,20 @@ def read_file(oss_target_file):
 
 def get_odps():
     """ 链接odps """
-    your_accesskey_id = "ALIYUN_ACCESS_KEY_ID_PLACEHOLDER"
-    your_accesskey_secret = "ALIYUN_ACCESS_KEY_SECRET_PLACEHOLDER"
-    your_default_project = "adx_dmp"
-    tunnel_endpoint = "http://dt.cn-beijing.maxcompute.aliyun-inc.com"
-    your_end_point = "http://service.cn-beijing.maxcompute.aliyun-inc.com/api"
-    # your_end_point = "http://service.cn-beijing.maxcompute.aliyun.com/api"
-    # tunnel_endpoint = "http://dt.cn-beijing.maxcompute.aliyun.com"
-    odps_obj = ODPS(your_accesskey_id, your_accesskey_secret, your_default_project, endpoint=your_end_point,
-                    tunnel_endpoint=tunnel_endpoint)
-    return odps_obj
+    access_key_id = _env_or_config("ALIYUN_ACCESS_KEY_ID", your_accesskey_id)
+    access_key_secret = _env_or_config("ALIYUN_ACCESS_KEY_SECRET", your_accesskey_secret)
+    default_project = _env_or_config("ALIYUN_DEFAULT_PROJECT", your_default_project)
+    maxcompute_endpoint = _env_or_config("ALIYUN_ENDPOINT", your_end_point)
+    tunnel = _env_or_config("ALIYUN_TUNNEL_ENDPOINT", tunnel_endpoint)
+    if not access_key_id or not access_key_secret:
+        raise EnvironmentError("缺少 MaxCompute AccessKey，请设置 ALIYUN_ACCESS_KEY_ID/ALIYUN_ACCESS_KEY_SECRET。")
+    return ODPS(
+        access_key_id,
+        access_key_secret,
+        default_project,
+        endpoint=maxcompute_endpoint,
+        tunnel_endpoint=tunnel,
+    )
 
 
 def odps2redis(table_nm, partition, key_col, key_prefix="", feats=[], default="-1024", sep=",", rn=0):
