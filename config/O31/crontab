@@ -1,0 +1,2 @@
+30 09 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash run.sh O31_v3 >> logs/O31_v3/nohup_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+00 10 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash export_after.sh O31_v3 > logs/O31_v3/nohup_export_after_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &

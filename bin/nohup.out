@@ -1,0 +1,18 @@
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251102, end_date: 20251120
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251102, end_date: 20251120
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251102, end_date: 20251120
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251101, end_date: 20251120
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251101, end_date: 20251120
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/TO5/train_config.py
+--> time_str: 20251102, end_date: 20251122

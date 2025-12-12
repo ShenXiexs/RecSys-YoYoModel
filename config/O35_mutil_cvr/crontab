@@ -1,0 +1,12 @@
+#O35 V10
+30 08 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash run.sh O35_mutil_cvr_v10 >> logs/O35_mutil_cvr_v10/nohup_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+00 09 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash export_after.sh O35_mutil_cvr_v10 > logs/O35_mutil_cvr_v10/nohup_export_after_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+
+#O35 V11
+#50 13 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash run.sh O35_mutil_cvr_v11 >> logs/O35_mutil_cvr_v11/nohup_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+#50 13 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash export_after.sh O35_mutil_cvr_v11 > logs/O35_mutil_cvr_v11/nohup_export_after_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+
+
+#O35 V12
+#30 08 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash run.sh O35_mutil_cvr_v12_batch10 $(date -d '1 day ago' +%Y%m%d) $(date -d '1 day ago' +%Y%m%d) 10 >> logs/O35_mutil_cvr_v12_batch10/nohup_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &
+#30 11 * * * cd /opt/huangmian/yoyo_model/bin && nohup bash export_after.sh O35_mutil_cvr_v12_batch10 > logs/O35_mutil_cvr_v12_batch10/nohup_export_after_$(date +\%Y\%m\%d\%H\%M\%S).log 2>&1 &

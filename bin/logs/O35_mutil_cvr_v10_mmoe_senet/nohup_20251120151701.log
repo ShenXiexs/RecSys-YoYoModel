@@ -1,0 +1,4 @@
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10_mmoe_senet/train_config.py
+--> time_str: 202511190000, end_date: 202511190000
+downodps error,exit

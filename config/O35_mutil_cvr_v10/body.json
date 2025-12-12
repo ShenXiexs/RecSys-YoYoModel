@@ -1,0 +1,3413 @@
+{
+    "inputs": {
+        "combination_un_id": [
+            "607473",
+            "613811",
+            "615702",
+            "613311",
+            "604060"
+        ],
+        "adslot_id": [
+            "bz.splash.ios",
+            "hn.apprec.r1",
+            "kx.splash.android",
+            "bz.splash.ios",
+            "bz.splash.ios"
+        ],
+        "channel_id": [
+            "32",
+            "15",
+            "69",
+            "32",
+            "32"
+        ],
+        "app_pkg_src": [
+            "com.taobao.fleamarket",
+            "com.hihonor.brain",
+            "com.taobao.idlefish",
+            "com.taobao.fleamarket",
+            "com.taobao.fleamarket"
+        ],
+        "network": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "5"
+        ],
+        "is_holiday": [
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024"
+        ],
+        "ip_region": [
+            "山东省",
+            "广西壮族自治区",
+            "-1024",
+            "吉林省",
+            "-1024"
+        ],
+        "ip_city": [
+            "济宁市",
+            "桂林市",
+            "-1024",
+            "长春市",
+            "-1024"
+        ],
+        "device_brand": [
+            "apple",
+            "荣耀",
+            "华为",
+            "apple",
+            "apple"
+        ],
+        "device_os": [
+            "1",
+            "2",
+            "2",
+            "1",
+            "1"
+        ],
+        "device_model": [
+            "iphone14,2",
+            "lly-an00",
+            "aln-al00",
+            "iphone16,2",
+            "iphone17,1"
+        ],
+        "device_screen_height": [
+            "2532",
+            "1080",
+            "-1024",
+            "2796",
+            "2622"
+        ],
+        "device_screen_width": [
+            "1170",
+            "2412",
+            "-1024",
+            "1290",
+            "1206"
+        ],
+        "device_carrier": [
+            "-1024",
+            "-1024",
+            "2",
+            "-1024",
+            "-1024"
+        ],
+        "device_os_version": [
+            "17.2.1",
+            "14",
+            "4.2.0",
+            "26.0.1",
+            "18.6.2"
+        ],
+        "keywords": [
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024"
+        ],
+        "day_h": [
+            "6",
+            "6",
+            "19",
+            "6",
+            "16"
+        ],
+        "week_day": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "ad_idea_id": [
+            "132871",
+            "133176",
+            "140803",
+            "137516",
+            "135109"
+        ],
+        "ad_unit_id": [
+            "63634",
+            "65658",
+            "64378",
+            "65477",
+            "63592"
+        ],
+        "ad_plan_id": [
+            "5896",
+            "5961",
+            "5591",
+            "5898",
+            "5120"
+        ],
+        "template_id": [
+            "11",
+            "46",
+            "11",
+            "11",
+            "11"
+        ],
+        "template_type": [
+            "3",
+            "1",
+            "3",
+            "3",
+            "3"
+        ],
+        "title": [
+            "淘宝",
+            "超多好物低价抢购！！尽在淘宝！",
+            "淘宝",
+            "淘宝精选好物推荐",
+            "淘宝"
+        ],
+        "content": [
+            "淘宝",
+            "超多好物低价抢购！！尽在淘宝！",
+            "淘宝",
+            "淘宝精选好物推荐",
+            "淘宝"
+        ],
+        "is_new_item": [
+            "0",
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "package_name": [
+            "com.taobao.taobao",
+            "com.taobao.taobao",
+            "com.taobao.taobao",
+            "com.taobao.taobao",
+            "com.taobao.taobao"
+        ],
+        "app_first_type": [
+            "购物优惠",
+            "购物优惠",
+            "购物优惠",
+            "购物优惠",
+            "购物优惠"
+        ],
+        "app_second_type": [
+            "商城",
+            "商城",
+            "商城",
+            "商城",
+            "商城"
+        ],
+        "log10_app_size": [
+            "5",
+            "5",
+            "5",
+            "5",
+            "5"
+        ],
+        "product_name": [
+            "-1024",
+            "淘宝",
+            "淘宝",
+            "-1024",
+            "-1024"
+        ],
+        "first_industry_id": [
+            "-1024",
+            "110020",
+            "110020",
+            "-1024",
+            "-1024"
+        ],
+        "rta_type": [
+            "2",
+            "1",
+            "2",
+            "2",
+            "2"
+        ],
+        "crowd_type": [
+            "1",
+            "2",
+            "2",
+            "1",
+            "1"
+        ],
+        "user__imp_cnt_7d": [
+            "15",
+            "20",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__clk_cnt_7d": [
+            "7",
+            "5",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_day_h_imp_cnt_7d": [
+            "1",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_idea_id_imp_cnt_7d": [
+            "1",
+            "14",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_id_imp_cnt_7d": [
+            "15",
+            "20",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_adslot_id_imp_cnt_7d": [
+            "15",
+            "19",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_app_first_type_imp_cnt_7d": [
+            "15",
+            "19",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_ad_plan_id_imp_cnt_7d": [
+            "6",
+            "8",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_package_name_imp_cnt_7d": [
+            "15",
+            "17",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_template_type_imp_cnt_7d": [
+            "15",
+            "20",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_product_name_imp_cnt_7d": [
+            "14",
+            "15",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_first_industry_id_imp_cnt_7d": [
+            "14",
+            "15",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_industry_id_imp_cnt_7d": [
+            "14",
+            "15",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_day_h_clk_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_idea_id_clk_cnt_7d": [
+            "1",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_id_clk_cnt_7d": [
+            "6",
+            "4",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_adslot_id_clk_cnt_7d": [
+            "5",
+            "4",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_app_first_type_clk_cnt_7d": [
+            "6",
+            "4",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_plan_id_clk_cnt_7d": [
+            "4",
+            "2",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_package_name_clk_cnt_7d": [
+            "5",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_type_clk_cnt_7d": [
+            "6",
+            "4",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_product_name_clk_cnt_7d": [
+            "5",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_first_industry_id_clk_cnt_7d": [
+            "5",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__imp_cnt_30d": [
+            "34",
+            "44",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__clk_cnt_30d": [
+            "12",
+            "8",
+            "1",
+            "2",
+            "2"
+        ],
+        "user__kv_day_h_imp_cnt_30d": [
+            "1",
+            "7",
+            "1",
+            "1",
+            "2"
+        ],
+        "user__kv_ad_idea_id_imp_cnt_30d": [
+            "3",
+            "22",
+            "1",
+            "1",
+            "2"
+        ],
+        "user__kv_template_id_imp_cnt_30d": [
+            "34",
+            "43",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_adslot_id_imp_cnt_30d": [
+            "32",
+            "40",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_app_first_type_imp_cnt_30d": [
+            "33",
+            "42",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_ad_plan_id_imp_cnt_30d": [
+            "10",
+            "19",
+            "1",
+            "2",
+            "1"
+        ],
+        "user__kv_package_name_imp_cnt_30d": [
+            "33",
+            "33",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_template_type_imp_cnt_30d": [
+            "34",
+            "43",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_product_name_imp_cnt_30d": [
+            "31",
+            "30",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_first_industry_id_imp_cnt_30d": [
+            "31",
+            "30",
+            "1",
+            "2",
+            "7"
+        ],
+        "user__kv_day_h_clk_cnt_30d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_idea_id_clk_cnt_30d": [
+            "3",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_id_clk_cnt_30d": [
+            "11",
+            "7",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_adslot_id_clk_cnt_30d": [
+            "9",
+            "7",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_app_first_type_clk_cnt_30d": [
+            "10",
+            "7",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_plan_id_clk_cnt_30d": [
+            "6",
+            "2",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_package_name_clk_cnt_30d": [
+            "8",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_type_clk_cnt_30d": [
+            "11",
+            "7",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_product_name_clk_cnt_30d": [
+            "9",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_first_industry_id_clk_cnt_30d": [
+            "9",
+            "3",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_day_h_clk_div_imp_cnt_30d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_idea_id_clk_div_imp_cnt_30d": [
+            "13",
+            "2",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_id_clk_div_imp_cnt_30d": [
+            "26",
+            "12",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_adslot_id_clk_div_imp_cnt_30d": [
+            "22",
+            "9",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_app_first_type_clk_div_imp_cnt_30d": [
+            "24",
+            "11",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_ad_plan_id_clk_div_imp_cnt_30d": [
+            "14",
+            "2",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_package_name_clk_div_imp_cnt_30d": [
+            "20",
+            "6",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_template_type_clk_div_imp_cnt_30d": [
+            "27",
+            "12",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_product_name_clk_div_imp_cnt_30d": [
+            "21",
+            "6",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_first_industry_id_clk_div_imp_cnt_30d": [
+            "21",
+            "6",
+            "1",
+            "1",
+            "1"
+        ],
+        "user__kv_industry_id_clk_div_imp_cnt_30d": [
+            "21",
+            "6",
+            "1",
+            "1",
+            "1"
+        ],
+        "city_level": [
+            "-1024",
+            "3",
+            "-1",
+            "-1024",
+            "-1024"
+        ],
+        "rta_product_code": [
+            "681",
+            "-1",
+            "483",
+            "681",
+            "680"
+        ],
+        "white_crowd_code": [
+            "tag_1839",
+            "tag_2256",
+            "tag_1562",
+            "-1024",
+            "-1024"
+        ],
+        "industry": [
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024",
+            "-1024"
+        ],
+        "target_type": [
+            "3",
+            "3",
+            "3",
+            "3",
+            "3"
+        ],
+        "app_src_first_type": [
+            "-1024",
+            "实用工具",
+            "购物优惠",
+            "-1024",
+            "-1024"
+        ],
+        "app_src_second_type": [
+            "-1024",
+            "AI工具",
+            "商城",
+            "-1024",
+            "-1024"
+        ],
+        "ssp_adslot_id": [
+            "bz.splash.ios",
+            "1655924843900567552",
+            "kx.splash.android",
+            "bz.splash.ios",
+            "bz.splash.ios"
+        ],
+        "model_type": [
+            "union_model",
+            "appstore_model",
+            "union_model",
+            "union_model",
+            "union_model"
+        ],
+        "dispatch_center_id": [
+            "26888",
+            "33581",
+            "35209",
+            "30317",
+            "27949"
+        ],
+        "package_channel_type": [
+            "3",
+            "3",
+            "3",
+            "3",
+            "3"
+        ],
+        "promotion_type": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "-1024"
+        ],
+        "doc__key_five__kv_network_clk_div_imp_cnt_1d": [
+            "94",
+            "63",
+            "88",
+            "94",
+            "93"
+        ],
+        "doc__key_five__kv_ip_region_clk_div_imp_cnt_1d": [
+            "95",
+            "63",
+            "83",
+            "95",
+            "92"
+        ],
+        "doc__key_five__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_device_model_clk_div_imp_cnt_1d": [
+            "29",
+            "14",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_five__kv_day_h_clk_div_imp_cnt_1d": [
+            "91",
+            "58",
+            "1",
+            "91",
+            "91"
+        ],
+        "doc__key_five__kv_keywords_clk_div_imp_cnt_1d": [
+            "91",
+            "59",
+            "84",
+            "91",
+            "91"
+        ],
+        "doc__key_five__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "30",
+            "7",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "1",
+            "6",
+            "1",
+            "10"
+        ],
+        "doc__key_five__kv_network_clk_div_imp_cnt_7d": [
+            "98",
+            "65",
+            "93",
+            "98",
+            "98"
+        ],
+        "doc__key_five__kv_ip_region_clk_div_imp_cnt_7d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "97"
+        ],
+        "doc__key_five__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "59",
+            "80",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_device_brand_clk_div_imp_cnt_7d": [
+            "95",
+            "62",
+            "91",
+            "95",
+            "95"
+        ],
+        "doc__key_five__kv_device_os_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_five__kv_device_model_clk_div_imp_cnt_7d": [
+            "28",
+            "13",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_five__kv_device_size_clk_div_imp_cnt_7d": [
+            "76",
+            "47",
+            "73",
+            "76",
+            "76"
+        ],
+        "doc__key_five__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_five__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "39",
+            "67",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_day_h_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "1",
+            "96",
+            "96"
+        ],
+        "doc__key_five__kv_keywords_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_five__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_five__kv_ip_region_clk_div_imp_cnt_15d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "98"
+        ],
+        "doc__key_five__kv_device_model_clk_div_imp_cnt_15d": [
+            "27",
+            "12",
+            "1",
+            "27",
+            "27"
+        ],
+        "doc__key_five__kv_day_h_clk_div_imp_cnt_15d": [
+            "96",
+            "62",
+            "1",
+            "96",
+            "96"
+        ],
+        "doc__key_five__kv_keywords_clk_div_imp_cnt_15d": [
+            "93",
+            "59",
+            "87",
+            "93",
+            "93"
+        ],
+        "doc__key_five__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_five__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "3",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "3"
+        ],
+        "doc__key_five__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_five__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "10"
+        ],
+        "doc__key_five__kv_network_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "38",
+            "8",
+            "6",
+            "11"
+        ],
+        "doc__key_five__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "35",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_five__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "1",
+            "4",
+            "3",
+            "4"
+        ],
+        "doc__key_five__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "28",
+            "1",
+            "5",
+            "13"
+        ],
+        "doc__key_five__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "37",
+            "8",
+            "6",
+            "11"
+        ],
+        "doc__key_five__kv_network_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "6",
+            "5",
+            "8"
+        ],
+        "doc__key_five__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "38",
+            "6",
+            "4",
+            "8"
+        ],
+        "doc__key_five__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "36",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_five__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "3",
+            "5",
+            "9"
+        ],
+        "doc__key_five__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "42",
+            "7",
+            "6",
+            "10"
+        ],
+        "doc__key_five__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "4"
+        ],
+        "doc__key_five__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "16",
+            "5",
+            "5",
+            "9"
+        ],
+        "doc__key_five__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_five__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "36",
+            "4",
+            "1",
+            "9"
+        ],
+        "doc__key_five__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "30",
+            "1",
+            "9",
+            "9"
+        ],
+        "doc__key_five__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "42",
+            "7",
+            "6",
+            "10"
+        ],
+        "doc__key_five__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "5",
+            "42",
+            "7",
+            "5",
+            "7"
+        ],
+        "doc__key_four__kv_network_clk_div_imp_cnt_1d": [
+            "95",
+            "64",
+            "88",
+            "95",
+            "94"
+        ],
+        "doc__key_four__kv_ip_region_clk_div_imp_cnt_1d": [
+            "95",
+            "63",
+            "83",
+            "95",
+            "92"
+        ],
+        "doc__key_four__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_device_model_clk_div_imp_cnt_1d": [
+            "29",
+            "14",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_four__kv_day_h_clk_div_imp_cnt_1d": [
+            "91",
+            "58",
+            "1",
+            "91",
+            "91"
+        ],
+        "doc__key_four__kv_keywords_clk_div_imp_cnt_1d": [
+            "94",
+            "62",
+            "87",
+            "94",
+            "94"
+        ],
+        "doc__key_four__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "30",
+            "7",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "1",
+            "6",
+            "1",
+            "10"
+        ],
+        "doc__key_four__kv_network_clk_div_imp_cnt_7d": [
+            "97",
+            "64",
+            "91",
+            "97",
+            "97"
+        ],
+        "doc__key_four__kv_ip_region_clk_div_imp_cnt_7d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "97"
+        ],
+        "doc__key_four__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "60",
+            "80",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_device_brand_clk_div_imp_cnt_7d": [
+            "95",
+            "62",
+            "91",
+            "95",
+            "95"
+        ],
+        "doc__key_four__kv_device_os_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_four__kv_device_model_clk_div_imp_cnt_7d": [
+            "28",
+            "13",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_four__kv_device_size_clk_div_imp_cnt_7d": [
+            "76",
+            "47",
+            "73",
+            "76",
+            "76"
+        ],
+        "doc__key_four__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_four__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "39",
+            "66",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_day_h_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "1",
+            "96",
+            "96"
+        ],
+        "doc__key_four__kv_keywords_clk_div_imp_cnt_7d": [
+            "96",
+            "62",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_four__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_four__kv_ip_region_clk_div_imp_cnt_15d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "98"
+        ],
+        "doc__key_four__kv_device_model_clk_div_imp_cnt_15d": [
+            "28",
+            "1",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_four__kv_day_h_clk_div_imp_cnt_15d": [
+            "96",
+            "63",
+            "1",
+            "96",
+            "96"
+        ],
+        "doc__key_four__kv_keywords_clk_div_imp_cnt_15d": [
+            "94",
+            "60",
+            "88",
+            "94",
+            "94"
+        ],
+        "doc__key_four__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "4",
+            "1",
+            "9"
+        ],
+        "doc__key_four__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "3",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "3"
+        ],
+        "doc__key_four__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "36",
+            "6",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "10"
+        ],
+        "doc__key_four__kv_network_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "37",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_four__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "35",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_four__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "1",
+            "4",
+            "3",
+            "5"
+        ],
+        "doc__key_four__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "27",
+            "1",
+            "4",
+            "12"
+        ],
+        "doc__key_four__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "37",
+            "8",
+            "6",
+            "11"
+        ],
+        "doc__key_four__kv_network_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "40",
+            "7",
+            "5",
+            "8"
+        ],
+        "doc__key_four__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "38",
+            "6",
+            "5",
+            "8"
+        ],
+        "doc__key_four__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "36",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_four__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "3",
+            "5",
+            "9"
+        ],
+        "doc__key_four__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "6",
+            "5",
+            "9"
+        ],
+        "doc__key_four__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "2",
+            "1",
+            "1",
+            "3",
+            "4"
+        ],
+        "doc__key_four__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "16",
+            "5",
+            "5",
+            "9"
+        ],
+        "doc__key_four__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_four__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "35",
+            "4",
+            "1",
+            "9"
+        ],
+        "doc__key_four__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "30",
+            "1",
+            "9",
+            "9"
+        ],
+        "doc__key_four__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "41",
+            "6",
+            "5",
+            "9"
+        ],
+        "doc__key_four__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "41",
+            "6",
+            "4",
+            "6"
+        ],
+        "doc__key_one__kv_network_clk_div_imp_cnt_1d": [
+            "94",
+            "64",
+            "88",
+            "94",
+            "93"
+        ],
+        "doc__key_one__kv_ip_region_clk_div_imp_cnt_1d": [
+            "94",
+            "64",
+            "83",
+            "94",
+            "91"
+        ],
+        "doc__key_one__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_device_model_clk_div_imp_cnt_1d": [
+            "31",
+            "16",
+            "1",
+            "31",
+            "30"
+        ],
+        "doc__key_one__kv_day_h_clk_div_imp_cnt_1d": [
+            "89",
+            "57",
+            "1",
+            "89",
+            "88"
+        ],
+        "doc__key_one__kv_keywords_clk_div_imp_cnt_1d": [
+            "93",
+            "61",
+            "86",
+            "93",
+            "92"
+        ],
+        "doc__key_one__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "26",
+            "7",
+            "4",
+            "13"
+        ],
+        "doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_one__kv_network_clk_div_imp_cnt_7d": [
+            "96",
+            "64",
+            "91",
+            "96",
+            "96"
+        ],
+        "doc__key_one__kv_ip_region_clk_div_imp_cnt_7d": [
+            "97",
+            "64",
+            "88",
+            "97",
+            "96"
+        ],
+        "doc__key_one__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "59",
+            "79",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_device_brand_clk_div_imp_cnt_7d": [
+            "96",
+            "64",
+            "92",
+            "96",
+            "95"
+        ],
+        "doc__key_one__kv_device_os_clk_div_imp_cnt_7d": [
+            "97",
+            "64",
+            "91",
+            "97",
+            "97"
+        ],
+        "doc__key_one__kv_device_model_clk_div_imp_cnt_7d": [
+            "29",
+            "13",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_one__kv_device_size_clk_div_imp_cnt_7d": [
+            "78",
+            "49",
+            "75",
+            "78",
+            "77"
+        ],
+        "doc__key_one__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "96",
+            "63",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_one__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "40",
+            "67",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_day_h_clk_div_imp_cnt_7d": [
+            "94",
+            "61",
+            "1",
+            "94",
+            "94"
+        ],
+        "doc__key_one__kv_keywords_clk_div_imp_cnt_7d": [
+            "96",
+            "63",
+            "90",
+            "96",
+            "96"
+        ],
+        "doc__key_one__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "30",
+            "7",
+            "4",
+            "13"
+        ],
+        "doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "4",
+            "1",
+            "9"
+        ],
+        "doc__key_one__kv_ip_region_clk_div_imp_cnt_15d": [
+            "97",
+            "64",
+            "88",
+            "97",
+            "96"
+        ],
+        "doc__key_one__kv_device_model_clk_div_imp_cnt_15d": [
+            "29",
+            "1",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_one__kv_day_h_clk_div_imp_cnt_15d": [
+            "95",
+            "63",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_one__kv_keywords_clk_div_imp_cnt_15d": [
+            "92",
+            "59",
+            "86",
+            "92",
+            "92"
+        ],
+        "doc__key_one__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "6",
+            "4",
+            "13"
+        ],
+        "doc__key_one__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "4",
+            "1",
+            "10"
+        ],
+        "doc__key_one__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "4",
+            "4",
+            "15"
+        ],
+        "doc__key_one__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "6",
+            "4",
+            "15"
+        ],
+        "doc__key_one__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "3"
+        ],
+        "doc__key_one__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "6",
+            "4",
+            "14"
+        ],
+        "doc__key_one__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "11"
+        ],
+        "doc__key_one__kv_network_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "33",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_one__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "29",
+            "5",
+            "4",
+            "9"
+        ],
+        "doc__key_one__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "1",
+            "4",
+            "3",
+            "5"
+        ],
+        "doc__key_one__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "24",
+            "1",
+            "3",
+            "12"
+        ],
+        "doc__key_one__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "33",
+            "7",
+            "6",
+            "11"
+        ],
+        "doc__key_one__kv_network_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "34",
+            "6",
+            "5",
+            "8"
+        ],
+        "doc__key_one__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "30",
+            "5",
+            "3",
+            "6"
+        ],
+        "doc__key_one__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "29",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_one__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "32",
+            "3",
+            "5",
+            "9"
+        ],
+        "doc__key_one__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "6",
+            "9"
+        ],
+        "doc__key_one__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "2",
+            "1",
+            "1",
+            "3",
+            "4"
+        ],
+        "doc__key_one__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "16",
+            "5",
+            "5",
+            "9"
+        ],
+        "doc__key_one__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_one__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "29",
+            "3",
+            "1",
+            "9"
+        ],
+        "doc__key_one__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "26",
+            "1",
+            "8",
+            "8"
+        ],
+        "doc__key_one__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "6",
+            "9"
+        ],
+        "doc__key_one__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "32",
+            "6",
+            "5",
+            "6"
+        ],
+        "doc__key_seven__kv_network_clk_div_imp_cnt_1d": [
+            "84",
+            "51",
+            "83",
+            "84",
+            "84"
+        ],
+        "doc__key_seven__kv_ip_region_clk_div_imp_cnt_1d": [
+            "96",
+            "62",
+            "94",
+            "96",
+            "96"
+        ],
+        "doc__key_seven__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_device_model_clk_div_imp_cnt_1d": [
+            "28",
+            "13",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_seven__kv_day_h_clk_div_imp_cnt_1d": [
+            "95",
+            "63",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_seven__kv_keywords_clk_div_imp_cnt_1d": [
+            "83",
+            "48",
+            "83",
+            "83",
+            "83"
+        ],
+        "doc__key_seven__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "28",
+            "6",
+            "4",
+            "13"
+        ],
+        "doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "8"
+        ],
+        "doc__key_seven__kv_network_clk_div_imp_cnt_7d": [
+            "82",
+            "46",
+            "82",
+            "82",
+            "82"
+        ],
+        "doc__key_seven__kv_ip_region_clk_div_imp_cnt_7d": [
+            "99",
+            "63",
+            "99",
+            "99",
+            "99"
+        ],
+        "doc__key_seven__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "54",
+            "87",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_device_brand_clk_div_imp_cnt_7d": [
+            "81",
+            "46",
+            "81",
+            "81",
+            "81"
+        ],
+        "doc__key_seven__kv_device_os_clk_div_imp_cnt_7d": [
+            "82",
+            "45",
+            "82",
+            "82",
+            "82"
+        ],
+        "doc__key_seven__kv_device_model_clk_div_imp_cnt_7d": [
+            "26",
+            "1",
+            "1",
+            "26",
+            "26"
+        ],
+        "doc__key_seven__kv_device_size_clk_div_imp_cnt_7d": [
+            "60",
+            "28",
+            "60",
+            "60",
+            "60"
+        ],
+        "doc__key_seven__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "82",
+            "45",
+            "82",
+            "82",
+            "82"
+        ],
+        "doc__key_seven__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "37",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_day_h_clk_div_imp_cnt_7d": [
+            "99",
+            "63",
+            "99",
+            "99",
+            "99"
+        ],
+        "doc__key_seven__kv_keywords_clk_div_imp_cnt_7d": [
+            "82",
+            "45",
+            "82",
+            "82",
+            "82"
+        ],
+        "doc__key_seven__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "32",
+            "7",
+            "5",
+            "15"
+        ],
+        "doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_ip_region_clk_div_imp_cnt_15d": [
+            "98",
+            "62",
+            "98",
+            "98",
+            "98"
+        ],
+        "doc__key_seven__kv_device_model_clk_div_imp_cnt_15d": [
+            "25",
+            "1",
+            "1",
+            "25",
+            "25"
+        ],
+        "doc__key_seven__kv_day_h_clk_div_imp_cnt_15d": [
+            "99",
+            "63",
+            "99",
+            "99",
+            "99"
+        ],
+        "doc__key_seven__kv_keywords_clk_div_imp_cnt_15d": [
+            "76",
+            "39",
+            "76",
+            "76",
+            "76"
+        ],
+        "doc__key_seven__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "7",
+            "1",
+            "14"
+        ],
+        "doc__key_seven__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "8"
+        ],
+        "doc__key_seven__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "1",
+            "4",
+            "15"
+        ],
+        "doc__key_seven__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "5",
+            "32",
+            "6",
+            "5",
+            "16"
+        ],
+        "doc__key_seven__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "2"
+        ],
+        "doc__key_seven__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "31",
+            "6",
+            "1",
+            "15"
+        ],
+        "doc__key_seven__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_seven__kv_network_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "52",
+            "5",
+            "6",
+            "6"
+        ],
+        "doc__key_seven__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "57",
+            "5",
+            "5",
+            "6"
+        ],
+        "doc__key_seven__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "4"
+        ],
+        "doc__key_seven__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "55",
+            "1",
+            "6",
+            "6"
+        ],
+        "doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "48",
+            "5",
+            "6",
+            "6"
+        ],
+        "doc__key_seven__kv_network_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "53",
+            "5",
+            "5",
+            "4"
+        ],
+        "doc__key_seven__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "62",
+            "5",
+            "5",
+            "5"
+        ],
+        "doc__key_seven__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "61",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_seven__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "52",
+            "4",
+            "4",
+            "4"
+        ],
+        "doc__key_seven__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "54",
+            "4",
+            "4",
+            "4"
+        ],
+        "doc__key_seven__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "3"
+        ],
+        "doc__key_seven__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "19",
+            "4",
+            "4",
+            "5"
+        ],
+        "doc__key_seven__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "54",
+            "4",
+            "4",
+            "4"
+        ],
+        "doc__key_seven__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "38",
+            "1",
+            "1",
+            "7"
+        ],
+        "doc__key_seven__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "7",
+            "60",
+            "6",
+            "7",
+            "5"
+        ],
+        "doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "54",
+            "4",
+            "4",
+            "4"
+        ],
+        "doc__key_seven__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "52",
+            "5",
+            "4",
+            "4"
+        ],
+        "doc__key_six__kv_network_clk_div_imp_cnt_1d": [
+            "79",
+            "47",
+            "77",
+            "79",
+            "79"
+        ],
+        "doc__key_six__kv_ip_region_clk_div_imp_cnt_1d": [
+            "96",
+            "63",
+            "94",
+            "96",
+            "96"
+        ],
+        "doc__key_six__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_device_model_clk_div_imp_cnt_1d": [
+            "28",
+            "13",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_six__kv_day_h_clk_div_imp_cnt_1d": [
+            "94",
+            "63",
+            "1",
+            "94",
+            "94"
+        ],
+        "doc__key_six__kv_keywords_clk_div_imp_cnt_1d": [
+            "79",
+            "46",
+            "78",
+            "79",
+            "79"
+        ],
+        "doc__key_six__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "27",
+            "7",
+            "4",
+            "13"
+        ],
+        "doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "8"
+        ],
+        "doc__key_six__kv_network_clk_div_imp_cnt_7d": [
+            "83",
+            "49",
+            "82",
+            "83",
+            "83"
+        ],
+        "doc__key_six__kv_ip_region_clk_div_imp_cnt_7d": [
+            "98",
+            "63",
+            "98",
+            "98",
+            "98"
+        ],
+        "doc__key_six__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "56",
+            "87",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_device_brand_clk_div_imp_cnt_7d": [
+            "80",
+            "46",
+            "80",
+            "80",
+            "80"
+        ],
+        "doc__key_six__kv_device_os_clk_div_imp_cnt_7d": [
+            "81",
+            "46",
+            "81",
+            "81",
+            "81"
+        ],
+        "doc__key_six__kv_device_model_clk_div_imp_cnt_7d": [
+            "27",
+            "1",
+            "1",
+            "27",
+            "27"
+        ],
+        "doc__key_six__kv_device_size_clk_div_imp_cnt_7d": [
+            "61",
+            "29",
+            "61",
+            "61",
+            "61"
+        ],
+        "doc__key_six__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "81",
+            "46",
+            "81",
+            "81",
+            "81"
+        ],
+        "doc__key_six__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "38",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_day_h_clk_div_imp_cnt_7d": [
+            "98",
+            "63",
+            "97",
+            "98",
+            "98"
+        ],
+        "doc__key_six__kv_keywords_clk_div_imp_cnt_7d": [
+            "81",
+            "46",
+            "81",
+            "81",
+            "81"
+        ],
+        "doc__key_six__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "30",
+            "6",
+            "4",
+            "14"
+        ],
+        "doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "7"
+        ],
+        "doc__key_six__kv_ip_region_clk_div_imp_cnt_15d": [
+            "96",
+            "61",
+            "96",
+            "96",
+            "96"
+        ],
+        "doc__key_six__kv_device_model_clk_div_imp_cnt_15d": [
+            "26",
+            "1",
+            "1",
+            "26",
+            "26"
+        ],
+        "doc__key_six__kv_day_h_clk_div_imp_cnt_15d": [
+            "98",
+            "63",
+            "98",
+            "98",
+            "98"
+        ],
+        "doc__key_six__kv_keywords_clk_div_imp_cnt_15d": [
+            "76",
+            "41",
+            "76",
+            "76",
+            "76"
+        ],
+        "doc__key_six__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "6",
+            "3",
+            "12"
+        ],
+        "doc__key_six__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "7"
+        ],
+        "doc__key_six__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "29",
+            "1",
+            "3",
+            "14"
+        ],
+        "doc__key_six__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "6",
+            "4",
+            "14"
+        ],
+        "doc__key_six__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "2"
+        ],
+        "doc__key_six__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "30",
+            "6",
+            "1",
+            "14"
+        ],
+        "doc__key_six__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "9"
+        ],
+        "doc__key_six__kv_network_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "48",
+            "4",
+            "6",
+            "5"
+        ],
+        "doc__key_six__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "55",
+            "4",
+            "4",
+            "5"
+        ],
+        "doc__key_six__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "3"
+        ],
+        "doc__key_six__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "54",
+            "1",
+            "6",
+            "5"
+        ],
+        "doc__key_six__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "6",
+            "48",
+            "5",
+            "6",
+            "6"
+        ],
+        "doc__key_six__kv_network_conv_awake_div_clk_cnt_7d": [
+            "6",
+            "54",
+            "5",
+            "6",
+            "4"
+        ],
+        "doc__key_six__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "61",
+            "4",
+            "5",
+            "4"
+        ],
+        "doc__key_six__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "59",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_six__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "53",
+            "4",
+            "5",
+            "5"
+        ],
+        "doc__key_six__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "51",
+            "4",
+            "5",
+            "5"
+        ],
+        "doc__key_six__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "3"
+        ],
+        "doc__key_six__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "18",
+            "4",
+            "4",
+            "5"
+        ],
+        "doc__key_six__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "51",
+            "5",
+            "4",
+            "4"
+        ],
+        "doc__key_six__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "37",
+            "1",
+            "1",
+            "7"
+        ],
+        "doc__key_six__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "6",
+            "59",
+            "5",
+            "6",
+            "4"
+        ],
+        "doc__key_six__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "5",
+            "51",
+            "4",
+            "5",
+            "5"
+        ],
+        "doc__key_six__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "51",
+            "5",
+            "4",
+            "4"
+        ],
+        "doc__key_three__kv_network_clk_div_imp_cnt_1d": [
+            "94",
+            "63",
+            "87",
+            "94",
+            "93"
+        ],
+        "doc__key_three__kv_ip_region_clk_div_imp_cnt_1d": [
+            "95",
+            "63",
+            "83",
+            "95",
+            "92"
+        ],
+        "doc__key_three__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_device_model_clk_div_imp_cnt_1d": [
+            "31",
+            "16",
+            "1",
+            "31",
+            "31"
+        ],
+        "doc__key_three__kv_day_h_clk_div_imp_cnt_1d": [
+            "90",
+            "57",
+            "1",
+            "90",
+            "90"
+        ],
+        "doc__key_three__kv_keywords_clk_div_imp_cnt_1d": [
+            "94",
+            "62",
+            "87",
+            "94",
+            "94"
+        ],
+        "doc__key_three__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "28",
+            "7",
+            "5",
+            "14"
+        ],
+        "doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "1",
+            "6",
+            "1",
+            "11"
+        ],
+        "doc__key_three__kv_network_clk_div_imp_cnt_7d": [
+            "98",
+            "65",
+            "92",
+            "98",
+            "98"
+        ],
+        "doc__key_three__kv_ip_region_clk_div_imp_cnt_7d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "97"
+        ],
+        "doc__key_three__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "60",
+            "80",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_device_brand_clk_div_imp_cnt_7d": [
+            "96",
+            "63",
+            "92",
+            "96",
+            "96"
+        ],
+        "doc__key_three__kv_device_os_clk_div_imp_cnt_7d": [
+            "97",
+            "63",
+            "91",
+            "97",
+            "97"
+        ],
+        "doc__key_three__kv_device_model_clk_div_imp_cnt_7d": [
+            "29",
+            "13",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_three__kv_device_size_clk_div_imp_cnt_7d": [
+            "77",
+            "48",
+            "74",
+            "77",
+            "77"
+        ],
+        "doc__key_three__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "97",
+            "63",
+            "91",
+            "97",
+            "97"
+        ],
+        "doc__key_three__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "40",
+            "67",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_day_h_clk_div_imp_cnt_7d": [
+            "95",
+            "61",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_three__kv_keywords_clk_div_imp_cnt_7d": [
+            "97",
+            "63",
+            "91",
+            "97",
+            "97"
+        ],
+        "doc__key_three__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "31",
+            "7",
+            "4",
+            "14"
+        ],
+        "doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "10"
+        ],
+        "doc__key_three__kv_ip_region_clk_div_imp_cnt_15d": [
+            "98",
+            "64",
+            "88",
+            "98",
+            "98"
+        ],
+        "doc__key_three__kv_device_model_clk_div_imp_cnt_15d": [
+            "29",
+            "1",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_three__kv_day_h_clk_div_imp_cnt_15d": [
+            "95",
+            "62",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_three__kv_keywords_clk_div_imp_cnt_15d": [
+            "95",
+            "61",
+            "89",
+            "95",
+            "95"
+        ],
+        "doc__key_three__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "7",
+            "4",
+            "14"
+        ],
+        "doc__key_three__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "11"
+        ],
+        "doc__key_three__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "3",
+            "4",
+            "15"
+        ],
+        "doc__key_three__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "6",
+            "4",
+            "15"
+        ],
+        "doc__key_three__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "3"
+        ],
+        "doc__key_three__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "31",
+            "6",
+            "4",
+            "14"
+        ],
+        "doc__key_three__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "1",
+            "4",
+            "12"
+        ],
+        "doc__key_three__kv_network_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "35",
+            "8",
+            "5",
+            "11"
+        ],
+        "doc__key_three__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "31",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_three__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "1",
+            "4",
+            "3",
+            "4"
+        ],
+        "doc__key_three__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "25",
+            "1",
+            "4",
+            "13"
+        ],
+        "doc__key_three__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "5",
+            "35",
+            "8",
+            "6",
+            "12"
+        ],
+        "doc__key_three__kv_network_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "35",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_three__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "32",
+            "7",
+            "5",
+            "8"
+        ],
+        "doc__key_three__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "31",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_three__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "34",
+            "4",
+            "5",
+            "10"
+        ],
+        "doc__key_three__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "34",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_three__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "4"
+        ],
+        "doc__key_three__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "17",
+            "6",
+            "5",
+            "10"
+        ],
+        "doc__key_three__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "34",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_three__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "31",
+            "4",
+            "1",
+            "10"
+        ],
+        "doc__key_three__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "28",
+            "1",
+            "9",
+            "9"
+        ],
+        "doc__key_three__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "34",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_three__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "33",
+            "6",
+            "4",
+            "6"
+        ],
+        "doc__key_two__kv_network_clk_div_imp_cnt_1d": [
+            "94",
+            "64",
+            "88",
+            "94",
+            "93"
+        ],
+        "doc__key_two__kv_ip_region_clk_div_imp_cnt_1d": [
+            "94",
+            "63",
+            "83",
+            "94",
+            "91"
+        ],
+        "doc__key_two__kv_ip_city_clk_div_imp_cnt_1d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_device_model_clk_div_imp_cnt_1d": [
+            "30",
+            "15",
+            "1",
+            "30",
+            "29"
+        ],
+        "doc__key_two__kv_day_h_clk_div_imp_cnt_1d": [
+            "90",
+            "58",
+            "1",
+            "90",
+            "89"
+        ],
+        "doc__key_two__kv_keywords_clk_div_imp_cnt_1d": [
+            "92",
+            "60",
+            "85",
+            "92",
+            "91"
+        ],
+        "doc__key_two__kv_dispatch_center_id_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "27",
+            "6",
+            "4",
+            "13"
+        ],
+        "doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "1",
+            "5",
+            "1",
+            "10"
+        ],
+        "doc__key_two__kv_network_clk_div_imp_cnt_7d": [
+            "98",
+            "66",
+            "93",
+            "98",
+            "98"
+        ],
+        "doc__key_two__kv_ip_region_clk_div_imp_cnt_7d": [
+            "98",
+            "65",
+            "89",
+            "98",
+            "97"
+        ],
+        "doc__key_two__kv_ip_city_clk_div_imp_cnt_7d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_city_level_clk_div_imp_cnt_7d": [
+            "1",
+            "59",
+            "79",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_device_brand_clk_div_imp_cnt_7d": [
+            "93",
+            "61",
+            "89",
+            "93",
+            "92"
+        ],
+        "doc__key_two__kv_device_os_clk_div_imp_cnt_7d": [
+            "95",
+            "62",
+            "89",
+            "95",
+            "95"
+        ],
+        "doc__key_two__kv_device_model_clk_div_imp_cnt_7d": [
+            "29",
+            "13",
+            "1",
+            "29",
+            "29"
+        ],
+        "doc__key_two__kv_device_size_clk_div_imp_cnt_7d": [
+            "77",
+            "48",
+            "74",
+            "77",
+            "76"
+        ],
+        "doc__key_two__kv_device_carrier_clk_div_imp_cnt_7d": [
+            "94",
+            "61",
+            "88",
+            "94",
+            "94"
+        ],
+        "doc__key_two__kv_device_os_version_clk_div_imp_cnt_7d": [
+            "1",
+            "39",
+            "66",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_day_h_clk_div_imp_cnt_7d": [
+            "95",
+            "62",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_two__kv_keywords_clk_div_imp_cnt_7d": [
+            "95",
+            "62",
+            "89",
+            "95",
+            "95"
+        ],
+        "doc__key_two__kv_dispatch_center_id_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "31",
+            "7",
+            "4",
+            "13"
+        ],
+        "doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "1",
+            "4",
+            "1",
+            "9"
+        ],
+        "doc__key_two__kv_ip_region_clk_div_imp_cnt_15d": [
+            "98",
+            "65",
+            "89",
+            "98",
+            "97"
+        ],
+        "doc__key_two__kv_device_model_clk_div_imp_cnt_15d": [
+            "28",
+            "13",
+            "1",
+            "28",
+            "28"
+        ],
+        "doc__key_two__kv_day_h_clk_div_imp_cnt_15d": [
+            "95",
+            "63",
+            "1",
+            "95",
+            "95"
+        ],
+        "doc__key_two__kv_keywords_clk_div_imp_cnt_15d": [
+            "94",
+            "61",
+            "88",
+            "94",
+            "94"
+        ],
+        "doc__key_two__kv_network_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "30",
+            "6",
+            "3",
+            "13"
+        ],
+        "doc__key_two__kv_ip_region_dci_conv_awake_div_clk_cnt_15d": [
+            "2",
+            "1",
+            "4",
+            "1",
+            "10"
+        ],
+        "doc__key_two__kv_ip_city_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_city_level_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "5",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_device_brand_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "4",
+            "4",
+            "15"
+        ],
+        "doc__key_two__kv_device_os_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "6",
+            "4",
+            "15"
+        ],
+        "doc__key_two__kv_device_model_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "1",
+            "1",
+            "3"
+        ],
+        "doc__key_two__kv_device_carrier_dci_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "30",
+            "6",
+            "4",
+            "14"
+        ],
+        "doc__key_two__kv_device_os_version_dci_conv_awake_div_clk_cnt_15d": [
+            "1",
+            "1",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_day_h_dci_conv_awake_div_clk_cnt_15d": [
+            "3",
+            "1",
+            "1",
+            "3",
+            "12"
+        ],
+        "doc__key_two__kv_network_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "33",
+            "7",
+            "5",
+            "10"
+        ],
+        "doc__key_two__kv_ip_region_conv_awake_div_clk_cnt_1d": [
+            "3",
+            "30",
+            "6",
+            "4",
+            "9"
+        ],
+        "doc__key_two__kv_ip_city_conv_awake_div_clk_cnt_1d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_device_model_conv_awake_div_clk_cnt_1d": [
+            "2",
+            "1",
+            "4",
+            "2",
+            "4"
+        ],
+        "doc__key_two__kv_day_h_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "25",
+            "1",
+            "4",
+            "12"
+        ],
+        "doc__key_two__kv_keywords_conv_awake_div_clk_cnt_1d": [
+            "4",
+            "34",
+            "7",
+            "6",
+            "11"
+        ],
+        "doc__key_two__kv_network_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "34",
+            "6",
+            "4",
+            "8"
+        ],
+        "doc__key_two__kv_ip_region_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "31",
+            "5",
+            "4",
+            "7"
+        ],
+        "doc__key_two__kv_ip_city_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "1",
+            "2",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_city_level_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "29",
+            "4",
+            "1",
+            "1"
+        ],
+        "doc__key_two__kv_device_brand_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "4",
+            "5",
+            "9"
+        ],
+        "doc__key_two__kv_device_os_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_two__kv_device_model_conv_awake_div_clk_cnt_7d": [
+            "2",
+            "1",
+            "1",
+            "2",
+            "4"
+        ],
+        "doc__key_two__kv_device_size_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "16",
+            "5",
+            "5",
+            "9"
+        ],
+        "doc__key_two__kv_device_carrier_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_two__kv_device_os_version_conv_awake_div_clk_cnt_7d": [
+            "1",
+            "31",
+            "4",
+            "1",
+            "10"
+        ],
+        "doc__key_two__kv_day_h_conv_awake_div_clk_cnt_7d": [
+            "3",
+            "27",
+            "1",
+            "7",
+            "8"
+        ],
+        "doc__key_two__kv_keywords_conv_awake_div_clk_cnt_7d": [
+            "4",
+            "33",
+            "7",
+            "5",
+            "9"
+        ],
+        "doc__key_two__kv_keywords_conv_awake_div_clk_cnt_15d": [
+            "4",
+            "32",
+            "6",
+            "4",
+            "6"
+        ]
+    }
+}

@@ -1,0 +1,3 @@
+code_dir=/opt/huangmian/yoyo_model
+TRAIN_CONFIG=config/O35_mutil_cvr_v10/train_config.py
+--> time_str: 202511200000, end_date: 202511200000
