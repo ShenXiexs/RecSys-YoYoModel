@@ -13,7 +13,7 @@ class TrainConfig:
     """
 
     # ======================= 基本信息 =======================
-    model_version = "RankMixer"                                # 必填：版本名（影响配置/输出路径）
+    model_version = "RankMixer_Refined"                        # 必填：版本名（影响配置/输出路径）
     model_modul   = "models.rankmixer_main.model_fn"           # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
 
@@ -34,17 +34,33 @@ class TrainConfig:
         },
         # ★RankMixer 超参（与动态 Embedding 的 dim 一致）
         "rankmixer": {
-            "d_model": 128,          # 与早期稳定版本一致
-            "num_layers": 4,
-            "num_heads": 8,
+            "d_model": 128,
+            "num_layers": 2,
+            "num_heads": 16,
             "ffn_mult": 2,
-            "token_mixing_dropout": 0.1,
-            "ffn_dropout": 0.1,
+            "token_mixing_dropout": 0.0,
+            "ffn_dropout": 0.0,
             "use_other_features": True,
             "seq_pool": "mean",
             "embedding_size": 9,
             "dense_token_group_size": 0,
-            "dense_token_pool": "mean"
+            "dense_token_pool": "mean",
+            "token_mixing_type": "param_free",
+            "ln_style": "post",
+            "use_final_ln": False,
+            "tokenization": "semantic",
+            "semantic_target_tokens": 16,
+            "semantic_token_pool": "concat_proj",
+            "semantic_proj_dim": 128,
+            "include_seq_in_tokenization": True,
+            "add_cls_token": False,
+            "input_ln": False,
+            "summary_pooling": "mean",
+            "summary_exclude_cls": True,
+            "use_moe": False,
+            "moe_num_experts": 4,
+            "moe_l1_coef": 1e-4,
+            "moe_use_dtsi": True
         },
 
         # 资源与动态表策略（与 baseline 对齐）
