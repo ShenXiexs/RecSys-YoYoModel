@@ -14,12 +14,12 @@ class TrainConfig:
 
     # ======================= 基本信息 =======================
     model_version = "RankMixer_Refined"                        # 必填：版本名（影响配置/输出路径）
-    model_modul   = "models.rankmixer_main.model_fn"           # RankMixer 的 Estimator 入口
+    model_modul   = "models.rankmixer_main_refined.model_fn"   # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
 
     ### GPU训练参数配置
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
-    gpu_list = "0"  # Comma-separated list of GPU IDs for multi-GPU mode
+    gpu_list = "1"  # Comma-separated list of GPU IDs for multi-GPU mode
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
 
@@ -28,6 +28,11 @@ class TrainConfig:
         # 优化器配置（供 RankMixer 主干使用）
         "optimize_config": {
             "learning_rate": 0.001,
+            "lr_schedule": {
+                "cutoff_date": "20251101",
+                "before": 0.001,
+                "after": 0.0001
+            },
             "beta1": 0.9,
             "beta2": 0.999,
             "epsilon": 1e-8
