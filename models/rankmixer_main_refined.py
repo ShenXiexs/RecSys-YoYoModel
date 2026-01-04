@@ -406,6 +406,33 @@ def _parse_summary_modes(value, default="mean"):
     return items or [default]
 
 
+def _get_train_date_from_flags():
+    try:
+        flags = tf.app.flags.FLAGS
+        time_str = getattr(flags, "end_time_str", None) or getattr(flags, "time_str", None)
+        if time_str:
+            return str(time_str)[:8]
+    except Exception:
+        return None
+    return None
+
+
+def _resolve_learning_rate(opt_cfg):
+    lr = float(opt_cfg.get("learning_rate", 1e-3))
+    schedule = opt_cfg.get("lr_schedule") or opt_cfg.get("lr_by_date")
+    if not schedule:
+        return lr
+    cutoff = str(schedule.get("cutoff_date", "")).strip()
+    if not cutoff:
+        return lr
+    before = float(schedule.get("before", lr))
+    after = float(schedule.get("after", lr))
+    train_date = _get_train_date_from_flags()
+    if not train_date:
+        return lr
+    return before if train_date <= cutoff else after
+
+
 def _compile_group_rules(group_rules):
     rules = group_rules or DEFAULT_SEMANTIC_GROUP_RULES
     compiled = []
@@ -861,7 +888,7 @@ def model_fn(features, labels, mode, params):
         loggings["l2_loss"] = l2_loss
 
     opt_cfg = params.get("optimize_config", {}) if params else {}
-    learning_rate = float(opt_cfg.get("learning_rate", 1e-3))
+    learning_rate = _resolve_learning_rate(opt_cfg)
     beta1 = float(opt_cfg.get("beta1", 0.9))
     beta2 = float(opt_cfg.get("beta2", 0.999))
     epsilon = float(opt_cfg.get("epsilon", 1e-8))
@@ -870,6 +897,7 @@ def model_fn(features, labels, mode, params):
     dense_op = opt.minimize(model.losses, global_step=global_step)
     train_op = tf.group(dense_op, *groups)
 
+    loggings["learning_rate"] = tf.constant(learning_rate, dtype=tf.float32)
     log_hook = tf.compat.v1.estimator.LoggingTensorHook(loggings, every_n_iter=100)
     return tf.estimator.EstimatorSpec(mode=mode, predictions=model.predictions,
                                       loss=model.losses, train_op=train_op, training_hooks=[log_hook])
