@@ -1,7 +1,5 @@
-# @File : train_config.py
 import os
 
-# 保持与原项目一致的路径层级（config/<model_version>/...）
 dirname = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class TrainConfig:
@@ -12,8 +10,8 @@ class TrainConfig:
     3) 在 train_params 中新增 rankmixer 超参，并将 d_model 与动态 Embedding 维度对齐
     """
 
-    # ======================= 基本信息 =======================
-    model_version = "RankMixer_Refined"                        # 必填：版本名（影响配置/输出路径）
+    # 基本信息
+    model_version = "RankMixer_Refined"                        # 版本名
     model_modul   = "models.rankmixer_main_refined.model_fn"   # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
 
@@ -23,7 +21,7 @@ class TrainConfig:
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
 
-    # ======================= 训练参数（传入 model_fn 的 params） =======================
+    # 训练参数（传入 model_fn 的 params）
     train_params = {
         # 优化器配置（供 RankMixer 主干使用）
         "optimize_config": {
@@ -74,7 +72,7 @@ class TrainConfig:
         "l2_reg": 1e-6,
     }
 
-    # ======================= 数据 Schema =======================
+    # 数据 Schema
     data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "is_conversion", "features", "app_pkg_src", "app_pkg", "app_first_type", "seq_features" ] #必填
     label_schema = {"is_click": "ctr_label",
                     "is_conversion": "ctcvr_label"}                                                        #必填
@@ -295,7 +293,7 @@ class TrainConfig:
         "save_summary_steps": 10000
     }
 
-    # ======================= Dataset input_fn 配置 =======================
+    # Dataset input_fn 配置
     data_nm = "TO5"
     inp_fn_config = {
         "train_spec": {
@@ -310,7 +308,7 @@ class TrainConfig:
         "batch_size": 512
     }
 
-    # ======================= 写回/导出/指标 =======================
+    # 写回/导出/指标
     # infer数据写入的结果表
     infer_table_name = 'adx_dmp.ads_algorithm_yoyo_model_offline_shallow_predict'
     ### upload

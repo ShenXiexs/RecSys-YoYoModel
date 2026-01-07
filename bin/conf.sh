@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 source /root/anaconda3/etc/profile.d/conda.sh
+export PYTHONHASHSEED=107
 ###config
 start_date=$2
 end_date=$3

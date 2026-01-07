@@ -8,6 +8,7 @@ import time
 import glob
 import json
 import logging
+import random
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -40,6 +41,13 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger('tensorflow')
 logger.propagate = False
 logger = tf.compat.v1.logging
+
+
+def set_global_seed(seed=107):
+    os.environ.setdefault("PYTHONHASHSEED", str(seed))
+    random.seed(seed)
+    np.random.seed(seed)
+    tf.compat.v1.set_random_seed(seed)
 
 
 def get_session_config():
@@ -214,6 +222,7 @@ def train(filenames, params, model_config, steps=None, strategy=None):
 
 
 def main(argv=None):
+    set_global_seed(107)
     model_dir = os.path.dirname(FLAGS.ckpt_dir)
     data_nm = getattr(TrainConfig, "data_nm", os.path.basename(FLAGS.data_path))
     data_path = os.path.join(os.path.dirname(FLAGS.data_path), data_nm)
@@ -305,4 +314,3 @@ if __name__ == "__main__":
     task_number = len(tf_config.get('cluster', {}).get('worker', [])) + 1
     task_idx = task_idx + 1 if task_type == 'worker' else task_idx
     app.run(main)
-
