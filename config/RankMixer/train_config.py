@@ -13,13 +13,13 @@ class TrainConfig:
     """
 
     # ======================= 基本信息 =======================
-    model_version = "RankMixer_Refined"                        # 必填：版本名（影响配置/输出路径）
-    model_modul   = "models.rankmixer_main_refined.model_fn"   # RankMixer 的 Estimator 入口
+    model_version = "RankMixer"                                # 必填：版本名（影响配置/输出路径）
+    model_modul   = "models.rankmixer_main.model_fn"           # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
 
     ### GPU训练参数配置
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
-    gpu_list = "1"  # Comma-separated list of GPU IDs for multi-GPU mode
+    gpu_list = "0"  # Comma-separated list of GPU IDs for multi-GPU mode
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
 
@@ -27,45 +27,51 @@ class TrainConfig:
     train_params = {
         # 优化器配置（供 RankMixer 主干使用）
         "optimize_config": {
-            "learning_rate": 0.001,
-            "lr_schedule": {
-                "cutoff_date": "20251101",
-                "before": 0.001,
-                "after": 0.0001
-            },
+            # RankMixer 更建议小 lr + warmup（训练更稳）
+            "learning_rate": 0.0003,
             "beta1": 0.9,
             "beta2": 0.999,
-            "epsilon": 1e-8
+            "epsilon": 1e-8,
+            "warmup_steps": 4000,
+            "decay_type": "none",
+            "decay_steps": 0,
+            "min_learning_rate": 0.0,
+            "grad_clip_norm": 5.0,
         },
         # ★RankMixer 超参（与动态 Embedding 的 dim 一致）
         "rankmixer": {
+            # ===== 论文对齐默认 =====
+            # tokenization: 先拼接 e_input，再切成固定 T 个 token 并做 Proj（论文 3.2）
+            # token_mixer_type: 参数无关的 Split+Shuffle+Merge（论文 3.3.1）
+            # pooling: mean pooling（论文 3.1）
+            "tokenization": "paper",
+            "num_tokens": 64,          # 建议取 d_model 的因子（需满足 d_model % num_tokens == 0）
+            "token_mixer_type": "paper",
+            "pooling": "mean",
+            "add_cls_token": False,
+
             "d_model": 128,
-            "num_layers": 2,
-            "num_heads": 16,
-            "ffn_mult": 2,
-            "token_mixing_dropout": 0.0,
-            "ffn_dropout": 0.0,
+            "num_layers": 4,
+            # paper token mixing 时会自动令 num_heads = num_tokens；此字段仅对 learned mixer 生效
+            "num_heads": 8,
+            "ffn_mult": 4,             # 论文中的 k，默认加大一点提升容量
+            "token_mixing_dropout": 0.1,
+            "ffn_dropout": 0.1,
+            "input_dropout": 0.0,
+            "head_dropout": 0.0,
+
             "use_other_features": True,
             "seq_pool": "mean",
             "embedding_size": 9,
+
+            # legacy tokenization 时可用的 group pooling（paper 模式不会用到）
             "dense_token_group_size": 0,
             "dense_token_pool": "mean",
-            "token_mixing_type": "param_free",
-            "ln_style": "post",
-            "use_final_ln": False,
-            "tokenization": "semantic",
-            "semantic_target_tokens": 16,
-            "semantic_token_pool": "concat_proj",
-            "semantic_proj_dim": 128,
-            "include_seq_in_tokenization": True,
-            "add_cls_token": False,
-            "input_ln": False,
-            "summary_pooling": "mean",
-            "summary_exclude_cls": True,
-            "use_moe": False,
-            "moe_num_experts": 4,
-            "moe_l1_coef": 1e-4,
-            "moe_use_dtsi": True
+
+            # ESMM 分解下的 CVR 辅助 loss（只在 clicked 样本上计算），可改善 cvr_auc/cvr_pcoc
+            "ctr_loss_weight": 1.0,
+            "ctcvr_loss_weight": 1.0,
+            "cvr_loss_weight": 0.2,
         },
 
         # 资源与动态表策略（与 baseline 对齐）
@@ -305,9 +311,9 @@ class TrainConfig:
             "start_delay_secs": 1e20,
             "steps": None
         },
-        "train_batch_size": 512,
+        "train_batch_size": 2048,
         "train_epoch": 1,
-        "batch_size": 512
+        "batch_size": 2048
     }
 
     # ======================= 写回/导出/指标 =======================

@@ -609,8 +609,7 @@ def model_fn(features, labels, mode, params):
     }
 
     if mode == tf.estimator.ModeKeys.PREDICT:
-        predict_outputs = model.outputs
-        export_outputs = {"serving_default": tf.compat.v1.estimator.export.PredictOutput(predict_outputs)}
+        export_outputs = {"serving_default": tf.compat.v1.estimator.export.PredictOutput(model.outputs)}
         return tf.estimator.EstimatorSpec(mode=mode, predictions=model.predictions, export_outputs=export_outputs)
 
     if mode == tf.estimator.ModeKeys.EVAL:
@@ -678,3 +677,4 @@ def model_fn(features, labels, mode, params):
     log_hook = tf.compat.v1.estimator.LoggingTensorHook(loggings, every_n_iter=100)
     return tf.estimator.EstimatorSpec(mode=mode, predictions=model.predictions,
                                       loss=model.losses, train_op=train_op, training_hooks=[log_hook])
+

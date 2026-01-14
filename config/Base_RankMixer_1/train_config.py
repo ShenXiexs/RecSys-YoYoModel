@@ -51,11 +51,11 @@ class TrainConfig:
             "beta1": 0.9,
             "beta2": 0.999,
             "epsilon": 1e-8,
-            "warmup_steps": 4000,
+            "warmup_steps": 8000,
             "decay_type": "none",
             "decay_steps": 0,
             "min_learning_rate": 0.0,
-            "grad_clip_norm": 5.0,
+            "grad_clip_norm": 1.0,
         },
         # ★RankMixer 超参（与动态 Embedding 的 dim 一致）
         "rankmixer": {
@@ -69,11 +69,11 @@ class TrainConfig:
             "pooling": "mean",
             "add_cls_token": False,
 
-            "d_model": 128,
-            "num_layers": 8,
+            "d_model": 256,
+            "num_layers": 4,
             # paper token mixing 时会自动令 num_heads = num_tokens；此字段仅对 learned mixer 生效
             "num_heads": 8,
-            "ffn_mult": 8,             # 论文中的 k，默认加大一点提升容量
+            "ffn_mult": 4,             # 论文中的 k，默认加大一点提升容量
             "token_mixing_dropout": 0.1,
             "ffn_dropout": 0.1,
             "input_dropout": 0.0,

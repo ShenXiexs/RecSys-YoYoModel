@@ -19,7 +19,7 @@ class TrainConfig:
 
     ### GPU训练参数配置
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
-    gpu_list = "1"  # Comma-separated list of GPU IDs for multi-GPU mode
+    gpu_list = "1" # Comma-separated list of GPU IDs for multi-GPU mode
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
 
@@ -282,9 +282,9 @@ class TrainConfig:
             "start_delay_secs": 1e20,
             "steps": None
         },
-        "train_batch_size": 512,
+        "train_batch_size": 2048,
         "train_epoch": 1,
-        "batch_size": 512
+        "batch_size": 2048
     }
 
     # ======================= 写回/导出/指标 =======================
@@ -300,5 +300,6 @@ class TrainConfig:
     eval_type = "ctcvr"                   #必填
     # deep_model/offline/{}/20250924/_FEATURE_SUCCESS is exists
     oss_offline_model_ver = "hstu"       #必填
+
 
 

@@ -1,5 +1,4 @@
-# models/ctr_hstu_seq.py
-# TF v1 风格的 HSTU：改为“多头点积注意力 + U 门控（pointwise vs aggregated）”
+# TF v1 风格的 HSTU：改为"多头点积注意力 + U 门控（pointwise vs aggregated）"
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
@@ -15,20 +14,15 @@ def _pad_trunc_to_length(tokens_dense, L):
     tokens_fix.set_shape([None, L])
     return tokens_fix
 
-def gelu(x):
-    return 0.5 * x * (1.0 + tf.tanh(tf.sqrt(2.0 / 3.141592653589793) * (x + 0.044715 * tf.pow(x, 3))))
+class LayerNorm(tf.keras.layers.LayerNormalization):
+    """兼容 TF1/legacy Keras：接收 training 但不传给父类"""
+    def __init__(self, epsilon=1e-5, name=None, **kwargs):
+        super(LayerNorm, self).__init__(epsilon=epsilon, name=name, **kwargs)
 
-class LayerNorm(tf.layers.Layer):
-    def __init__(self, epsilon=1e-5, name=None):
-        super(LayerNorm, self).__init__(name=name); self.epsilon = epsilon
-    def build(self, input_shape):
-        dim = int(input_shape[-1])
-        self.gamma = self.add_weight("gamma", shape=[dim], initializer=tf.ones_initializer())
-        self.beta  = self.add_weight("beta",  shape=[dim], initializer=tf.zeros_initializer())
-        super(LayerNorm, self).build(input_shape)
-    def call(self, x):
-        mean, var = tf.nn.moments(x, axes=[-1], keepdims=True)
-        return self.gamma * (x - mean) / tf.sqrt(var + self.epsilon) + self.beta
+    def call(self, inputs, training=None, **kwargs):
+        # LayerNormalization 不需要 training；部分 TF/Keras 版本也不接受 training 参数
+        return super(LayerNorm, self).call(inputs)
+
 
 def causal_mask(batch_size, seq_len, dtype=tf.float32):
     m = tf.linalg.band_part(tf.ones([seq_len, seq_len], dtype=dtype), -1, 0)  # [L,L]
@@ -44,16 +38,6 @@ def pad_mask_from_tokens(tokens, pad_token="", dtype=tf.float32):
     zeros = tf.zeros_like(tokens, dtype=dtype)
     ones  = tf.ones_like(tokens, dtype=dtype)
     return tf.where(is_pad, zeros, ones)
-
-
-# def sinusoidal_position_embedding(seq_len, dim, dtype=tf.float32):
-#     position = tf.cast(tf.range(seq_len), dtype=dtype)  # [L]
-#     i = tf.cast(tf.range(dim), dtype=dtype)             # [D]
-#     angle_rates = 1.0 / tf.pow(10000.0, (2 * (i // 2)) / tf.maximum(1.0, tf.cast(dim, dtype)))
-#     angles = tf.expand_dims(position, 1) * tf.expand_dims(angle_rates, 0)  # [L, D]
-#     sin = tf.sin(angles[:, 0::2]);  cos = tf.cos(angles[:, 1::2])
-#     pe = tf.reshape(tf.stack([sin, cos], axis=-1), [seq_len, -1])
-#     return tf.slice(pe, [0, 0], [seq_len, dim])
 
 def rotary_pos_emb(seq_len, dim, dtype=tf.float32):
     """
@@ -98,7 +82,7 @@ def apply_rotary_pos_emb(x, cos, sin):
 # ========= 多头注意力 + U 门控 =========
 class MultiHeadPointwiseAggregatedAttention(tf.layers.Layer):
     """
-    多头 scaled dot-product attention（h 个头，单头维 d_k），再用 U 门控融合“逐位置的 V_self”和“聚合的 context”：
+    多头 scaled dot-product attention（h 个头，单头维 d_k），再用 U 门控融合"逐位置的 V_self"和"聚合的 context"：
         out = g * V_self + (1 - g) * context
     - g 的形态由 gate_dim 决定：
         'scalar': 每个位置标量门控，形状 [B,L,1]
@@ -168,7 +152,7 @@ class MultiHeadPointwiseAggregatedAttention(tf.layers.Layer):
 
         weight = tf.nn.softmax(logits, axis=-1)      # [B*h, L, L]
         if self.dropout and training:
-            weight = tf.nn.dropout(weight, keep_prob=1.0 - self.dropout)
+            weight = tf.nn.dropout(weight, rate=self.dropout)
 
         context_h = tf.matmul(weight, vh)            # [B*h, L, d_k]
         # 还原为 [B,L,h,d_k] -> 拼接到 [B,L,h*d_k]
@@ -190,7 +174,7 @@ class MultiHeadPointwiseAggregatedAttention(tf.layers.Layer):
         # 5) 线性回投到 d_model
         out = tf.reshape(tf.matmul(tf.reshape(fused, [-1, h * d_k]), self.Wo), [B, L, D])
         if self.dropout and training:
-            out = tf.nn.dropout(out, keep_prob=1.0 - self.dropout)
+            out = tf.nn.dropout(out, rate=self.dropout)
         return out
 
 class PositionwiseFFN(tf.layers.Layer):
@@ -207,20 +191,22 @@ class PositionwiseFFN(tf.layers.Layer):
     def call(self, x, training=False):
         B, L, D = tf.shape(x)[0], tf.shape(x)[1], int(x.get_shape()[-1])
         h = tf.matmul(tf.reshape(x, [-1, D]), self.W1) + self.b1
-        h = gelu(h)
-        if self.dropout and training: h = tf.nn.dropout(h, keep_prob=1.0 - self.dropout)
+        h = tf.nn.silu(h)
+        if self.dropout and training:
+            h = tf.nn.dropout(h, rate=self.dropout)
         h = tf.matmul(h, self.W2) + self.b2
         h = tf.reshape(h, [B, L, D])
-        if self.dropout and training: h = tf.nn.dropout(h, keep_prob=1.0 - self.dropout)
+        if self.dropout and training:
+            h = tf.nn.dropout(h, rate=self.dropout)
         return h
 
 class HSTUBlock(tf.layers.Layer):
     def __init__(self, d_model, d_ff, num_heads=4, attn_dropout=0.0, ffn_dropout=0.0, name=None):
         super(HSTUBlock, self).__init__(name=name)
-        self.ln1 = LayerNorm(name="ln1")
+        self.ln1 = LayerNorm(epsilon=1e-5, name="ln1")
         self.attn = MultiHeadPointwiseAggregatedAttention(d_model=d_model, num_heads=num_heads,
                                                           dropout=attn_dropout, gate_dim="scalar", name="mhpaa")
-        self.ln2 = LayerNorm(name="ln2")
+        self.ln2 = LayerNorm(epsilon=1e-5, name="ln2")
         self.ffn = PositionwiseFFN(d_model=d_model, d_ff=d_ff, dropout=ffn_dropout, name="ffn")
     def call(self, x, attn_mask=None, key_pad_mask=None, training=False):
         y = self.ln1(x)
@@ -237,7 +223,7 @@ class HSTUEncoder(tf.layers.Layer):
         self.blocks = [HSTUBlock(d_model=d_model, d_ff=d_ff, num_heads=num_heads,
                                  attn_dropout=attn_dropout, ffn_dropout=ffn_dropout, name=f"block_{i}")
                        for i in range(num_layers)]
-        self.final_ln = LayerNorm(name="final_ln")
+        self.final_ln = LayerNorm(epsilon=1e-5, name="final_ln")
     def call(self, x, key_pad_mask, use_causal=True, training=False, pos_emb=None):
         B = tf.shape(x)[0]; L = tf.shape(x)[1]
         if pos_emb is not None: x = x + tf.reshape(pos_emb, [1, L, -1])
@@ -284,4 +270,3 @@ def build_hstu_sequences(prepared, embeddings_table, *,
         seq_repr_dict[seq_col]  = seq_repr
         seq_hidden_all[seq_col] = hidden
     return seq_repr_dict, seq_hidden_all
-

@@ -14,7 +14,11 @@ task_idx=$(python3 -c "print($id + 1) if \"$job\" == \"worker\" else print($id)"
 donefile=${model_dir}/logs/donefile.${task_idx}
 touch ${donefile}
 ############################################################
-end_date_limit=${end_date:0:8}
+if [ "${END_DATE_GIVEN}" -eq 1 ]; then
+  end_date_limit=${end_date:0:8}
+else
+  end_date_limit=""
+fi
 time_str=$(date -d "${start_date:0:8} ${start_date:8:2} - ${delta} hours" +"%Y%m%d%H%M")
 end_date=$(date -d "${end_date:0:8} ${end_date:8:2} - ${delta} hours" +"%Y%m%d%H%M")
 while true; do
@@ -99,7 +103,7 @@ while true; do
     echo "----------------------------clear history data--------------------------------"
     cd ${code_dir}/bin && bash clear.sh ${MODEL_TASK} ${end_date} && cd -
   fi
-  if [ "${end_date:0:8}" \> "${end_date_limit}" ]; then
+  if [ -n "${end_date_limit}" ] && [ "${end_date:0:8}" \> "${end_date_limit}" ]; then
     break
   fi
   #break
