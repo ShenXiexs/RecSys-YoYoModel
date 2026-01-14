@@ -22,6 +22,11 @@ FLAGS = flags.FLAGS
 dirname = os.path.dirname(os.path.abspath(__file__))
 basename = train_config.model_version
 
+if not upload_oss_access_key_id or not upload_oss_access_key_secret:
+    raise RuntimeError(
+        "Missing OSS upload credentials. Set UPLOAD_OSS_ACCESS_KEY_ID/"
+        "UPLOAD_OSS_ACCESS_KEY_SECRET or create common/connect_config_local.py."
+    )
 auth = oss2.Auth(upload_oss_access_key_id, upload_oss_access_key_secret)
 bucket = oss2.Bucket(auth, upload_oss_endpoint, upload_oss_bucket_name)
 
