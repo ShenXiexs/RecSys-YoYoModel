@@ -2,7 +2,7 @@
 is_train=1
 is_eval=1
 is_export=1
-is_infer=0
+is_infer=1
 is_downodps=0
 code_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && cd .. && pwd)"
 . ${code_dir}/bin/conf.sh && cd ${model_dir}
@@ -33,7 +33,7 @@ while true; do
            --save_path "${DATA_ROOT}" \
            --max_workers 16 \
            --task "${MODEL_TASK}" \
-           --is_batch ${IS_BATCH} >> ${model_dir}/logs/downodps_${end_date}.log 2>&1
+           --is_batch ${IS_BATCH} > ${model_dir}/logs/downodps_${end_date}.log 2>&1
     if [ $? -ne 0 ]; then
       echo "downodps error,exit"
       exit 1
@@ -56,7 +56,7 @@ while true; do
     if [ $? -ne 0 ]; then
       # 由于下载问题导致模型解析dataset异常，就重新下载一次数据重新训练
       if grep -qE "UnicodeDecodeError|make_one_shot_iterator" "${model_dir}/logs/main_${end_date}.log"; then
-        python ${code_dir}/common/clear_history_data.py --data_path ${DATA_ROOT} --curr_date ${time_str:0:8}
+        python ${code_dir}/common/clear_history_data.py --data_path ${DATA_ROOT} --del_date ${end_date:0:8}
 	return_cnt=$(($return_cnt+1))
         if [ ${return_cnt} -le 3 ];then
           echo "[${time_str:0:8}, ${end_date:0:8}] dataset解析异常,数据重新下载和训练,return_cnt=${return_cnt}"
@@ -98,14 +98,12 @@ while true; do
     echo "----------------------------clear history data--------------------------------"
     cd ${code_dir}/bin && bash clear.sh ${MODEL_TASK} ${end_date} && cd -
   fi
-  if [ "${end_date:0:8}" \>  "20251110" ]; then
+  if [ "${end_date:0:8}" == "20251120" ]; then
     break
   fi
-  if [ "${end_date:0:8}" == "20251118" ]; then
+  if [ "${end_date:0:8}" == "20251115" ]; then
     is_eval=1
-    #is_infer=1
+    is_infer=1
   fi
   #break
 done
-
-

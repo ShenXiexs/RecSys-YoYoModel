@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 source /root/anaconda3/etc/profile.d/conda.sh
+export PYTHONHASHSEED=107
 ###config
 start_date=$2
 end_date=$3
-if [[ "${end_date}" == "" || "${end_date}" == "1" ]]; then
-  export END_DATE_GIVEN=0
-else
-  export END_DATE_GIVEN=1
-fi
 if [[ "${start_date}" == "" || "${start_date}" == "1" ]]; then
   #start_date=20250805
   start_date=$(date -d "- 1 days" +"%Y%m%d")

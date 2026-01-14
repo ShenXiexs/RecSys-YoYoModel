@@ -15,7 +15,7 @@ def _extract_train_date(argv):
     return None
 
 
-def _resolve_learning_rate(default_lr=1e-4, cutoff_mmdd="1101", before_lr=3e-4):
+def _resolve_learning_rate(default_lr=2e-4, cutoff_mmdd="1101", before_lr=3e-4):
     train_date = _extract_train_date(sys.argv)
     if not train_date or len(train_date) < 8:
         return default_lr
@@ -26,13 +26,13 @@ def _resolve_learning_rate(default_lr=1e-4, cutoff_mmdd="1101", before_lr=3e-4):
 class TrainConfig:
     """
     关键改动：
-    1) 模型入口切换为 RankMixer（GPU 优先）
+    1) 模型入口切换为 Base_RankMixer（GPU 优先）
     2) 显式配置 seq_length（固定长度），供 RankMixer 使用
     3) 在 train_params 中新增 rankmixer 超参，并将 d_model 与动态 Embedding 维度对齐
     """
 
     # ======================= 基本信息 =======================
-    model_version = "RankMixer"                                # 必填：版本名（影响配置/输出路径）
+    model_version = "Base_RankMixer"                           # 必填：版本名（影响配置/输出路径）
     model_modul   = "models.rankmixer_main.model_fn"           # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
 
