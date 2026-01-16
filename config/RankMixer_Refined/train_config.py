@@ -14,6 +14,7 @@ class TrainConfig:
     model_version = "RankMixer_Refined"                        # 版本名
     model_modul   = "models.rankmixer_main_refined.model_fn"   # RankMixer 的 Estimator 入口
     dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
+    keep_date_ranges = [("1101", "1110")]                      # 保留指定日期范围的数据（支持 YYYYMMDD 或 MMDD）
 
     ### GPU训练参数配置
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
