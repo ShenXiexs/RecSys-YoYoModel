@@ -8,6 +8,7 @@ from collections import OrderedDict
 import math
 
 from models.ctr_hstu_seq import LayerNorm
+from layers.mmoe import mmoe_layer
 from common.utils import select_feature, train_config as TrainConfig, seq_features_config
 from common.metrics import evaluate
 
@@ -520,15 +521,47 @@ def model_fn(features, labels, mode, params):
 
     if head_dropout and is_training:
         head_input = tf.nn.dropout(head_input, keep_prob=1.0 - head_dropout)
-    head_hidden = tf.compat.v1.layers.dense(head_input, units=d_model * 2, activation=gelu,
-                                            name="rankmixer_head_dense1")
-    if head_dropout and is_training:
-        head_hidden = tf.nn.dropout(head_hidden, keep_prob=1.0 - head_dropout)
-    head_hidden = tf.compat.v1.layers.dense(head_hidden, units=d_model, activation=gelu,
-                                            name="rankmixer_head_dense2")
 
-    ctr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="ctr_logit")
-    cvr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="cvr_logit")
+    use_mmoe = bool(rank_cfg.get("use_mmoe", False))
+    mmoe_cfg = rank_cfg.get("mmoe_config", {})
+    if use_mmoe:
+        mmoe_num_domains = int(mmoe_cfg.get("num_domains", 2))
+        if mmoe_num_domains != 2:
+            raise ValueError("RankMixer MMoE expects num_domains=2 (ctr/cvr) to align with TO5/ESMM.")
+        mmoe_num_experts = int(mmoe_cfg.get("num_experts", 4))
+        mmoe_expert_units = mmoe_cfg.get("expert_units")
+        if not mmoe_expert_units:
+            mmoe_expert_units = [d_model * 2, d_model]
+        mmoe_tower_units = mmoe_cfg.get("tower_units")
+        if mmoe_tower_units is None:
+            mmoe_tower_units = [d_model * 2, d_model]
+
+        def _build_mmoe_tower(inputs, units, name_prefix):
+            out = inputs
+            for i, unit in enumerate(units or []):
+                out = tf.compat.v1.layers.dense(out, units=unit, activation=gelu,
+                                                name="%s_dense%d" % (name_prefix, i))
+            return out
+
+        with tf.name_scope("mmoe"):
+            mmoe_task_outs = mmoe_layer(head_input,
+                                        num_domains=mmoe_num_domains,
+                                        num_experts=mmoe_num_experts,
+                                        exprt_units=mmoe_expert_units)
+        ctr_hidden = _build_mmoe_tower(mmoe_task_outs[0], mmoe_tower_units, "ctr_tower")
+        cvr_hidden = _build_mmoe_tower(mmoe_task_outs[1], mmoe_tower_units, "cvr_tower")
+        ctr_logits = tf.compat.v1.layers.dense(ctr_hidden, units=1, activation=None, name="ctr_logit")
+        cvr_logits = tf.compat.v1.layers.dense(cvr_hidden, units=1, activation=None, name="cvr_logit")
+    else:
+        head_hidden = tf.compat.v1.layers.dense(head_input, units=d_model * 2, activation=gelu,
+                                                name="rankmixer_head_dense1")
+        if head_dropout and is_training:
+            head_hidden = tf.nn.dropout(head_hidden, keep_prob=1.0 - head_dropout)
+        head_hidden = tf.compat.v1.layers.dense(head_hidden, units=d_model, activation=gelu,
+                                                name="rankmixer_head_dense2")
+
+        ctr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="ctr_logit")
+        cvr_logits = tf.compat.v1.layers.dense(head_hidden, units=1, activation=None, name="cvr_logit")
 
     ctr_label_raw = _pick_label(features, labels, ["click_label", "ctr_label", "is_click"])
     if ctr_label_raw is None:

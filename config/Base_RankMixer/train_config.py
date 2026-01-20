@@ -91,6 +91,14 @@ class TrainConfig:
             "ctr_loss_weight": 1.0,
             "ctcvr_loss_weight": 1.0,
             "cvr_loss_weight": 0.2,
+
+            "use_mmoe": True,
+            "mmoe_config": {
+                "num_domains": 2,
+                "num_experts": 4,
+                "expert_units": [128, 64, 128],
+                "tower_units": [256, 128],
+            },
         },
 
         # 资源与动态表策略（与 baseline 对齐）
