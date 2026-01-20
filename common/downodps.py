@@ -157,7 +157,7 @@ def wait_for_process_exit(
                     for v in kwargs.values():
                         flag = v in cmd_str and flag
                     if flag:
-                        print(f"✅ 找到目标进程（PID: {proc_pid}），继续等待... "
+                        print(f"找到目标进程（PID: {proc_pid}），继续等待... "
                               f"（已等待 {elapsed_time / 3600:.1f} 小时，"
                               f"剩余 {max(0, max_wait_seconds - elapsed_time) / 3600:.1f} 小时）")
                         process_found = True
