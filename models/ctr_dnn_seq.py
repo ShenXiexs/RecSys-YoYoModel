@@ -26,32 +26,32 @@ def get_mask(tensor, padding="_"):
 
 def masked_pooling(inputs, inputs_emb, mask_value, pooling_mode="mean"):
     """
-    带 mask 的 pooling 操作，支持 mean/sum/target/concat 三种模式
+    Masked pooling operation supporting mean/sum/target/concat modes.
 
     Args:
-        inputs: 原始输入张量，用于生成 mask（形状：[batch_size, seq_len, ...]）
-        inputs_emb: 待 pooling 的嵌入张量（形状：[batch_size, seq_len, emb_dim]）
-        mask_value: 用于标记 mask 位置的数值（如 padding 对应的 0）
-        pooling_mode: pooling 模式，可选 "mean"（默认）、"sum"、"target"、"concate"
+        inputs: Original input tensor used to build the mask (shape: [batch_size, seq_len, ...])
+        inputs_emb: Embedding tensor to pool (shape: [batch_size, seq_len, emb_dim])
+        mask_value: Value used to mark masked positions (e.g., padding 0)
+        pooling_mode: pooling mode: "mean" (default), "sum", "target", "concat"
 
     Returns:
-        pooled_emb: 经过 mask 处理后的 pooling 结果（形状：[batch_size, emb_dim]）
+        pooled_emb: Pooled result after masking (shape: [batch_size, emb_dim])
     """
-    # 1. 生成 mask 矩阵（True 表示有效位置，False 表示 mask 位置）
+    # 1. Build mask matrix (True = valid positions, False = masked positions)
     mask = get_mask(inputs, mask_value)
 
-    # 扩展 mask 维度以匹配 inputs_emb（从 [batch_size, seq_len] → [batch_size, seq_len, 1]）
+    # Expand mask to match inputs_emb (from [batch_size, seq_len] -> [batch_size, seq_len, 1])
     mask = tf.expand_dims(mask, axis=-1)
 
-    # 2. 根据 pooling 模式执行对应操作
+    # 2. Apply pooling based on mode
     if pooling_mode == "mean":
-        # 平均池化：先对有效元素求和，再除以有效元素个数
+        # Mean pooling: sum valid elements then divide by count
         sum_emb = tf.reduce_sum(inputs_emb * mask, axis=1)
-        # # 避免除以 0, + 1.e-12
+        # Avoid division by zero, + 1.e-12
         valid_count = tf.reduce_sum(mask, axis=1) + 1.e-12
         return sum_emb / valid_count
     elif pooling_mode == "sum":
-        # 求和池化：直接对有效元素求和
+        # Sum pooling: sum valid elements directly
         return tf.reduce_sum(inputs_emb * mask, axis=1)
     elif pooling_mode == "target":
         return inputs_emb[:, -1, :]
@@ -64,9 +64,9 @@ def masked_pooling(inputs, inputs_emb, mask_value, pooling_mode="mean"):
 def _get_embedding(feas, shape, embedding_table, policy, lookup_name='lookup'):
     '''
 
-    :param feas: 输入的原始特征，shape:[batch_size,fea_size]
-    :param shape: 输出的tensorflow的维度
-    :param embedding_table: 动态Emb table
+    :param feas: input raw features, shape:[batch_size, fea_size]
+    :param shape: output TensorFlow shape
+    :param embedding_table: dynamic embedding table
     :param lookup_name:
     :return:
     '''

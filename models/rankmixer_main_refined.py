@@ -1,5 +1,5 @@
 # models/rankmixer_main.py
-# RankMixer Estimator: 重写版，参考 RankMixer 论文 + HSTU/TOP5 输入处理
+# RankMixer Estimator: rewritten version, based on RankMixer paper + HSTU/TOP5 input handling
 import math
 import re
 import tensorflow.compat.v1 as tf
@@ -16,7 +16,7 @@ from common.metrics import evaluate
 logger = tf.compat.v1.logging
 
 
-# 若 TrainConfig 内未显式指定 seq_length，则根据 seq_features_config 自动生成
+# If seq_length is not explicitly set in TrainConfig, generate it from seq_features_config.
 if not hasattr(TrainConfig, "seq_length"):
     TrainConfig.seq_length = OrderedDict(
         (cfg["name"], cfg["length"])
@@ -76,7 +76,7 @@ DEFAULT_SEMANTIC_GROUP_RULES = [
 
 
 class MultiHeadTokenMixer(tf.layers.Layer):
-    """可学习权重的多头 Token Mixing。"""
+    """Multi-head Token Mixing with learnable weights."""
     def __init__(self, num_tokens, d_model, num_heads=8, dropout=0.0, name=None):
         super(MultiHeadTokenMixer, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -114,7 +114,7 @@ class MultiHeadTokenMixer(tf.layers.Layer):
 
 
 class ParameterFreeTokenMixer(tf.layers.Layer):
-    """参数无关的多头 Token Mixing（论文版本，通常 H=T）。"""
+    """Parameter-free multi-head Token Mixing (paper version, usually H=T)."""
     def __init__(self, num_tokens, d_model, num_heads=None, dropout=0.0, name=None):
         super(ParameterFreeTokenMixer, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -144,7 +144,7 @@ class ParameterFreeTokenMixer(tf.layers.Layer):
 
 
 class PerTokenFFN(tf.layers.Layer):
-    """每个 token 拥有独立 FFN，建模异构 slot。"""
+    """Each token has its own FFN to model heterogeneous slots."""
     def __init__(self, num_tokens, d_model, mult=4, dropout=0.0, name=None):
         super(PerTokenFFN, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -233,7 +233,7 @@ class PerTokenSparseMoE(tf.layers.Layer):
 
 
 class RankMixerBlock(tf.layers.Layer):
-    """RankMixer Block: TokenMixing + Per-token FFN，支持 Post-LN 与 Sparse-MoE。"""
+    """RankMixer Block: TokenMixing + per-token FFN, supports Post-LN and Sparse-MoE."""
     def __init__(self, num_tokens, d_model, num_heads, ffn_mult, token_dp=0.0, ffn_dp=0.0,
                  token_mixing_type="learned", ln_style="pre",
                  use_moe=False, moe_experts=4, moe_l1_coef=0.0, moe_use_dtsi=True,
@@ -289,7 +289,7 @@ class RankMixerBlock(tf.layers.Layer):
 
 
 class RankMixerEncoder(tf.layers.Layer):
-    """堆叠 RankMixerBlock。"""
+    """Stack RankMixerBlocks."""
     def __init__(self, num_layers, num_tokens, d_model, num_heads, ffn_mult,
                  token_dp=0.0, ffn_dp=0.0, token_mixing_type="learned", ln_style="pre",
                  use_moe=False, moe_experts=4, moe_l1_coef=0.0, moe_use_dtsi=True,
@@ -362,7 +362,7 @@ def _get_dense_emb_from_features(features, embeddings_table, policy):
 
 
 def _sequence_pool(seq_emb, tokens, mode="mean"):
-    """支持 mean/max/target 等模式的 pooling。"""
+    """Pooling that supports mean/max/target modes."""
     mode = str(mode).lower()
     pad_mask = tf.logical_or(tf.equal(tokens, ""), tf.equal(tokens, "0"))
     valid = tf.cast(tf.logical_not(pad_mask), tf.float32)

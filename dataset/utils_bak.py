@@ -74,7 +74,7 @@ def get_example_fmt():
                 dtype, length = _parse_type(type_str)
                 example_fmt[name] = tf.io.FixedLenFeature([length], dtype)
             else:
-                # 单特征默认tf.string
+                # Single feature defaults to tf.string
                 example_fmt[name] = tf.io.FixedLenFeature((), tf.string)
     if "label" not in example_fmt:
         example_fmt["label"] = tf.io.FixedLenFeature((), tf.float32)

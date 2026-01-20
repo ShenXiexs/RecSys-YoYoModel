@@ -26,7 +26,7 @@ logger.setLevel(logging.INFO)
 slots = list(slots_dict.keys())
 
 def get_odps():
-    """ 链接odps """
+    """Connect to ODPS."""
     odps_obj = ODPS(your_accesskey_id, your_accesskey_secret, your_default_project, endpoint=your_end_point,
                     tunnel_endpoint=tunnel_endpoint)
     return odps_obj
@@ -41,7 +41,7 @@ def features_mapper(features):
 
 def new_features_mapper(features):
     lst = features.strip("\n").split(features_sep)
-    # 在特征上添加一个列index前缀，主要是为了全局hash时，不同特征域特征取值相同时，hash结果冲突的情况
+    # Add a column index prefix to avoid hash collisions across feature fields.
     return features_sep.join(
         [f"{col_idx}:{fea_val}" for col_idx, (fea_name, fea_val) in enumerate(zip(schema, lst)) if fea_name in slots])
 
@@ -105,38 +105,39 @@ def get_args():
 def wait_for_process_exit(
         target_script: str = "downodps.py",
         target_task: str = "task O35_mutil_cvr",
-        check_interval: int = 60,  # 每次检测间隔（秒）
-        max_wait_seconds: int = 24 * 3600,  # 最大等待时间（24小时）
+        check_interval: int = 60,  # Check interval (seconds)
+        max_wait_seconds: int = 24 * 3600,  # Max wait time (24 hours)
         **kwargs
 ) -> bool:
     """
-    等待目标进程退出：检测包含指定脚本名和任务名的进程，存在则持续等待，超时返回False
+    Wait for target process to exit: check for processes containing the script and task name;
+    keep waiting if found, return False on timeout.
 
     Args:
-        target_script: 目标脚本名（如 "downodps.py"）
-        target_task: 目标任务标识（如 "task O35_mutil_cvr"）
-        check_interval: 检测间隔（秒）
-        max_wait_seconds: 最大等待时间（秒）
+        target_script: target script name (e.g., "downodps.py")
+        target_task: target task identifier (e.g., "task O35_mutil_cvr")
+        check_interval: check interval (seconds)
+        max_wait_seconds: max wait time (seconds)
 
     Returns:
-        bool: 进程退出返回True；超时未退出返回False
+        bool: True if process exits; False if timeout
     """
-    start_time = time.time()  # 记录开始等待时间
-    current_pid = os.getpid()  # 获取当前Python程序的PID
+    start_time = time.time()  # Record start time
+    current_pid = os.getpid()  # Get current Python PID
     while True:
-        # 计算已等待时间
+        # Compute elapsed wait time
         elapsed_time = time.time() - start_time
         if elapsed_time > max_wait_seconds:
             print(f"⚠️  等待超时（已超过 {max_wait_seconds / 3600:.1f} 小时），目标进程仍在运行，退出等待")
             return False
-        # 标记是否找到目标进程
+        # Track whether target process is found
         process_found = False
-        # 枚举所有进程，检查命令行参数
+        # Iterate processes and check cmdline
         for proc in psutil.process_iter(["pid", "cmdline"]):
             try:
-                # 获取进程的命令行列表（过滤无效进程）
+                # Get process cmdline list (filter invalid processes)
                 cmdline = proc.info.get("cmdline", [])
-                # 将命令行列表转为字符串（便于匹配）
+                # Convert cmdline list to string (for matching)
                 try:
                     cmd_str = " ".join(cmdline)
                 except Exception as e:
@@ -144,13 +145,13 @@ def wait_for_process_exit(
                     continue
                 #
                 proc_pid = proc.info["pid"]
-                # 跳过当前进程（避免误判自身）
+                # Skip current process to avoid self-match
                 if proc_pid == current_pid:
                     print(f"cmd={cmd_str}, pid={proc_pid}, current_pid={current_pid}")
                     continue
                 if not cmdline:
-                    continue  # 跳过无命令行的进程（如系统进程）
-                # 检查是否同时包含脚本名和任务标识（匹配逻辑与原ps命令一致）
+                    continue  # Skip processes without cmdline (e.g., system processes)
+                # Check whether cmdline contains both script name and task identifier (same logic as ps)
                 if target_script in cmd_str and target_task in cmd_str:
                     flag = True
                     for v in kwargs.values():
@@ -160,15 +161,15 @@ def wait_for_process_exit(
                               f"（已等待 {elapsed_time / 3600:.1f} 小时，"
                               f"剩余 {max(0, max_wait_seconds - elapsed_time) / 3600:.1f} 小时）")
                         process_found = True
-                        break  # 找到一个即可，无需继续遍历
+                        break  # Found one; no need to continue
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                # 忽略无权限访问或已退出的进程
+                # Ignore processes without access or already exited
                 continue
-        # 若未找到目标进程，说明已退出，返回True
+        # If target process not found, it has exited; return True
         if not process_found:
             print(f"🎉 目标进程已退出，结束等待（总等待时间：{elapsed_time / 60:.1f} 分钟）")
             return True
-        # 找到进程，睡眠指定间隔后继续检测
+        # If found, sleep for interval then recheck
         time.sleep(check_interval)
 
 
@@ -181,7 +182,7 @@ if __name__ == '__main__':
         dates = pd.date_range(args.start_date, end_date).map(lambda x: x.strftime("%Y%m%d")).tolist()
     except:
         dates = TrainConfig.downodps_datas
-    # 定义模型分支和拉数据存储路径
+    # Define model branch and data download storage path
     model_ver = getattr(TrainConfig, "data_nm", TrainConfig.model_version)
     data_root_dir = f'{args.save_path}/{model_ver}'
     feature_data_table_name = TrainConfig.binning_table_name
@@ -192,8 +193,8 @@ if __name__ == '__main__':
         wait_for_process_exit(
             target_script="downodps.py",
             target_task=f"task {TrainConfig.data_nm}",
-            check_interval=60,  # 每次检测间隔（秒）
-            max_wait_seconds=20 * 3600,  # 最大等待时间（小时）
+            check_interval=60,  # Check interval (seconds)
+            max_wait_seconds=20 * 3600,  # Max wait time (hours)
             start=f"--end_date {day}"
         )
         ##############################################

@@ -2,7 +2,7 @@
 import os
 import sys
 
-# 保持与原项目一致的路径层级（config/<model_version>/...）
+# Keep the path hierarchy consistent with the original project (config/<model_version>/...).
 dirname = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def _extract_train_date(argv):
@@ -25,28 +25,28 @@ def _resolve_learning_rate(default_lr=2e-4, cutoff_mmdd="1101", before_lr=3e-4):
 
 class TrainConfig:
     """
-    关键改动：
-    1) 模型入口切换为 Base_RankMixer（GPU 优先）
-    2) 显式配置 seq_length（固定长度），供 RankMixer 使用
-    3) 在 train_params 中新增 rankmixer 超参，并将 d_model 与动态 Embedding 维度对齐
+    Key changes:
+    1) Switch model entry to Base_RankMixer (GPU preferred).
+    2) Explicitly set seq_length (fixed length) for RankMixer.
+    3) Add RankMixer hyperparameters in train_params and align d_model with dynamic Embedding dims.
     """
 
-    # ======================= 基本信息 =======================
-    model_version = "Base_RankMixer"                           # 必填：版本名（影响配置/输出路径）
-    model_modul   = "models.rankmixer_main.model_fn"           # RankMixer 的 Estimator 入口
-    dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
+    # ======================= Basic Info =======================
+    model_version = "Base_RankMixer"                           # Required: version name (affects config/output paths)
+    model_modul   = "models.rankmixer_main.model_fn"           # RankMixer Estimator entry
+    dataset_modul = "dataset.dataset_seq.input_fn"             # Reuse existing TF data pipeline
 
-    ### GPU训练参数配置
+    ### GPU training parameter configuration
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
     gpu_list = "0"  # Comma-separated list of GPU IDs for multi-GPU mode
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
 
-    # ======================= 训练参数（传入 model_fn 的 params） =======================
+    # ======================= Training Params (passed to model_fn) =======================
     train_params = {
-        # 优化器配置（供 RankMixer 主干使用）
+        # Optimizer config (for RankMixer backbone)
         "optimize_config": {
-            # RankMixer 更建议小 lr + warmup（训练更稳）
+            # RankMixer prefers small lr + warmup (more stable training)
             "learning_rate": _resolve_learning_rate(),
             "beta1": 0.9,
             "beta2": 0.999,
@@ -57,23 +57,23 @@ class TrainConfig:
             "min_learning_rate": 0.0,
             "grad_clip_norm": 5.0,
         },
-        # ★RankMixer 超参（与动态 Embedding 的 dim 一致）
+        # ★ RankMixer hyperparameters (must match dynamic Embedding dim)
         "rankmixer": {
-            # ===== 论文对齐默认 =====
-            # tokenization: 先拼接 e_input，再切成固定 T 个 token 并做 Proj（论文 3.2）
-            # token_mixer_type: 参数无关的 Split+Shuffle+Merge（论文 3.3.1）
-            # pooling: mean pooling（论文 3.1）
+            # ===== Paper-aligned defaults =====
+            # tokenization: concat e_input, then split into fixed T tokens and project (paper 3.2)
+            # token_mixer_type: parameter-free Split+Shuffle+Merge (paper 3.3.1)
+            # pooling: mean pooling (paper 3.1)
             "tokenization": "paper",
-            "num_tokens": 64,          # 建议取 d_model 的因子（需满足 d_model % num_tokens == 0）
+            "num_tokens": 64,          # Suggest a factor of d_model (requires d_model % num_tokens == 0)
             "token_mixer_type": "paper",
             "pooling": "mean",
             "add_cls_token": False,
 
             "d_model": 128,
             "num_layers": 8,
-            # paper token mixing 时会自动令 num_heads = num_tokens；此字段仅对 learned mixer 生效
+            # In paper token mixing, num_heads is set to num_tokens; this only applies to learned mixer
             "num_heads": 8,
-            "ffn_mult": 8,             # 论文中的 k，默认加大一点提升容量
+            "ffn_mult": 8,             # k in the paper; slightly larger by default to increase capacity
             "token_mixing_dropout": 0.1,
             "ffn_dropout": 0.1,
             "input_dropout": 0.0,
@@ -83,11 +83,11 @@ class TrainConfig:
             "seq_pool": "mean",
             "embedding_size": 9,
 
-            # legacy tokenization 时可用的 group pooling（paper 模式不会用到）
+            # Group pooling for legacy tokenization (unused in paper mode)
             "dense_token_group_size": 0,
             "dense_token_pool": "mean",
 
-            # ESMM 分解下的 CVR 辅助 loss（只在 clicked 样本上计算），可改善 cvr_auc/cvr_pcoc
+            # CVR auxiliary loss under ESMM decomposition (only on clicked samples), can improve cvr_auc/cvr_pcoc
             "ctr_loss_weight": 1.0,
             "ctcvr_loss_weight": 1.0,
             "cvr_loss_weight": 0.2,
@@ -101,17 +101,17 @@ class TrainConfig:
             },
         },
 
-        # 资源与动态表策略（与 baseline 对齐）
-        "ps_num": 1,                  # TFRA 动态表挂至 GPU:0，避免回落 CPU
-        "restrict": True,             # 控制动态表规模，显存可控
+        # Resource and dynamic table strategy (aligned with baseline)
+        "ps_num": 1,                  # Place TFRA dynamic tables on GPU:0 to avoid CPU fallback
+        "restrict": True,             # Control dynamic table size to keep memory manageable
         "l2_reg": 1e-6,
     }
 
-    # ======================= 数据 Schema =======================
-    data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "is_conversion", "features", "app_pkg_src", "app_pkg", "app_first_type", "seq_features" ] #必填
+    # ======================= Data Schema =======================
+    data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "is_conversion", "features", "app_pkg_src", "app_pkg", "app_first_type", "seq_features" ] # required
     label_schema = {"is_click": "ctr_label",
-                    "is_conversion": "ctcvr_label"}                                                        #必填
-    # seq_feature配置
+                    "is_conversion": "ctcvr_label"}                                                        # required
+    # seq_feature configuration
     seq_features_config = [
         {"name": "user_awake_90d_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
          "description": "用户90天唤醒包序列"},
@@ -295,32 +295,32 @@ class TrainConfig:
          "description": "用户1日粘性最高5个点击启动序列"},
     ]
 
-    # ======================= 标签映射 / 预测输出列 =======================
-    # 跟模型中prediction中out的输出对其，给模型输出补key，组成json格式，用于推理模型的效果存储
+    # ======================= Label Mapping / Prediction Output Columns =======================
+    # Align with prediction outputs in the model, add keys to form JSON for inference result storage
     predict_columns = [k for k,v in label_schema.items() if v.endswith("_label")] \
-                    + [v.replace("_label", "_pred") for k,v in label_schema.items() if v.endswith("_label")]  # 必填
+                    + [v.replace("_label", "_pred") for k,v in label_schema.items() if v.endswith("_label")]  # required
 
-    # ======================= 解析/压缩配置 =======================
-    field_sep = "\003"  # 字段的分隔符
-    features_sep = "\002"  # features特征的分隔符
-    compression_type = "GZIP"  # 数据压缩格式
+    # ======================= Parsing/Compression Config =======================
+    field_sep = "\003"  # Field separator
+    features_sep = "\002"  # Features separator
+    compression_type = "GZIP"  # Data compression format
 
-    # ======================= 线下特征/分桶等配置 =======================
-    # 定义分桶且特征选择表
+    # ======================= Offline Features/Bucketing Config =======================
+    # Define bucketing and feature selection table
     binning_table_name = "tmp_ad_rank_cvr_activation_sample_data_v2"
     partitions = "ds_date='{day}',durations='1',model_type='TO5'"
     downodps_datas = ['20250901']
 
-    # ======================= 本地/OSS 配置路径 =======================
-    schema_path = f"{dirname}/config/{model_version}/schema.conf"  # 该文件必须要
-    slot_path = f"{dirname}/config/{model_version}/slot.conf"  # 该文件必须要
+    # ======================= Local/OSS Config Paths =======================
+    schema_path = f"{dirname}/config/{model_version}/schema.conf"  # Required file
+    slot_path = f"{dirname}/config/{model_version}/slot.conf"  # Required file
     sel_feat_path = f"{dirname}/config/{model_version}/select_feature.conf"
-    boundaries_map_path = f"{dirname}/config/{model_version}/boundaries_map.json"  # 该文件必须要
-    fg_path = f"{dirname}/config/{model_version}/fg.json"  # 该文件必须要
+    boundaries_map_path = f"{dirname}/config/{model_version}/boundaries_map.json"  # Required file
+    fg_path = f"{dirname}/config/{model_version}/fg.json"  # Required file
     feature_config_path = f"{dirname}/config/{model_version}/feature_config.json"
     body_json_name = f"{dirname}/config/{model_version}/body.json"
 
-    # ======================= Estimator 运行配置（与 baseline 一致） =======================
+    # ======================= Estimator Runtime Config (aligned with baseline) =======================
     es_run_config = {
         "keep_checkpoint_max": 1,
         "save_checkpoints_steps": 100000,
@@ -328,7 +328,7 @@ class TrainConfig:
         "save_summary_steps": 10000
     }
 
-    # ======================= Dataset input_fn 配置 =======================
+    # ======================= Dataset input_fn Config =======================
     data_nm = "TO5"
     inp_fn_config = {
         "train_spec": {
@@ -343,16 +343,16 @@ class TrainConfig:
         "batch_size": 2048
     }
 
-    # ======================= 写回/导出/指标 =======================
-    # infer数据写入的结果表
+    # ======================= Write-back/Export/Metrics =======================
+    # Result table for inference data writes
     infer_table_name = 'adx_dmp.ads_algorithm_yoyo_model_offline_shallow_predict'
     ### upload
     oss_bucket_name = "adx-oss"
-    upload_oss_path = "rankmixer_model_test"  #定义模型导出OSS路径
-    oss_offline_root_path = "deep_model/offline"  # 离线特征推送OSS路径，判断特征是否推线上，再推模型到OSS供线上推理使用
-    # 模型训练指标写入表, yoyo_model独有
+    upload_oss_path = "rankmixer_model_test"  # Define OSS path for model export
+    oss_offline_root_path = "deep_model/offline"  # OSS path for offline features; used to check online push before export
+    # Table for training metrics, yoyo_model only
     metric_table = 'adx_dmp.ads_algorithm_yoyo_model_eval_metric_table_dm'
-    # 当前模型类型，ctr,cvr,ctcvr..
+    # Current model type: ctr, cvr, ctcvr..
     eval_type = "ctcvr"
     # deep_model/offline/{}/20250924/_FEATURE_SUCCESS is exists
     oss_offline_model_ver = "rankmixer"

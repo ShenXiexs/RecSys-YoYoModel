@@ -1,4 +1,4 @@
-#本地服务器上启动模型服务命令：
+# Command to start model service on the local server:
 code_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && cd .. && pwd)"
 . ${code_dir}/bin/conf.sh
 cd ${code_dir}

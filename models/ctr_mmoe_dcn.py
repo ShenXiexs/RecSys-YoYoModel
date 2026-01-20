@@ -17,12 +17,12 @@ class DNN:
         self.ctr_labels.append(_label)
 
 
-        # mmoe layer,广告场景分类：联盟，信息流，推荐，搜索
+        # MMoE layer, ad scene categories: affiliate, feed, recommendation, search
         mmoe_task_outlist = mmoe_layer(mmoe_input, num_domains=1, num_experts=4, exprt_units=[128, 64, 128])
 
         ctr_logits = self.build_tower('ctr',mmoe_task_outlist[0],dcn_input['ctr_dcn'],key_fea_input['ctr_key_feature'])
 
-        # ctcvr计算 pctcvr=pctr*pcvr
+        # CTCVR calculation: pctcvr = pctr * pcvr
         # total loss  L(ctr,cvr)=loss(ctr_label,probs_ctr) + loss(ctcvr_label,probs_ctr*probs_cvr)
         self.ctr_losses = 0
         self.outputs = {}
@@ -68,12 +68,12 @@ class DNN:
         return tf.keras.Sequential(layers)
 
     def build_tower(self,task_type,mmoe_out,dcn_input,key_fea_input):
-        # dcn部分
+        # DCN part
         dcn_out = dcn_cross_v1(dcn_input, num_cross_layers=3,task_name=f'{task_type}_dcn_cross')
         # dnn
         layers = self.build_layers([64, 32, 16], f'{task_type}_task')
         task_out = layers(mmoe_out)
-        # 将ctr dcn,ctr任务，ctr关键特征拼接到一起
+        # Concatenate CTR DCN, CTR task, and CTR key features
         final_input = tf.concat([task_out, dcn_out, key_fea_input],axis=1)
 
         print(f'{task_type} build_esmm_tower =====>final_input shape:{tf.shape(final_input)}')

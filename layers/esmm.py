@@ -26,7 +26,7 @@ class ESMM:
         cvr_layers = self.build_layers([256, 128, 64, 32, 1],'cvr_tower')
         cvr_logits = self.build_task_tower(emb_lookuped,cvr_layers)
 
-        # ctcvr计算 pctcvr=pctr*pcvr
+        # CTCVR calculation: pctcvr = pctr * pcvr
         # total loss  L(ctr,cvr)=loss(ctr_label,probs_ctr) + loss(ctcvr_label,probs_ctr*probs_cvr)
         self.losses = 0
         self.ctr_losses = 0

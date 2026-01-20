@@ -19,7 +19,7 @@ logger.setLevel(logging.INFO)
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def get_odps():
-    """ 链接odps """
+    """Connect to ODPS."""
     odps_obj = ODPS(your_accesskey_id,
                     your_accesskey_secret,
                     your_default_project,

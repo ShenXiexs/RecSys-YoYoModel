@@ -42,7 +42,7 @@ with open(train_config.fg_path, "r") as json_f:
     schema_fea2idx_dict = {v['feature_name']: ("f" + str(idx + 1)) for idx, v in
                            enumerate(json.load(json_f)['features'])}
 
-#seq features解析
+# seq features parsing
 seq_features_index = train_config.data_schema.index("seq_features") if "seq_features" in train_config.data_schema else None
 seq_features_config = getattr(train_config, "seq_features_config", [])
 seq_feat_in_dataset_pad = getattr(train_config, "seq_feat_in_dataset_pad", False)
@@ -112,7 +112,7 @@ def get_example_fmt():
                 dtype, length = _parse_type(type_str)
                 example_fmt[name] = tf.io.FixedLenFeature([length], dtype)
             else:
-                # 单特征默认tf.string
+                # Single feature defaults to tf.string
                 example_fmt[name] = tf.io.FixedLenFeature((), tf.string)
     if "label" not in example_fmt:
         example_fmt["label"] = tf.io.FixedLenFeature((), tf.float32)
@@ -227,23 +227,23 @@ def get_metrics(df):
 
 
 class SimpleLookup:
-    """简单可靠的adslot_id查找类"""
+    """Simple, reliable adslot_id lookup class."""
 
     def __init__(self, data_path=None, key="", values=[], sep="\t", default_value=0):
         if data_path is None or not key or not values:
             raise ValueError("data_path is None")
         self.df = pd.read_csv(data_path, sep=sep, usecols=values)
         self.df.set_index(key, inplace=True)
-        # 为每一列创建单独的查找表，避免形状问题
+        # Create a separate lookup table per column to avoid shape issues
         self._create_individual_tables(default_value)
 
     def _create_individual_tables(self, default_value):
-        """为每一列创建单独的查找表"""
+        """Create a separate lookup table per column."""
         self.tables = {}
         for column in self.df.columns:
             keys = tf.constant(self.df.index.tolist(), dtype=tf.string)
             values = tf.constant(self.df[column].tolist(), dtype=tf.float32)
-            # 每列的表使用标量默认值，避免形状问题
+            # Use scalar default values per column to avoid shape issues
             table = tf.lookup.StaticHashTable(
                 tf.lookup.KeyValueTensorInitializer(keys, values),
                 default_value=default_value
@@ -252,19 +252,19 @@ class SimpleLookup:
         print("Individual tables created successfully!")
 
     def get_values(self, query, column_name):
-        """获取指定列的值"""
+        """Get values for a specific column."""
         if column_name not in self.tables:
             raise ValueError(f"Column {column_name} not found")
         return self.tables[column_name].lookup(query)
 
     def get_column_total(self, column_name):
-        """获取指定列的总和"""
+        """Get the sum for a specific column."""
         if column_name not in self.df.columns:
             raise ValueError(f"Column {column_name} not found")
         return tf.constant(self.df[column_name].sum(), dtype=tf.float32)
 
     def batch_lookup(self, queries, column_names):
-        """批量查找多个列"""
+        """Batch lookup for multiple columns."""
         results = {}
         for col_name in column_names:
             results[col_name] = self.get_values(queries, col_name)
@@ -281,32 +281,32 @@ def get_mask(tensor, padding="_"):
 
 def masked_pooling(inputs, inputs_emb, mask_value, pooling_mode="mean"):
     """
-    带 mask 的 pooling 操作，支持 mean/sum/target/concat 三种模式
+    Masked pooling operation supporting mean/sum/target/concat modes.
 
     Args:
-        inputs: 原始输入张量，用于生成 mask（形状：[batch_size, seq_len, ...]）
-        inputs_emb: 待 pooling 的嵌入张量（形状：[batch_size, seq_len, emb_dim]）
-        mask_value: 用于标记 mask 位置的数值（如 padding 对应的 0）
-        pooling_mode: pooling 模式，可选 "mean"（默认）、"sum"、"target"、"concate"
+        inputs: Original input tensor used to build the mask (shape: [batch_size, seq_len, ...])
+        inputs_emb: Embedding tensor to pool (shape: [batch_size, seq_len, emb_dim])
+        mask_value: Value used to mark masked positions (e.g., padding 0)
+        pooling_mode: pooling mode: "mean" (default), "sum", "target", "concat"
 
     Returns:
-        pooled_emb: 经过 mask 处理后的 pooling 结果（形状：[batch_size, emb_dim]）
+        pooled_emb: Pooled result after masking (shape: [batch_size, emb_dim])
     """
-    # 1. 生成 mask 矩阵（True 表示有效位置，False 表示 mask 位置）
+    # 1. Build mask matrix (True = valid positions, False = masked positions)
     mask = get_mask(inputs, mask_value)
 
-    # 扩展 mask 维度以匹配 inputs_emb（从 [batch_size, seq_len] → [batch_size, seq_len, 1]）
+    # Expand mask to match inputs_emb (from [batch_size, seq_len] -> [batch_size, seq_len, 1])
     mask = tf.expand_dims(mask, axis=-1)
 
-    # 2. 根据 pooling 模式执行对应操作
+    # 2. Apply pooling based on mode
     if pooling_mode == "mean":
-        # 平均池化：先对有效元素求和，再除以有效元素个数
+        # Mean pooling: sum valid elements then divide by count
         sum_emb = tf.reduce_sum(inputs_emb * mask, axis=1)
-        # # 避免除以 0, + 1.e-12
+        # Avoid division by zero, + 1.e-12
         valid_count = tf.reduce_sum(mask, axis=1) + 1.e-12
         return sum_emb / valid_count
     elif pooling_mode == "sum":
-        # 求和池化：直接对有效元素求和
+        # Sum pooling: sum valid elements directly
         return tf.reduce_sum(inputs_emb * mask, axis=1)
     elif pooling_mode == "target":
         return inputs_emb[:, -1, :]

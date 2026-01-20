@@ -122,7 +122,7 @@ def model_fn(features: dict, labels, mode, params: dict):
                             bias_initializer="glorot_uniform",
                             batch_norm=mmoe_config.get("batch_norm", False))
                         for _ in range(len(label_schema))]
-        # 唤醒目标
+        # Activation target
         awake_label_nm = label_schema.pop("is_awake")
         awake_label = features.get(awake_label_nm, tf.zeros((batch_size,)))
         awake_logits = tf.sigmoid(tf.clip_by_value(tf.reshape(tower_layers[0](mmoe_task_outlist[0]), (-1,)),

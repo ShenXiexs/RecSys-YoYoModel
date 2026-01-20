@@ -18,7 +18,7 @@ class TrainConfig:
                     "is_conversion": "ctcvr_label"}
     features_sep = "\002"
     compression_type = "GZIP"
-    # 定义分桶且特征选择表
+    # Define bucketing and feature selection table
     binning_table_name = "da_algorithm_search_ad_feature_rank_sample_ctr_cvr_encoded_binning_di"
     downodps_datas = pd.date_range("20250805", "20500101").map(lambda x: x.strftime("%Y%m%d")).tolist()
     partitions = "idx_date='{day}',feature_version='O25_v3',durations='1'"
@@ -49,11 +49,11 @@ class TrainConfig:
         }
     }
     ###
-    # infer数据写入的结果表
+    # Result table for inference data writes
     infer_table_name = 'adx_dmp.ads_algorithm_yoyo_model_offline_shallow_predict'
     ### upload
     oss_bucket_name = "adx-oss"
-    upload_oss_path = "O25_model_v3"  #定义模型导出OSS路径
-    oss_offline_root_path = "deep_model/offline"  # 离线特征推送OSS路径，判断特征是否推线上，再推模型到OSS供线上推理使用
-    # 模型训练指标写入表,针对ocpc模型
+    upload_oss_path = "O25_model_v3"  # Define OSS path for model export
+    oss_offline_root_path = "deep_model/offline"  # OSS path for offline features; used to check online push before export
+    # Table for training metrics, for ocpc model
     metric_table = 'adx_dmp.ads_yoyo_self_built_algorithm_model_eval_metric_table_dm'

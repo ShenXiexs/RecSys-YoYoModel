@@ -1,5 +1,5 @@
 # models/rankmixer_main.py
-# RankMixer Estimator: 重写版，参考 RankMixer 论文 + HSTU/TOP5 输入处理
+# RankMixer Estimator: rewritten version, based on RankMixer paper + HSTU/TOP5 input handling
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import tensorflow_recommenders_addons as tfra
@@ -15,7 +15,7 @@ from common.metrics import evaluate
 logger = tf.compat.v1.logging
 
 
-# 若 TrainConfig 内未显式指定 seq_length，则根据 seq_features_config 自动生成
+# If seq_length is not explicitly set in TrainConfig, generate it from seq_features_config.
 if not hasattr(TrainConfig, "seq_length"):
     TrainConfig.seq_length = OrderedDict(
         (cfg["name"], cfg["length"])
@@ -29,7 +29,7 @@ def gelu(x):
 
 
 class MultiHeadTokenMixer(tf.layers.Layer):
-    """可学习 Token Mixing（非论文原文）。"""
+    """Learned Token Mixing (not in the original paper)."""
     def __init__(self, num_tokens, d_model, num_heads=8, dropout=0.0, name=None):
         super(MultiHeadTokenMixer, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -68,14 +68,14 @@ class MultiHeadTokenMixer(tf.layers.Layer):
 
 class PaperMultiHeadTokenMixer(tf.layers.Layer):
     """
-    论文原文 Multi-Head Token Mixing：参数无关的“Split + Shuffle + Merge”。
+    Paper's Multi-Head Token Mixing: parameter-free "Split + Shuffle + Merge".
 
-    设输入 X ∈ R^{B×T×D}，令 H = T 且 D % H == 0。
+    Given input X ∈ R^{B×T×D}, let H = T and D % H == 0.
     - SplitHead:  X -> [B, T, H, D/H]
     - Shuffle:    transpose -> [B, H, T, D/H]
     - Merge:      reshape -> [B, H(=T), T*(D/H)=D]
 
-    这样可保持 token 数不变，方便残差连接。
+    This keeps the token count unchanged for residual connections.
     """
     def __init__(self, num_tokens, d_model, dropout=0.0, name=None):
         super(PaperMultiHeadTokenMixer, self).__init__(name=name)
@@ -106,7 +106,7 @@ class PaperMultiHeadTokenMixer(tf.layers.Layer):
 
 
 class PerTokenFFN(tf.layers.Layer):
-    """每个 token 拥有独立 FFN，建模异构 slot。"""
+    """Each token has its own FFN to model heterogeneous slots."""
     def __init__(self, num_tokens, d_model, mult=4, dropout=0.0, name=None):
         super(PerTokenFFN, self).__init__(name=name)
         self.num_tokens = int(num_tokens)
@@ -135,7 +135,7 @@ class PerTokenFFN(tf.layers.Layer):
 
 
 class RankMixerBlock(tf.layers.Layer):
-    """标准 RankMixer Block: LN -> TokenMixer -> Residual -> LN -> PerTokenFFN -> Residual。"""
+    """Standard RankMixer Block: LN -> TokenMixer -> Residual -> LN -> PerTokenFFN -> Residual."""
     def __init__(self, num_tokens, d_model, num_heads, ffn_mult, token_mixer_type="paper",
                  token_dp=0.0, ffn_dp=0.0, name=None):
         super(RankMixerBlock, self).__init__(name=name)
@@ -165,7 +165,7 @@ class RankMixerBlock(tf.layers.Layer):
 
 
 class RankMixerEncoder(tf.layers.Layer):
-    """堆叠 RankMixerBlock。"""
+    """Stack RankMixerBlocks."""
     def __init__(self, num_layers, num_tokens, d_model, num_heads, ffn_mult,
                  token_mixer_type="paper", token_dp=0.0, ffn_dp=0.0, name=None):
         super(RankMixerEncoder, self).__init__(name=name)
@@ -228,7 +228,7 @@ def _get_dense_emb_from_features(features, embeddings_table, policy):
 
 
 def _sequence_pool(seq_emb, tokens, mode="mean"):
-    """支持 mean/max/target 等模式的 pooling。"""
+    """Pooling that supports mean/max/target modes."""
     mode = str(mode).lower()
     pad_mask = tf.logical_or(tf.equal(tokens, ""), tf.equal(tokens, "0"))
     valid = tf.cast(tf.logical_not(pad_mask), tf.float32)
@@ -387,7 +387,7 @@ def model_fn(features, labels, mode, params):
                                                       seq_pool_modes, restrict, update_ops)
 
     if tokenization in ("paper", "flat", "flat_slice"):
-        # 论文 tokenization：将不同来源 embedding 拼成 e_input，再按固定 token 数切片 + Proj
+        # Paper tokenization: concat embeddings into e_input, then slice into fixed token count + proj
         raw_chunks = []
         if use_other and other_emb is not None:
             raw_chunks.append(other_emb)  # [B, F*E]
@@ -397,12 +397,12 @@ def model_fn(features, labels, mode, params):
             raise ValueError("RankMixer 无可用输入，请确认 use_other_features 或 seq_features 配置。")
         e_input = tf.concat(raw_chunks, axis=1)  # [B, total_dim]
 
-        # 固定 token 数：pad 到 num_tokens * d_in
-        # Dense layer 需要最后一维静态已知；因此这里用静态 shape 计算 d_in。
+        # Fixed token count: pad to num_tokens * d_in
+        # Dense layer needs a static last dim; compute d_in from static shape.
         T = int(num_tokens)
         total_dim_static = e_input.get_shape().as_list()[1]
         if total_dim_static is None:
-            # 尝试从组成部分静态推断（other_emb / seq_tokens 都应有静态维度）
+            # Try to infer static dims from components (other_emb / seq_tokens should be static).
             total_dim_static = 0
             if use_other and other_emb is not None and other_emb.get_shape().as_list()[1] is not None:
                 total_dim_static += int(other_emb.get_shape().as_list()[1])
@@ -426,18 +426,18 @@ def model_fn(features, labels, mode, params):
         tokens = tf.compat.v1.layers.dense(tokens, units=d_model, activation=None, name="token_projection")
         token_count = T
 
-        # 论文 TokenMixing 推荐 H=T，要求 D % T == 0；若不满足则降级到 learned mixer
+        # Paper TokenMixing recommends H=T and D % T == 0; otherwise downgrade to learned mixer
         if token_mixer_type in ("paper", "shuffle", "rankmixer") and (d_model % token_count != 0):
             logger.warning("d_model=%d 不能整除 num_tokens=%d，token_mixer_type=paper 将降级为 learned。",
                            d_model, token_count)
             token_mixer_type = "learned"
 
-        # 论文里一般 H=T；此处默认跟随 token_count
+        # In the paper H=T; here we default to token_count
         if token_mixer_type in ("paper", "shuffle", "rankmixer"):
             num_heads = token_count
 
     else:
-        # 兼容旧实现：每个特征/序列汇聚向量作为一个 token，可选做 group pooling
+        # Backward-compatible: each feature/sequence pooled vector as a token, optional group pooling
         token_chunks = []
         token_count = 0
         dense_token_count = 0
@@ -481,7 +481,7 @@ def model_fn(features, labels, mode, params):
                            d_model, token_count)
             token_mixer_type = "learned"
 
-    # 论文实现默认不需要 CLS token；如果你想保留，仍可打开
+    # Paper implementation does not require CLS token; keep it if desired.
     if add_cls_token:
         cls_embed = tf.compat.v1.get_variable(
             "rankmixer_cls_token", shape=[1, 1, d_model],
@@ -509,7 +509,7 @@ def model_fn(features, labels, mode, params):
     encoded = encoder(tokens, training=is_training)
     encoded.set_shape([None, token_count, d_model])
 
-    # 论文里 output pooling 使用 mean pooling
+    # Paper uses mean pooling for output
     if pooling in ("mean", "avg"):
         head_input = tf.reduce_mean(encoded, axis=1)
     elif pooling == "cls":
@@ -579,7 +579,7 @@ def model_fn(features, labels, mode, params):
     ctcvr_prob = ctr_prob * cvr_prob
     ctcvr_loss = _binary_cross_entropy_from_probs(ctcvr_label, ctcvr_prob) if has_ctcvr else tf.constant(0.0)
 
-    # 可选：点击条件下的 CVR 辅助损失（有助于提升 cvr_auc/cvr_pcoc，缓解 ESMM 分解漂移）
+    # Optional: CVR auxiliary loss on clicked samples (improves cvr_auc/cvr_pcoc, mitigates ESMM drift)
     cvr_loss_weight = float(rank_cfg.get("cvr_loss_weight", params.get("cvr_loss_weight", 0.0) if params else 0.0))
     cvr_loss = tf.constant(0.0, dtype=tf.float32)
     if cvr_loss_weight and cvr_loss_weight > 0:
@@ -664,7 +664,7 @@ def model_fn(features, labels, mode, params):
     beta2 = float(opt_cfg.get("beta2", 0.999))
     epsilon = float(opt_cfg.get("epsilon", 1e-8))
 
-    # 可选：warmup / decay / grad clip（训练更稳，loss 不必强求单调下降）
+    # Optional: warmup / decay / grad clip (more stable training, loss need not be strictly monotonic)
     warmup_steps = int(opt_cfg.get("warmup_steps", 0))
     decay_steps = int(opt_cfg.get("decay_steps", 0))
     decay_type = str(opt_cfg.get("decay_type", "none")).lower()

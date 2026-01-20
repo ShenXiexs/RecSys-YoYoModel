@@ -12,13 +12,13 @@ from layers.base import dnn, DNN
 def gate_layer(unit, deep_feas, name):
     '''
 
-    :param unit:对应专家网络数量
-    :param deep_feas: 输入门控网络的特征
-    :param name: 门控网络变量名
+    :param unit: number of expert networks
+    :param deep_feas: features fed into the gating network
+    :param name: gating network variable name
     :return:
     '''
     fea = tf.compat.v1.layers.dense(inputs=deep_feas, units=unit, name=name)
-    return tf.nn.softmax(fea, axis=1)  # 门控网络最后一层神经元数量与专家数量保持一致,过一层softmax对专家进行融合选择
+    return tf.nn.softmax(fea, axis=1)  # Last gate layer size matches expert count; apply softmax to blend experts
 
 
 def expert_dnn(units, deep_feas, name, activation='relu'):
@@ -29,16 +29,16 @@ def expert_dnn(units, deep_feas, name, activation='relu'):
 def mmoe_layer(inputs, num_domains, num_experts, exprt_units):
     '''
 
-    :param inputs:输入的embedding特征
-    :param num_domains: 任务数量
-    :param num_experts: 专家数量
-    :param exprt_units: 专家网络结构
-    :return: 返回mmoe网络对应的后续每个任务的输入
+    :param inputs: input embedding features
+    :param num_domains: number of tasks
+    :param num_experts: number of experts
+    :param exprt_units: expert network structure
+    :return: per-task inputs produced by the MMoE network
     '''
 
     expert_outlist = []
     for expert_id in range(num_experts):
-        # inputs输入到第i个专家网络中
+        # Feed inputs into the i-th expert network
         expert_output = expert_dnn(exprt_units, inputs, name=f'expert_{expert_id}')  # (batch_size,expert_out_dim)
         expert_outlist.append(expert_output)
     expert_feas = tf.stack(expert_outlist, axis=1)  # (batch_size,num_experts,expert_out_dim)
@@ -47,13 +47,13 @@ def mmoe_layer(inputs, num_domains, num_experts, exprt_units):
     domain_input_list = []
     gate_units = num_experts
     for task_id in range(num_domains):
-        # inputs输入到门控网络中
+        # Feed inputs into the gating network
         gate_i = gate_layer(gate_units, inputs, f'gate_{task_id}')  # shape:(batch_size,num_experts)
         gate_i = tf.expand_dims(gate_i, -1)  # (batch_size,num_experts,1)
         print('gate_i--', gate_i)
-        # 门控i对专家j输出进行加权，即将门控网络i与所有专家输出进行点乘
+        # Gate i weights expert outputs by element-wise multiplication
         domain_input = tf.multiply(expert_feas, gate_i)  # (batch_size,num_experts,expert_out_dim)
-        # 用门控对所有专家加权后，进行求和得到每个任务的输入
+        # Sum gated expert outputs to get per-task inputs
         domain_input = tf.reduce_sum(domain_input, axis=1)  # (batch_size,expert_out_dim)
         print('--domain_input', domain_input)
         domain_input_list.append(domain_input)

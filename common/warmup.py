@@ -40,11 +40,11 @@ def main(argv):
         data = json.load(f)["inputs"]
 
     request = tensorflow_serving.apis.predict_pb2.PredictRequest()
-    request.model_spec.name = 'model'  # 替换为你的模型名称
-    request.model_spec.signature_name = 'serving_default'  # 使用默认签名函数
+    request.model_spec.name = 'model'  # Replace with your model name
+    request.model_spec.signature_name = 'serving_default'  # Use default signature
     for k in data:
         k_idx = schema_fea2idx_dict[k]
-        request.inputs[k_idx].CopyFrom(tf.make_tensor_proto(data[k], tf.string))  # 将图片数据添加到输入张量中
+        request.inputs[k_idx].CopyFrom(tf.make_tensor_proto(data[k], tf.string))  # Add input data to the input tensor
 
     example = prediction_log_pb2.PredictionLog(predict_log=prediction_log_pb2.PredictLog(request=request))
 
@@ -56,6 +56,6 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    # 基于body.json生成的数据，生成tf_serving_warmup_requests文件到模型导出目录下
+    # Generate tf_serving_warmup_requests from body.json data in the model export directory
     app.run(main)
 

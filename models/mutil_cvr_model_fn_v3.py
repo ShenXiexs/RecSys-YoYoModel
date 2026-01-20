@@ -105,15 +105,15 @@ def model_fn(features: dict, labels, mode, params: dict):
         elif params.get("senet_type", "ContextGating") == "TransformGate":
             feature_index = tf.constant(senet_config.pop("feature_index"), dtype=tf.int64)
             bias_features = tf.gather(features["features"], feature_index, axis=1)
-            # 偏置特征独立emb_table
+            # Bias features use a separate emb_table
             t_emb_lookuped, t_groups, t_embeddings, t_policy = create_lookup_emb_tabel(bias_features, embedding_size,
                                                                                        devices_info, is_training,
                                                                                        initializer, params,
                                                                                        name="TransformGate")
             groups.extend(t_groups)
-            # 先用偏置特征对所有ID特征进行加权
+            # First use bias features to weight all ID features
             transform_input = TransformGate(t_emb_lookuped, emb_lookuped, **senet_config)(is_training)
-            # 特征重要性加权
+            # Feature-importance weighting
             senet_layer = ContextGating(bn=senet_config.get("bBN", False))
             emb_lookuped = senet_layer(transform_input, transform_input, is_training)
         else:
@@ -214,10 +214,10 @@ def model_fn(features: dict, labels, mode, params: dict):
                 if feature_select_topk:
                     senet_layer = SeNet(features_num)
                     senet_weight = senet_layer(emb_lookuped, is_training, return_weight=True)
-                    avg_weights = tf.reduce_mean(senet_weight, axis=0)  # (features_num, ) 每个特征的平均权重
-                    # 筛选topK特征的索引
+                    avg_weights = tf.reduce_mean(senet_weight, axis=0)  # (features_num,) average weight per feature
+                    # Indices of top-K features
                     top_indices = tf.argsort(avg_weights, direction='DESCENDING')[:feature_select_topk]  # (k,)
-                    # 筛选后的特征
+                    # Selected features
                     id_features = tf.gather(id_features, top_indices, axis=1)
                 stem_input = []
                 emb_size_dict = {}

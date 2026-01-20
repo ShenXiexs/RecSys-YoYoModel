@@ -51,12 +51,12 @@ def set_global_seed(seed=107):
 
 
 def get_session_config():
-    """获取会话配置"""
+    """Get session configuration."""
     strategy, gpu_ids = None, []
-    # CPU线程配置
+    # CPU thread configuration
     if getattr(TrainConfig, "device", "CPU").lower() == "gpu" and FLAGS.mode != "export":
-        # GPU模式
-        # 配置所有GPU的内存增长
+        # GPU mode
+        # Configure memory growth for all GPUs
         physical_devices = tf.config.list_physical_devices('GPU')
         os.environ["CUDA_VISIBLE_DEVICES"] = ",".join(map(str, range(len(physical_devices))))
         if physical_devices:
@@ -64,7 +64,7 @@ def get_session_config():
                 try:
                     if getattr(TrainConfig, 'gpu_memory_growth', True):
                         tf.config.experimental.set_memory_growth(device, True)
-                    # 设置内存限制（如果指定）
+                    # Set a memory limit (if specified)
                     if getattr(TrainConfig, 'gpu_memory_limit', 0) > 0:
                         tf.config.set_logical_device_configuration(
                             device,
@@ -76,11 +76,11 @@ def get_session_config():
         #
         gpu_ids = getattr(TrainConfig, 'gpu_list', '').split(',')
         if len(gpu_ids) > 1:
-            # 创建MirroredStrategy用于多GPU训练
+            # Create MirroredStrategy for multi-GPU training
             strategy = tf.distribute.MirroredStrategy()
             logger.info(f"Using multi-GPU with devices: {getattr(TrainConfig, 'gpu_list', '')}")
             logger.info(f"Number of devices: {strategy.num_replicas_in_sync}")
-        # GPU模式下的线程配置
+        # Thread configuration for GPU mode
         config = tf.compat.v1.ConfigProto(
             device_count={'GPU': len(physical_devices)},
             allow_soft_placement=True,
@@ -89,10 +89,10 @@ def get_session_config():
         config.gpu_options.visible_device_list = ",".join(gpu_ids)
         config.inter_op_parallelism_threads = 8
         config.intra_op_parallelism_threads = 8
-        # GPU内存配置
+        # GPU memory configuration
         if getattr(TrainConfig, 'gpu_memory_growth', True):
             config.gpu_options.allow_growth = True
-        # 设置GPU内存分配比例
+        # Set GPU memory allocation fraction
         if getattr(TrainConfig, 'gpu_memory_limit', 0) == 0:
             config.gpu_options.per_process_gpu_memory_fraction = 0.9
     else:
@@ -110,18 +110,18 @@ def get_session_config():
 
 
 def train(filenames, params, model_config, steps=None, strategy=None):
-    # ==========  执行任务  ========== #
+    # ========== Run task ========== #
     model_dir = os.path.dirname(FLAGS.ckpt_dir)
     #
     model_fn_path, input_fn_path = TrainConfig.model_modul, TrainConfig.dataset_modul
-    # 解析模型函数
+    # Resolve model function
     model_fn_modul, _, model_fn_str = model_fn_path.rpartition('.')
     model_fn = getattr(import_module(model_fn_modul), model_fn_str)
-    # 解析数据函数
+    # Resolve data function
     input_fn_modul, _, input_fn_str = input_fn_path.rpartition('.')
     input_fn = getattr(import_module(input_fn_modul), input_fn_str)
 
-    # 根据设备类型调整batch size
+    # Adjust batch size by device type
     train_spec_config = TrainConfig.inp_fn_config.get("train_spec", {})
     eval_spec_config = TrainConfig.inp_fn_config.get("eval_spec", {})
     train_epoch = TrainConfig.inp_fn_config.get("train_epoch", 1)
@@ -130,12 +130,12 @@ def train(filenames, params, model_config, steps=None, strategy=None):
     #
     if getattr(TrainConfig, "device", "CPU") == "gpu" and strategy \
             and len(getattr(TrainConfig, 'gpu_list', '').split(",")) > 1:
-        # 多GPU模式下，每个GPU使用原始batch size
+        # In multi-GPU mode, each GPU uses the original batch size
         train_batch_size = train_batch_size * strategy.num_replicas_in_sync
         batch_size = batch_size * strategy.num_replicas_in_sync
         logger.info(f"Adjusted batch size for multi-GPU: train={train_batch_size}, eval={batch_size}")
 
-    # 创建Estimator
+    # Create Estimator
     estimator = tf.estimator.Estimator(
         model_fn=model_fn,
         model_dir=FLAGS.ckpt_dir,
@@ -228,19 +228,19 @@ def main(argv=None):
     data_path = os.path.join(os.path.dirname(FLAGS.data_path), data_nm)
     logger.info(f">>>>>>>>>>>>>>>data_path={data_path}<<<<<<<<<<<<<<<<<<")
     t0 = time.time()
-    # 创建RunConfig
+    # Create RunConfig
     session_config, strategy, gpu_ids = get_session_config()
     model_config = tf.estimator.RunConfig().replace(
         session_config=session_config,
         **TrainConfig.es_run_config
     )
     if gpu_ids and len(gpu_ids) > 1:
-        # 多GPU模式使用分布式策略
+        # Use distribution strategy in multi-GPU mode
         model_config = model_config.replace(
             train_distribute=strategy,
             eval_distribute=strategy
         )
-    #参数配置
+    # Parameter configuration
     params = {
         "mode": FLAGS.mode,
         "ps_num": len(gpu_ids) if gpu_ids else ps_num,
@@ -249,10 +249,10 @@ def main(argv=None):
         "task_idx": task_idx,
         "slot": FLAGS.slot,
         "restrict": False,
-        "device": "GPU" if gpu_ids else "CPU",  # 添加设备信息到params
+        "device": "GPU" if gpu_ids else "CPU",  # Add device info to params
         "gpu_ids": gpu_ids
     }
-    # 添加用户指定的模型fn所需的参数
+    # Add user-specified params required by the model fn
     params.update(TrainConfig.train_params)
     if len(FLAGS.file_list) == 0:
         time_str = parse(FLAGS.time_str).strftime('%Y%m%d')

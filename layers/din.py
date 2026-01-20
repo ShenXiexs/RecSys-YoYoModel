@@ -23,8 +23,8 @@ def dnn():
 def din_layer(x_hist:Tensor,x_candi):
     '''
 
-    :param x_hist: 历史items shape:(B,seq_max_len,emb_dim)
-    :param x_candi: 当前item shape:(B,emb_dim)
+    :param x_hist: history items shape:(B,seq_max_len,emb_dim)
+    :param x_candi: current item shape:(B,emb_dim)
     :return:
     '''
     seq_max_len = tf.shape(x_hist)[1]

@@ -4,7 +4,7 @@ from common.connect_config import *
 
 
 def get_odps():
-    """ 链接odps """
+    """Connect to ODPS."""
     odps_obj = ODPS(your_accesskey_id, your_accesskey_secret, your_default_project, endpoint=your_end_point,
                     tunnel_endpoint=tunnel_endpoint)
     return odps_obj

@@ -30,11 +30,11 @@ def focal_loss_sigmoid(labels, logits, alpha=0.25, gamma=2.0):
         alpha: balancing parameter
         gamma: focusing parameter
     """
-    # 计算概率
+    # Compute probabilities
     probabilities = logits  # tf.sigmoid(logits)
-    # 计算p_t
+    # Compute p_t
     p_t = tf.where(tf.equal(labels, 1.0), probabilities, 1 - probabilities)
-    # 计算alpha_t
+    # Compute alpha_t
     alpha_t = tf.where(tf.equal(labels, 1.0), alpha, 1 - alpha)
     # Focal Loss
     focal_loss = -alpha_t * tf.pow(1.0 - p_t, gamma) * tf.math.log(tf.clip_by_value(p_t, 1e-8, 1.0))
@@ -130,8 +130,8 @@ def model_fn(features, labels, mode, params):
             tower_logits.append(task_logits)
             logger.info(f"---label_{i}:{label_}, task_pred_{i}:{task_pred}, task_logits_{i}:{task_logits}---")
             if label_nm == "order_label" and params.get("use_focal_loss", False):
-                order_alpha = params.get('order_alpha', 0.75)  # 正样本权重
-                order_gamma = params.get('order_gamma', 2.0)  # 聚焦参数
+                order_alpha = params.get('order_alpha', 0.75)  # Positive class weight
+                order_gamma = params.get('order_gamma', 2.0)  # Focusing parameter
                 loss = focal_loss_sigmoid(label_, task_logits, order_alpha, order_gamma)
             else:
                 loss = tf.reduce_mean(tf.keras.backend.binary_crossentropy(target=label_,

@@ -33,7 +33,7 @@ def input_fn(filenames, model_dir, task_number=1, task_idx=0, shuffle=True, epoc
     # ['user_id','requestid','combination_un_id','adslot_id_type','is_click','is_conversion','features']
     dataset = dataset.map(lambda x: tf.strings.split(x, "\t"))\
                      .filter(lambda x: tf.math.equal(tf.shape(x)[0], 7))
-    #返回dataset列为is_click,is_conversion,features,并验证features的字段个数是和slot的字段个数对齐，不对齐就过滤
+    # Return dataset columns as is_click, is_conversion, features; verify feature count matches slots, otherwise filter out.
     dataset = dataset.map(mapper).filter(lambda *x: tf.math.equal(tf.shape(x[2])[0],
                                                                                          len(select_feature)))
     #

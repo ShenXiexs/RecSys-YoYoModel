@@ -25,7 +25,7 @@ def mask_tensor(tensor, padding="_"):
 def _get_embedding(feas,batch_size,fea_size,embedding_table,lookup_name='lookup'):
     '''
 
-    :param feas: 输入的原始特征，shape:[batch_size,fea_size]
+    :param feas: input raw features, shape:[batch_size, fea_size]
     :param embedding_table: tfra.dynamic_embedding.get_variable
     :param lookup_name:
     :return:

@@ -36,22 +36,22 @@ def parse_int(x):
 def upload_folder(folder_name, target_folder=None):
     for root, dirs, files in os.walk(folder_name):
         for file in files:
-            # 构造文件的完整路径
+            # Build the full file path
             file_path = os.path.join(root, file)
             print('file_path:',file_path)
-            # 构造OSS上的路径
+            # Build the OSS path
             if target_folder:
                 target_path = os.path.join(target_folder, file_path.lstrip(os.path.sep))
             else:
                 target_path = file_path.lstrip(os.path.sep)
-            # 上传文件
+            # Upload file
             with open(file_path, 'rb') as fileobj:
                 logger().info(f'put file:{file_path} to oss target_path:{target_path}')
                 bucket.put_object(target_path, fileobj)
 
 
 def logger():
-    """ 日志输出 """
+    """Log output."""
     log = logging.getLogger(name="run_datawork_C33_model_feat")
     log.setLevel(level=logging.INFO)
     if not log.handlers:
@@ -69,7 +69,7 @@ def feat_file_exists():
     feat_file = "_FEATURE_SUCCESS"
     offline_feat_path = os.path.join(oss_offline_base, model_date, feat_file)
     logger().info(f"offline_feat_path: {offline_feat_path}")
-    threshold_cnt = 360  # 12 小时
+    threshold_cnt = 360  # 12 hours
 
     cnt = 0
     while True:

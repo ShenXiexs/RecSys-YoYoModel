@@ -11,9 +11,9 @@ from common.metrics import evaluate
 from collections import OrderedDict
 from common.utils import *
 
-# 添加项目根目录到Python路径
+# Add project root to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)  # 假设config在项目根目录下
+project_root = os.path.dirname(current_dir)  # Assume config is at project root
 sys.path.insert(0, project_root)
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 logger = tf.compat.v1.logging
@@ -29,34 +29,34 @@ def model_fn(features, labels, mode, params):
     logger.info(f">>>------ train_config.__dict__: {train_config.__dict__}")
     ######################devide################################
     if is_training:
-        # 训练支持多卡
+        # Training supports multi-GPU
         devices_info = ["/job:localhost/replica:0/task:{}/{}:{}".format(i, device, i) for i in
-                        range(params["ps_num"])]  # ps_num也就是GPU训练使用的个数等同gpu_num
+                        range(params["ps_num"])]  # ps_num equals the number of GPUs used for training
         initializer = tf.compat.v1.random_normal_initializer(-1, 1)
     elif mode == tf.estimator.ModeKeys.EVAL or mode == tf.estimator.ModeKeys.PREDICT:
-        # eval和infer都是单卡，使用GPU:0
+        # eval and infer are single GPU, use GPU:0
         devices_info = ["/job:localhost/replica:0/task:{}/{}:0".format(0, device) for i in range(params["ps_num"])]
         initializer = tf.compat.v1.zeros_initializer()
     else:
-        # export的时候用CPU
+        # Use CPU during export
         devices_info = ["/job:localhost/replica:0/task:{}/CPU:0".format(0) for i in range(params["ps_num"])]
         initializer = tf.compat.v1.zeros_initializer()
     if len(devices_info) == 0: devices_info = "/job:localhost/replica:0/task:0/CPU:0"
     logger.info("------ dynamic_embedding devices_info is {} -------".format(devices_info))
     ##################################################################
-    # 合并普通特征和序列特征一起进行hash和embedding lookup
+    # Merge regular and sequence features for hashing and embedding lookup
     batch_size = tf.shape(features["features"])[0]
-    # 处理序列特征: [batch_size, num_sequences, seq_len] -> [batch_size, num_sequences * seq_len]
+    # Process sequence features: [batch_size, num_sequences, seq_len] -> [batch_size, num_sequences * seq_len]
     #sequence_features = tf.stack(list(features["seq_features"].values()), axis=1)  # [None, 26, 50] for each sample
-    num_sequences = len(seq_idxs)  #len(features["seq_features"])  # 序列特征的数量
-    seq_len = seq_length_list[0]  # 每个序列的长度
-    # 重塑序列特征 [batch_size, 26, 50] -> [batch_size, 26*50]
+    num_sequences = len(seq_idxs)  # len(features["seq_features"])  # number of sequence features
+    seq_len = seq_length_list[0]  # length per sequence
+    # Reshape sequence features [batch_size, 26, 50] -> [batch_size, 26*50]
     seq_features_flat = features["seq_features"]  #tf.reshape(sequence_features, [batch_size, num_sequences * seq_len])
 
-    # 合并所有特征 [batch_size, (num_regular_features + num_sequences * seq_len)]
+    # Merge all features [batch_size, (num_regular_features + num_sequences * seq_len)]
     all_features = tf.concat([features["features"], seq_features_flat], axis=1)
 
-    # 统一进行hash和embedding lookup
+    # Perform unified hash and embedding lookup
     feat_val, id_idx = tf.unique(tf.reshape(all_features, (-1,)))
     id_val = tf.strings.to_hash_bucket_strong(feat_val, 2 ** 63 - 1, [1, 2])
 
@@ -81,34 +81,34 @@ def model_fn(features, labels, mode, params):
     ######################lookup end################################
     num_regular_features = len(select_feature)
     total_features = num_regular_features + num_sequences * seq_len
-    # 重塑所有特征的embedding [batch_size, total_features, 9]
+    # Reshape all feature embeddings [batch_size, total_features, 9]
     all_embeddings = tf.reshape(weights, [batch_size, total_features, embedding_size])
-    # 分离普通特征和序列特征的embedding
-    # 普通特征embedding: [batch_size, num_regular_features, 9] -> [batch_size, num_regular_features * 9]
+    # Split embeddings for regular and sequence features
+    # Regular feature embeddings: [batch_size, num_regular_features, 9] -> [batch_size, num_regular_features * 9]
     regular_emb = tf.reshape(all_embeddings[:, :num_regular_features, :],
                              [batch_size, num_regular_features * embedding_size])
 
-    # 序列特征embedding: [batch_size, num_sequences * seq_len, 9] -> [batch_size, num_sequences, seq_len, 9]
+    # Sequence feature embeddings: [batch_size, num_sequences * seq_len, 9] -> [batch_size, num_sequences, seq_len, 9]
     seq_emb_reshaped = tf.reshape(all_embeddings[:, num_regular_features:, :],
                                   [batch_size, num_sequences, seq_len, embedding_size])
 
-    # 创建序列mask (填充位置为0，其他为1)
+    # Create sequence mask (padding=0, others=1)
     seq_mask = tf.not_equal(seq_features_flat, "0")  # [batch_size, num_sequences * seq_len]
     seq_mask = tf.reshape(seq_mask, [batch_size, num_sequences, seq_len])  # [batch_size, num_sequences, seq_len]
     seq_mask_float = tf.cast(seq_mask, tf.float32)  # [batch_size, num_sequences, seq_len]
     seq_mask_expanded = tf.expand_dims(seq_mask_float, -1)  # [batch_size, num_sequences, seq_len, 1]
 
-    # 应用mask并计算均值pooling
+    # Apply mask and compute mean pooling
     seq_emb_masked = seq_emb_reshaped * seq_mask_expanded  # [batch_size, num_sequences, seq_len, 9]
     seq_sum = tf.reduce_sum(seq_emb_masked, axis=2)  # [batch_size, num_sequences, 9]
     seq_count = tf.reduce_sum(seq_mask_float, axis=2, keepdims=True)  # [batch_size, num_sequences, 1]
-    seq_count = tf.maximum(seq_count, 1.0)  # 避免除0
+    seq_count = tf.maximum(seq_count, 1.0)  # Avoid division by zero
     seq_emb_pooled = seq_sum / seq_count  # [batch_size, num_sequences, 9]
 
-    # 展平序列特征embedding [batch_size, num_sequences * 9]
+    # Flatten sequence embeddings [batch_size, num_sequences * 9]
     seq_emb_flat = tf.reshape(seq_emb_pooled, [batch_size, num_sequences * embedding_size])
 
-    # 合并普通特征和序列特征的embedding
+    # Concatenate regular and sequence embeddings
     total_emb = tf.concat([regular_emb, seq_emb_flat], axis=1)
 
     logger.info(f"------embeddings: {embeddings} emb_lookuped: {total_emb} -------")

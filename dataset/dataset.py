@@ -49,7 +49,7 @@ def input_fn(filenames, model_dir, task_number=1, task_idx=0, shuffle=True, epoc
         field_sep = "\003"
     dataset = dataset.map(lambda x: tf.strings.split(x, field_sep))\
                      .filter(lambda x: tf.math.equal(tf.shape(x)[0], feat_len))
-    #验证features的字段个数是和slot的字段个数对齐，不对齐就过滤
+    # Verify feature count matches slots; filter out mismatches.
     dataset = dataset.map(mapper).filter(lambda *x: tf.math.equal(tf.shape(x[features_index])[0], dense_feature_num))
     #
     dataset = dataset.repeat(epochs).prefetch(batch_size * 100)

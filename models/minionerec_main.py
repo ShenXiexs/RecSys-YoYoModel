@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# MiniOneRec 内置实现（不依赖 MiniOneRec-main 目录）。在 Estimator 的 train/eval 流中，
-# 用 tf.py_function 触发一个简化版的 SFT/GRPO 训练，模型主体使用 HuggingFace Transformers。
+# Built-in MiniOneRec implementation (no dependency on MiniOneRec-main). In the Estimator train/eval flow,
+# use tf.py_function to trigger a simplified SFT/GRPO training; model backbone uses HuggingFace Transformers.
 import os
 import sys
 import ast
@@ -35,7 +35,7 @@ def _prepare_kwargs(stage_cfg):
 
 
 class MiniOneRecRLDataset(Dataset):
-    """简化版 RL 数据集：读取 CSV，使用 history_item_sid -> item_sid 作为训练对。"""
+    """Simplified RL dataset: read CSV, use history_item_sid -> item_sid as training pairs."""
     def __init__(self, csv_path, tokenizer, max_len=512, sample=-1, seed=42):
         self.tokenizer = tokenizer
         df = pd.read_csv(csv_path)
@@ -48,7 +48,7 @@ class MiniOneRecRLDataset(Dataset):
         return len(self.data)
 
     def _parse_history(self, raw):
-        # history_item_sid 列预期形如 "['sid1','sid2',...]" 或列表字符串
+        # history_item_sid is expected like "['sid1','sid2',...]" or a list string
         try:
             lst = ast.literal_eval(raw) if isinstance(raw, str) else raw
             if isinstance(lst, list):
@@ -69,7 +69,7 @@ class MiniOneRecRLDataset(Dataset):
         input_ids = prompt_ids + target_ids
         if len(input_ids) > self.max_len:
             input_ids = input_ids[-self.max_len:]
-        # mask prompt 部分，只有 target 参与 loss
+        # Mask prompt part so only target contributes to loss
         labels = [-100] * len(prompt_ids) + target_ids
         labels = labels[-len(input_ids):]
         attn_mask = [1] * len(input_ids)
@@ -92,7 +92,7 @@ def _collate_fn(batch, pad_id):
         attn_mask.append(
             torch.cat([sample["attention_mask"], torch.zeros(pad_len, dtype=torch.long)])
         )
-        # label 用 -100 作为 pad，避免参与 loss
+        # Use -100 as label pad to exclude from loss
         labels.append(
             torch.cat([sample["labels"], torch.full((pad_len,), -100, dtype=torch.long)])
         )
@@ -104,7 +104,7 @@ def _collate_fn(batch, pad_id):
 
 
 def _train_minionerec(stage_cfg, stage_name):
-    """简化版训练：SFT & RL 都用监督交叉熵，RL 仅增加随机采样增强。"""
+    """Simplified training: SFT & RL both use supervised cross-entropy; RL only adds random sampling augmentation."""
     cfg = _prepare_kwargs(stage_cfg)
     base_model = cfg.get("base_model") or cfg.get("model_path")
     train_file = cfg.get("train_file")
@@ -150,7 +150,7 @@ def _train_minionerec(stage_cfg, stage_name):
             loss.backward()
             optimizer.step()
             optimizer.zero_grad()
-        # 简化版 eval
+        # Simplified eval
         model.eval()
         eval_losses = []
         with torch.no_grad():
@@ -184,7 +184,7 @@ def _py_launcher(stage_key, params):
     def _runner():
         if _STAGE_DONE[stage_key]:
             return np.int64(0)
-        # 简化：SFT/RL 都调用同一训练流程（RL 可进一步增强，但这里保持最小可跑）
+        # Simplified: SFT/RL share the same training flow (RL could be enhanced, but keep minimal runnable here)
         _train_minionerec(payload, selected_stage)
         _STAGE_DONE[stage_key] = True
         return np.int64(0)
@@ -210,13 +210,13 @@ def input_fn(filenames,
              shuffle=True,
              epochs=1,
              batch_size=1):
-    """提供给 Estimator 的占位 input_fn，避免加载大规模 TF 数据。"""
+    """Placeholder input_fn for Estimator to avoid loading large TF datasets."""
     dummy = tf.zeros([batch_size, 1], dtype=tf.float32)
     return {"dummy_feature": dummy}
 
 
 def model_fn(features, labels, mode, params):
-    """Estimator-compatible wrapper around内置的 MiniOneRec 训练（简化版）。"""
+    """Estimator-compatible wrapper around the built-in MiniOneRec training (simplified)."""
     loss = tf.constant(0.0, dtype=tf.float32)
     predictions = _dummy_predictions(features)
 
