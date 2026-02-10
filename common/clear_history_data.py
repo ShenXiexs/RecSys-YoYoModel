@@ -47,9 +47,9 @@ def _should_skip_delete(del_date):
 
 def get_args():
     parser = argparse.ArgumentParser(description='manual to this script')
-    parser.add_argument("--data_path", type=str, help="数据路径", required=True)
+    parser.add_argument("--data_path", type=str, help="Data path", required=True)
     parser.add_argument("--curr_date", type=str, help="curr_date", required=True)
-    parser.add_argument("--del_date", type=str, help="删除N天前的数据", default=None)
+    parser.add_argument("--del_date", type=str, help="Delete data from N days ago", default=None)
     args, unknown = parser.parse_known_args()
     print((args, unknown))
     return args

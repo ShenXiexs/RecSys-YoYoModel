@@ -36,7 +36,7 @@ task=${MODEL_TASK}
 if [ "${task}" == "" ]; then
   task=$(basename ${code_dir})
 fi
-#定义模型导出和模型拉取数据、模型特征表的模型分支数据
+# Define model branch data for exports, data pulls, and feature tables
 export MODEL_ROOT="/data/share/opt/model"
 export DATA_ROOT="/data/share/opt/data"
 model_dir="${MODEL_ROOT}/${task}"

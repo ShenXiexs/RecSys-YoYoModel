@@ -39,7 +39,7 @@ class MultiHeadTokenMixer(tf.layers.Layer):
 
     def build(self, input_shape):
         if self.d_model % self.num_heads != 0:
-            raise ValueError("d_model 必须能整除 num_heads, got d_model=%d num_heads=%d" %
+            raise ValueError("d_model must be divisible by num_heads, got d_model=%d num_heads=%d" %
                              (self.d_model, self.num_heads))
         self.d_head = self.d_model // self.num_heads
         init = tf.variance_scaling_initializer(scale=2.0)
@@ -86,7 +86,7 @@ class PaperMultiHeadTokenMixer(tf.layers.Layer):
     def build(self, input_shape):
         if self.d_model % self.num_tokens != 0:
             raise ValueError(
-                "论文 TokenMixing 需要 d_model % num_tokens == 0, got d_model=%d num_tokens=%d" %
+                "Paper TokenMixing requires d_model % num_tokens == 0, got d_model=%d num_tokens=%d" %
                 (self.d_model, self.num_tokens)
             )
         self.d_head = self.d_model // self.num_tokens
@@ -268,7 +268,7 @@ def _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg, pool_modes,
     if not seq_cfg:
         return None, 0
     if "seq_features" not in features:
-        logger.warning("features 中缺少 seq_features，RankMixer 仅使用非序列特征。")
+        logger.warning("Missing seq_features in features; RankMixer will use only non-sequence features.")
         return None, 0
     seq_features_flat = _dense_if_sparse(features["seq_features"], default_value="0")
     start = 0
@@ -394,7 +394,7 @@ def model_fn(features, labels, mode, params):
         if seq_tokens is not None and seq_token_count > 0:
             raw_chunks.append(tf.reshape(seq_tokens, [tf.shape(seq_tokens)[0], -1]))  # [B, S*E]
         if not raw_chunks:
-            raise ValueError("RankMixer 无可用输入，请确认 use_other_features 或 seq_features 配置。")
+            raise ValueError("RankMixer has no usable inputs; check use_other_features or seq_features config.")
         e_input = tf.concat(raw_chunks, axis=1)  # [B, total_dim]
 
         # Fixed token count: pad to num_tokens * d_in
@@ -412,8 +412,8 @@ def model_fn(features, labels, mode, params):
                     total_dim_static += int(s_shape[1]) * int(s_shape[2])
             if total_dim_static <= 0:
                 raise ValueError(
-                    "paper tokenization 需要 e_input 的静态维度（Dense 要求输入最后一维已知）。"
-                    "请检查 dataset 输出是否导致 shape 丢失，或将 rankmixer.tokenization 改为 legacy。"
+                    "Paper tokenization requires a static e_input dimension (Dense needs a known last dim). "
+                    "Check whether the dataset output lost static shape, or set rankmixer.tokenization to legacy."
                 )
             e_input.set_shape([None, total_dim_static])
 
@@ -428,7 +428,7 @@ def model_fn(features, labels, mode, params):
 
         # Paper TokenMixing recommends H=T and D % T == 0; otherwise downgrade to learned mixer
         if token_mixer_type in ("paper", "shuffle", "rankmixer") and (d_model % token_count != 0):
-            logger.warning("d_model=%d 不能整除 num_tokens=%d，token_mixer_type=paper 将降级为 learned。",
+            logger.warning("d_model=%d is not divisible by num_tokens=%d; token_mixer_type=paper will fall back to learned.",
                            d_model, token_count)
             token_mixer_type = "learned"
 
@@ -468,7 +468,7 @@ def model_fn(features, labels, mode, params):
             token_count += seq_token_count
 
         if not token_chunks:
-            raise ValueError("RankMixer 无可用 token，请确认 use_other_features 或 seq_features 配置。")
+            raise ValueError("RankMixer has no usable tokens; check use_other_features or seq_features config.")
 
         tokens = tf.concat(token_chunks, axis=1)
         tokens.set_shape([None, token_count, embedding_size])
@@ -477,7 +477,7 @@ def model_fn(features, labels, mode, params):
         tokens.set_shape([None, token_count, d_model])
 
         if token_mixer_type in ("paper", "shuffle", "rankmixer") and (d_model % token_count != 0):
-            logger.warning("d_model=%d 不能整除 token_count=%d，token_mixer_type=paper 将降级为 learned。",
+            logger.warning("d_model=%d is not divisible by token_count=%d; token_mixer_type=paper will fall back to learned.",
                            d_model, token_count)
             token_mixer_type = "learned"
 
@@ -490,7 +490,7 @@ def model_fn(features, labels, mode, params):
         tokens = tf.concat([cls_token, tokens], axis=1)
         token_count += 1
         if token_mixer_type in ("paper", "shuffle", "rankmixer") and (d_model % token_count != 0):
-            logger.warning("CLS token 导致 token_count=%d 不再整除 d_model=%d，token_mixer_type=paper 将降级为 learned。",
+            logger.warning("CLS token makes token_count=%d no longer divide d_model=%d; token_mixer_type=paper will fall back to learned.",
                            token_count, d_model)
             token_mixer_type = "learned"
             num_heads = num_heads_req

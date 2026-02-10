@@ -3,9 +3,9 @@ code_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && cd .. && pwd
 . ${code_dir}/bin/conf.sh
 
 time_str=$2
-# ckpt、log日志等数据保留最近14天
+# Keep ckpt/log data for the last 14 days
 delete_date=$(date -d "${time_str:0:8} ${time_str:8:2} - 14days " +"%Y%m%d")
-# 改成了train_config中del_days控制，默认保留30天
+# Controlled by del_days in train_config; default keep 30 days
 # data_del_date=$(date -d "${time_str:0:8} ${time_str:8:2} - 90days " +"%Y%m%d")
 python ${code_dir}/common/clear_history_data.py --data_path ${DATA_ROOT} --curr_date "${time_str:0:8}"
 #
@@ -15,8 +15,8 @@ rm -f ${code_dir}/bin/${MODEL_TASK}/nohup_*${delete_date}*.log
 
 data_dir=$model_dir/export_dir
 for item in "$data_dir"/*; do
-    if [ -d "$item" ]; then  # 检查是否为文件
-        model_ts="$(basename "$item")"  # 打印文件名
+    if [ -d "$item" ]; then  # Check if directory
+        model_ts="$(basename "$item")"  # Get directory name
         if (( ${#model_ts}==13 ));then
             model_ts=$(( model_ts/1000  ))
         fi

@@ -165,7 +165,7 @@ def model_fn(features, labels, mode, params):
     prepared = dict(features)
 
     if "seq_features" not in features:
-        raise ValueError("features 中未找到 'seq_features'，请确认 dataset 输出新接口。")
+        raise ValueError("Missing 'seq_features' in features; please verify the dataset outputs the new interface.")
     seq_features_flat = _dense_if_sparse(features["seq_features"], default_value="0")  # [B, sum(L)]
     B = tf.shape(seq_features_flat)[0]
 
@@ -202,7 +202,7 @@ def model_fn(features, labels, mode, params):
         if col in seq_repr_dict:
             chunks.append(seq_repr_dict[col])             # [B, D]
     if not chunks:
-        raise ValueError("没有可用特征：请检查 TrainConfig.seq_length 或 use_other_features。")
+        raise ValueError("No available features: check TrainConfig.seq_length or use_other_features.")
     h = tf.concat(chunks, axis=1)
 
     with tf.compat.v1.variable_scope("head_ln"):

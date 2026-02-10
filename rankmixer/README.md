@@ -1,7 +1,7 @@
-# RankMixer 封装版说明
+# RankMixer Wrapper Guide
 
-**Python API（库调用）**
-最简调用（封装版函数）：
+**Python API (library usage)**
+Minimal usage (wrapper function):
 
 ```python
 from rankmixer import train
@@ -12,7 +12,7 @@ train(
 )
 ```
 
-更短入口：
+Shorter entry:
 
 ```python
 from rankmixer import run_train
@@ -20,7 +20,7 @@ from rankmixer import run_train
 run_train("RankMixer_Shen0202", "20260201")
 ```
 
-带 overrides / groups：
+With overrides / groups:
 
 ```python
 from rankmixer import train
@@ -33,7 +33,7 @@ train(
 )
 ```
 
-也可以直接创建实例：
+You can also create an instance directly:
 
 ```python
 from rankmixer import create_rankmixer
@@ -49,7 +49,7 @@ rm.train(
 )
 ```
 
-也可以直接运行示例脚本：
+You can also run the example script directly:
 
 ```bash
 python rankmixer/example_api.py \
@@ -58,7 +58,9 @@ python rankmixer/example_api.py \
   --overrides_path /path/to/overrides.json \
   --groups_path /path/to/semantic_groups.json
 ```
-测试脚本（等价于 `bin/test.sh <TASK> <DATE>` 的封装版）：
+
+Test script (wrapper equivalent to `bin/test.sh <TASK> <DATE>`):
+
 ```bash
 CUDA_VISIBLE_DEVICES=0 \
 nohup python rankmixer/test_equiv.py \
@@ -67,40 +69,42 @@ nohup python rankmixer/test_equiv.py \
   --date 20260201 \
   > /data/share/opt/model/RankMixer_Shen0209/logs/RankMixer_Shen0206.log 2>&1 &
 ```
-默认会额外写入：
-- `logs/main_<end_date>.log`（训练日志）
-- `logs/<end_date>.eval`（评估日志）
 
-**指定配置模块（这里并不依赖 task 命名）**
+By default it also writes:
+- `logs/main_<end_date>.log` (training log)
+- `logs/<end_date>.eval` (evaluation log)
+
+**Specify config module (independent of task naming)**
 
 ```bash
 python -m rankmixer --config config.RankMixer_Shen0202.packaged --mode train --time_str 20260201
 ```
 
-也支持路径形式：
+Path form also supported:
 
 ```bash
 python -m rankmixer --config config/RankMixer_Shen0202/packaged.py --mode train --time_str 20260201
 ```
 
-**目录与默认路径**
+**Directories and default paths**
 
-- `--task` 会自动映射到 `config/<task>/packaged.py`
-- `--task` 未提供时，需要手动指定 `--ckpt_dir` / `--data_path` / `--export_dir`
-- 默认路径会读取环境变量：`MODEL_ROOT=/data/share/opt/model`，`DATA_ROOT=/data/share/opt/data`
-- 如果输出目录想用 `RankMixer_Shen0209`，但配置仍引用 `RankMixer_Shen0202`：请用 `--task RankMixer_Shen0209` 搭配 `--config` 或 `--config_task RankMixer_Shen0202`
+- `--task` is automatically mapped to `config/<task>/packaged.py`
+- If `--task` is not provided, specify `--ckpt_dir` / `--data_path` / `--export_dir` manually
+- Default paths read environment variables: `MODEL_ROOT=/data/share/opt/model`, `DATA_ROOT=/data/share/opt/data`
+- If your output directory should be `RankMixer_Shen0209` but the config still references `RankMixer_Shen0202`:
+  use `--task RankMixer_Shen0209` together with `--config` or `--config_task RankMixer_Shen0202`
 
-**给其他人/其他项目调用**
+**Use from other repos/projects**
 
-- 前提：本仓库代码可访问（至少包含 `rankmixer/` 与 `config/`）
-- CLI 方式：把仓库根目录加入 `PYTHONPATH`
+- Prereq: this repo is accessible (at least `rankmixer/` and `config/`)
+- CLI: add the repo root to `PYTHONPATH`
 
 ```bash
 PYTHONPATH=/path/to/yoyo_model_shen2 \
 python -m rankmixer --config config.RankMixer_Shen0202.packaged --mode train --time_str 20260201
 ```
 
-- Python 方式：在脚本里加入仓库路径，然后调用封装函数或实例
+- Python: add the repo path, then call the wrapper function or instance
 
 ```python
 import sys
@@ -108,52 +112,52 @@ sys.path.insert(0, "/path/to/yoyo_model_shen2")
 from rankmixer import train, create_rankmixer
 
 train(task="RankMixer_Shen0202", time_str="20260201")
-# 或
+# or
 rm = create_rankmixer(task="RankMixer_Shen0202")
 rm.train(ckpt_dir="...", time_str="20260201", data_path="...")
 ```
 
-- 注意：`--config config/xxx/packaged.py` 需要在仓库根目录执行，或保证仓库根目录在 `PYTHONPATH` 中
+- Note: `--config config/xxx/packaged.py` must be run from the repo root, or ensure the repo root is in `PYTHONPATH`
 
-**常用场景**
-训练：
+**Common scenarios**
+Training:
 
 ```bash
 python -m rankmixer --task RankMixer_Shen0202 --mode train --time_str 20260201
 ```
 
-评估：
+Evaluation:
 
 ```bash
 python -m rankmixer --task RankMixer_Shen0202 --mode eval --time_str 20260201
 ```
 
-导出：
+Export:
 
 ```bash
 python -m rankmixer --task RankMixer_Shen0202 --mode export --time_str 20260201
 ```
 
-推理：
+Inference:
 
 ```bash
 python -m rankmixer --task RankMixer_Shen0202 --mode infer --time_str 20260201
 ```
 
-**时间参数**
+**Time arguments**
 
-- `--time_str` 必填，支持 `YYYYMMDD` 或 `YYYYMMDDHHMM`
-- `--end_time_str` 可选，用于批量区间
+- `--time_str` is required, supports `YYYYMMDD` or `YYYYMMDDHHMM`
+- `--end_time_str` is optional, for batch ranges
 
-**参数覆盖与语义分组**
+**Overrides and semantic groups**
 
-- `--overrides`：JSON 字符串，直接覆盖 `TrainConfig`（深度合并 dict）
-- `--overrides_path`：JSON/YAML 文件（优先级高于 `--overrides`）
-- `--groups_path`：JSON/YAML 文件，直接作为 `semantic_groups`
-- `--group_overrides`：JSON 字符串，按组名覆盖或整体替换
-- 规则：如果提供 `--groups_path`，则忽略 `--group_overrides`
+- `--overrides`: JSON string, directly overrides `TrainConfig` (deep-merge dict)
+- `--overrides_path`: JSON/YAML file (higher priority than `--overrides`)
+- `--groups_path`: JSON/YAML file, used directly as `semantic_groups`
+- `--group_overrides`: JSON string, override or replace by group name
+- Rule: if `--groups_path` is provided, `--group_overrides` is ignored
 
-示例（文件方式，推荐）：
+Example (file-based, recommended):
 
 ```bash
 python -m rankmixer \
@@ -164,7 +168,7 @@ python -m rankmixer \
   --groups_path /path/to/semantic_groups.json
 ```
 
-**Python 直接使用**
+**Python direct usage**
 
 ```python
 from rankmixer import RankMixer
@@ -187,8 +191,8 @@ estimator = rm.build_estimator()
 # rm.train(ckpt_dir="...", time_str="202602010000", data_path="...")
 ```
 
-**依旧选择 bin 脚本但要覆盖配置**
-不改 `bin/` 脚本，直接加环境变量：
+**Still using bin scripts but overriding config**
+No need to modify `bin/` scripts; just add environment variables:
 
 ```bash
 RANKMIXER_OVERRIDES_PATH=/path/to/overrides.json \
@@ -196,14 +200,14 @@ RANKMIXER_GROUPS_PATH=/path/to/semantic_groups.json \
 nohup bash bin/test.sh RankMixer_Shen0202 20260201 > ... 2>&1 &
 ```
 
-**CLI 参数一览**
+**CLI argument overview**
 
-- `--task` 任务名（映射到 `config/<task>/packaged.py`）
-- `--config` 配置模块或路径
+- `--task` task name (maps to `config/<task>/packaged.py`)
+- `--config` config module or path
 - `--mode` `train|eval|export|infer|feature_eval`
 - `--time_str` / `--end_time_str`
 - `--ckpt_dir` / `--data_path` / `--export_dir`
 - `--overrides` / `--overrides_path`
 - `--groups_path` / `--group_overrides`
 - `--file_list` / `--slot` / `--job_name`
-- `--extra_arg` 额外透传给 `main.py` 的参数（可重复）
+- `--extra_arg` extra args passed through to `main.py` (repeatable)

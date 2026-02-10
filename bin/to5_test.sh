@@ -20,7 +20,7 @@ while true; do
   time_str=$(date -d "${time_str:0:8} ${time_str:8:2} + ${delta} hours" +"%Y%m%d%H%M")
   end_date=$(date -d "${end_date:0:8} ${end_date:8:2} + ${delta} hours" +"%Y%m%d%H%M")
   echo "--> time_str: $time_str, end_date: $end_date"
-  #调用数据下载
+  # Download data
   #if [ "${time_str:0:8}" == "${end_date:0:8}" ]; then
   #  if [ -f "${DATA_ROOT}/${MODEL_TASK}/${time_str:0:8}/_SUCCESS" ]; then
   #    is_downodps=0
@@ -43,9 +43,9 @@ while true; do
   if [ ${is_train} -eq 1 ]; then
     if [ $(grep ${end_date:0:8} ${donefile} |wc -l |awk '{print $1}') -ge 1 ];then continue; fi
     echo "---------------------------------main-train-------------------------------------"
-    # 批量训练，清理ckpt/
+    # Batch training, clear ckpt/
     if [ ${IS_BATCH} -ne 0 ]; then
-      echo "---批量训练，清理${model_dir}/ckpt/*---"
+      echo "---Batch training, clear ${model_dir}/ckpt/*---"
       rm -f ${model_dir}/ckpt/*
     fi
     python3 ${code_dir}/main.py --job_name ${job}.${id} \
@@ -54,12 +54,12 @@ while true; do
             --end_time_str ${end_date} \
             --data_path ${data_path} > ${model_dir}/logs/main_${end_date}.log 2>&1
     if [ $? -ne 0 ]; then
-      # 由于下载问题导致模型解析dataset异常，就重新下载一次数据重新训练
+      # If download issues cause dataset parsing errors, re-download data and retrain
       if grep -qE "UnicodeDecodeError|make_one_shot_iterator" "${model_dir}/logs/main_${end_date}.log"; then
         python ${code_dir}/common/clear_history_data.py --data_path ${DATA_ROOT} --del_date ${end_date:0:8}
 	return_cnt=$(($return_cnt+1))
         if [ ${return_cnt} -le 3 ];then
-          echo "[${time_str:0:8}, ${end_date:0:8}] dataset解析异常,数据重新下载和训练,return_cnt=${return_cnt}"
+          echo "[${time_str:0:8}, ${end_date:0:8}] dataset parse error, re-download data and retrain, return_cnt=${return_cnt}"
           time_str=$(date -d "${time_str:0:8} ${time_str:8:2} - ${delta} hours" +"%Y%m%d%H%M")
           end_date=$(date -d "${end_date:0:8} ${end_date:8:2} - ${delta} hours" +"%Y%m%d%H%M")
           continue

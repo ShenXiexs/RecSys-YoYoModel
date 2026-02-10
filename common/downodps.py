@@ -82,7 +82,7 @@ def task(idx_date, idx, start, step,
         for i, batch in enumerate(reader):
             write(file, batch, data_schema)
             if i % 100 == 0:
-                logger.info(f"进度: {idx_date} {start} {step} {i} {i * 1024 / step * 100:.2f}%")
+                logger.info(f"Progress: {idx_date} {start} {step} {i} {i * 1024 / step * 100:.2f}%")
 
     t1 = time.time()
     return f'idx_date: {idx_date} {start} {step} waste: {(t1 - t0) // 60}'
@@ -91,12 +91,12 @@ def task(idx_date, idx, start, step,
 def get_args():
     save_path = os.environ.get("DATA_ROOT", "/data/share/opt/data")
     parser = argparse.ArgumentParser(description='manual to this script')
-    parser.add_argument("--start_date", default="", type=str, help="数据下载开始日期")
-    parser.add_argument("--end_date", default="", type=str, help="数据下载结束日期")
-    parser.add_argument("--save_path", default=save_path, type=str, help="数据下载存储路径")
-    parser.add_argument("--max_workers", default=16, type=int, help="数据下载进程数")
-    parser.add_argument("--durations", default="1", type=str, help="数据durations分区")
-    parser.add_argument("--task", default="", type=str, help="任务名")
+    parser.add_argument("--start_date", default="", type=str, help="Data download start date")
+    parser.add_argument("--end_date", default="", type=str, help="Data download end date")
+    parser.add_argument("--save_path", default=save_path, type=str, help="Data download save path")
+    parser.add_argument("--max_workers", default=16, type=int, help="Number of download workers")
+    parser.add_argument("--durations", default="1", type=str, help="Data durations partition")
+    parser.add_argument("--task", default="", type=str, help="Task name")
     args, unknown = parser.parse_known_args()
     print((args, unknown))
     return args
@@ -128,7 +128,8 @@ def wait_for_process_exit(
         # Compute elapsed wait time
         elapsed_time = time.time() - start_time
         if elapsed_time > max_wait_seconds:
-            print(f"⚠️  等待超时（已超过 {max_wait_seconds / 3600:.1f} 小时），目标进程仍在运行，退出等待")
+            print(f"⚠️  Wait timeout (exceeded {max_wait_seconds / 3600:.1f} hours); "
+                  f"target process is still running. Stop waiting.")
             return False
         # Track whether target process is found
         process_found = False
@@ -157,9 +158,9 @@ def wait_for_process_exit(
                     for v in kwargs.values():
                         flag = v in cmd_str and flag
                     if flag:
-                        print(f"找到目标进程（PID: {proc_pid}），继续等待... "
-                              f"（已等待 {elapsed_time / 3600:.1f} 小时，"
-                              f"剩余 {max(0, max_wait_seconds - elapsed_time) / 3600:.1f} 小时）")
+                        print(f"Found target process (PID: {proc_pid}); keep waiting... "
+                              f"(waited {elapsed_time / 3600:.1f} hours, "
+                              f"remaining {max(0, max_wait_seconds - elapsed_time) / 3600:.1f} hours)")
                         process_found = True
                         break  # Found one; no need to continue
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
@@ -167,7 +168,8 @@ def wait_for_process_exit(
                 continue
         # If target process not found, it has exited; return True
         if not process_found:
-            print(f"🎉 目标进程已退出，结束等待（总等待时间：{elapsed_time / 60:.1f} 分钟）")
+            print(f"🎉 Target process exited, stop waiting "
+                  f"(total wait time: {elapsed_time / 60:.1f} minutes)")
             return True
         # If found, sleep for interval then recheck
         time.sleep(check_interval)

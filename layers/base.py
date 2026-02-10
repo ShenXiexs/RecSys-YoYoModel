@@ -37,7 +37,7 @@ class MLP(Layer):
         self.output_layer = None
         self.output_activation = None
         if hidden_units is None or len(hidden_units) == 0:
-            raise ValueError("hidden_units 不能为空，请在 dnn_config 中配置至少一个隐藏层维度")
+            raise ValueError("hidden_units cannot be empty; configure at least one hidden layer size in dnn_config")
         dense_layers = []
         if not isinstance(dropout_rates, list):
             dropout_rates = [dropout_rates] * len(hidden_units)
@@ -89,7 +89,7 @@ class DNN:
         self.output_layer = None
         self.output_activation = None
         if hidden_units is None or len(hidden_units) == 0:
-            raise ValueError("hidden_units 不能为空，请在 dnn_config 中配置至少一个隐藏层维度")
+            raise ValueError("hidden_units cannot be empty; configure at least one hidden layer size in dnn_config")
         dense_layers = []
         if not isinstance(dropout_rates, list):
             dropout_rates = [dropout_rates] * len(hidden_units)

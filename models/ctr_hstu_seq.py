@@ -61,7 +61,7 @@ def rotary_pos_emb(seq_len, dim, dtype=tf.float32):
       cos, sin shapes are [1, L, dim/2].
     dim must be even (per-head d_k is usually even).
     """
-    assert dim % 2 == 0, "RoPE 要求每头维度 dim 为偶数"
+    assert dim % 2 == 0, "RoPE requires per-head dim to be even"
 
     dim = int(dim)
     pos = tf.cast(tf.range(seq_len), dtype=dtype)  # [L]

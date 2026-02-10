@@ -86,7 +86,7 @@ class MultiHeadTokenMixer(tf.layers.Layer):
 
     def build(self, input_shape):
         if self.d_model % self.num_heads != 0:
-            raise ValueError("d_model 必须能整除 num_heads, got d_model=%d num_heads=%d" %
+            raise ValueError("d_model must be divisible by num_heads, got d_model=%d num_heads=%d" %
                              (self.d_model, self.num_heads))
         self.d_head = self.d_model // self.num_heads
         init = tf.variance_scaling_initializer(scale=2.0)
@@ -124,7 +124,7 @@ class ParameterFreeTokenMixer(tf.layers.Layer):
 
     def build(self, input_shape):
         if self.d_model % self.num_heads != 0:
-            raise ValueError("d_model 必须能整除 num_heads, got d_model=%d num_heads=%d" %
+            raise ValueError("d_model must be divisible by num_heads, got d_model=%d num_heads=%d" %
                              (self.d_model, self.num_heads))
         self.d_head = self.d_model // self.num_heads
         super(ParameterFreeTokenMixer, self).build(input_shape)
@@ -519,7 +519,7 @@ def _prepare_seq_tokens(features, embeddings_table, policy, seq_cfg, pool_modes,
     if not seq_cfg:
         return (None, 0, []) if return_names else (None, 0)
     if "seq_features" not in features:
-        logger.warning("features 中缺少 seq_features，RankMixer 仅使用非序列特征。")
+        logger.warning("Missing seq_features in features; RankMixer will use only non-sequence features.")
         return (None, 0, []) if return_names else (None, 0)
     seq_features_flat = _dense_if_sparse(features["seq_features"], default_value="0")
     start = 0
@@ -684,7 +684,7 @@ def model_fn(features, labels, mode, params):
             feature_names.extend(seq_names)
             seq_token_count = 0
         if not feature_embeddings:
-            raise ValueError("RankMixer 无可用 token，请确认 use_other_features 或 seq_features 配置。")
+            raise ValueError("RankMixer has no usable tokens; check use_other_features or seq_features config.")
         all_embeddings = feature_embeddings[0] if len(feature_embeddings) == 1 else tf.concat(feature_embeddings, axis=1)
         tokens, token_count, tokens_dim = _semantic_tokenize(
             all_embeddings, feature_names, embedding_size,
@@ -692,7 +692,7 @@ def model_fn(features, labels, mode, params):
             group_rules=semantic_group_rules, name="semantic_token_proj"
         )
         if tokens is None:
-            raise ValueError("RankMixer 无可用 token，请确认 use_other_features 或 seq_features 配置。")
+            raise ValueError("RankMixer has no usable tokens; check use_other_features or seq_features config.")
         token_chunks.append(tokens)
         dense_token_count = token_count
         if (not include_seq_in_tokenization) and (seq_embeddings is not None):
@@ -723,7 +723,7 @@ def model_fn(features, labels, mode, params):
             token_count += seq_token_count
 
     if not token_chunks:
-        raise ValueError("RankMixer 无可用 token，请确认 use_other_features 或 seq_features 配置。")
+        raise ValueError("RankMixer has no usable tokens; check use_other_features or seq_features config.")
 
     tokens = tf.concat(token_chunks, axis=1)
     tokens.set_shape([None, token_count, tokens_dim])
@@ -758,7 +758,7 @@ def model_fn(features, labels, mode, params):
 
     if token_mixing_type in ("param_free", "parameter_free", "paper"):
         if num_heads != token_count:
-            logger.warning("param_free token mixing 强制 num_heads=token_count (got %d, set %d)",
+            logger.warning("param_free token mixing forces num_heads=token_count (got %d, set %d)",
                            num_heads, token_count)
         num_heads = token_count
 

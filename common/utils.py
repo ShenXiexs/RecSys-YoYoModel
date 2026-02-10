@@ -313,5 +313,5 @@ def masked_pooling(inputs, inputs_emb, mask_value, pooling_mode="mean"):
     elif pooling_mode == "concat":
         return tf.reshape(inputs_emb, sum(tf.shape(inputs_emb)[1:]))
     else:
-        raise ValueError(f"不支持的 pooling 模式：{pooling_mode}，可选模式为 avg/max/sum")
+        raise ValueError(f"Unsupported pooling mode: {pooling_mode}. Available modes: avg/max/sum")
 

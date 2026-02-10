@@ -4,20 +4,20 @@ code_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && cd .. && pwd
 
 curr_export_timestamp="$(cat ${code_dir}/bin/logs/${MODEL_TASK}/export_timestamp)"
 echo "curr_export_timestamp=${curr_export_timestamp}"
-# 记录循环开始时间（秒级时间戳）
+# Record loop start time (seconds timestamp)
 start_time=$(date +%s)
-# 20小时的秒数（20*3600）
+# Seconds in 20 hours (20*3600)
 timeout_hour=20
 timeout_seconds=$((${timeout_hour} * 3600))
 #
 while [ 1 ]; do
-    # 获取当前时间戳
+    # Get current timestamp
     current_time=$(date +%s)
-    # 计算已运行时间
+    # Compute elapsed time
     elapsed_time=$((current_time - start_time))
-    # 检查是否超时
+    # Check timeout
     if [ $elapsed_time -ge $timeout_seconds ]; then
-        echo "${timeout_hour}小时内未完成，脚本退出"
+        echo "Not completed within ${timeout_hour} hours, exiting script"
         exit 1
     fi
     #

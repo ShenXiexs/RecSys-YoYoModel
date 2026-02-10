@@ -12,8 +12,8 @@ try:
 except:
     from utils import train_config, schema_fea2idx_dict
 
-flags.DEFINE_string('body_file', train_config.body_json_name, 'body.json文件路径')
-flags.DEFINE_string('model_dir', '', '模型路径')
+flags.DEFINE_string('body_file', train_config.body_json_name, 'Path to body.json')
+flags.DEFINE_string('model_dir', '', 'Model path')
 FLAGS = flags.FLAGS
 
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

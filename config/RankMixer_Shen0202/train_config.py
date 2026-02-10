@@ -4,7 +4,7 @@ import os
 import sys
 import re
 
-# 保持与原项目一致的路径层级（config/<model_version>/...）
+# Keep the path hierarchy consistent with the original project (config/<model_version>/...).
 dirname = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def _extract_train_date(argv):
@@ -106,28 +106,28 @@ def _build_semantic_groups(select_feat_path, seq_features_config, rules=_SEMANTI
 
 class TrainConfig(object):
     """
-    关键改动：
-    1) 模型入口切换为 RankMixer（GPU 优先）
-    2) 显式配置 seq_length（固定长度），供 RankMixer 使用
-    3) 在 train_params 中新增 rankmixer 超参，并将 d_model 与动态 Embedding 维度对齐
+    Key changes:
+    1) Switch model entry to RankMixer (GPU preferred).
+    2) Explicitly set seq_length (fixed length) for RankMixer.
+    3) Add rankmixer hyperparameters in train_params and align d_model with dynamic Embedding dims.
     """
 
-    # ======================= 基本信息 =======================
-    model_version = "RankMixer_Shen0202"                       # 必填：版本名（影响配置/输出路径）
-    model_modul   = "models.rankmixer_shen0202.model_fn"       # RankMixer_Shen0202 Estimator 入口
-    dataset_modul = "dataset.dataset_seq.input_fn"             # 仍采用现有 TF 数据管道
+    # ======================= Basic Info =======================
+    model_version = "RankMixer_Shen0202"                       # Required: version name (affects config/output paths)
+    model_modul   = "models.rankmixer_shen0202.model_fn"       # RankMixer_Shen0202 Estimator entry
+    dataset_modul = "dataset.dataset_seq.input_fn"             # Reuse existing TF data pipeline
 
-    ### GPU训练参数配置
+    ### GPU training parameter configuration
     device = "GPU"  # Device to use: cpu, gpu, or multi_gpu
     gpu_list = "0"  # Comma-separated list of GPU IDs for multi-GPU mode
     gpu_memory_limit = 0  # GPU memory limit in MB (0 for no limit)
     gpu_memory_growth = True  # Allow GPU memory growth
     keep_date_ranges = [("1101", "1110")]
     
-    # ======================= 训练参数（传入 model_fn 的 params） =======================
+    # ======================= Training Params (passed to model_fn) =======================
     train_params = {
-        "use_seq_features": "v1",  # 默认不使用序列特征，choice:[v1,v2];v1:输入后需要pad+截断；v2：输入固定长度；
-        # 优化器配置（供 RankMixer 主干使用）
+        "use_seq_features": "v1",  # Default does not use seq features. choice:[v1,v2]; v1: pad+truncate; v2: fixed length.
+        # Optimizer config (for RankMixer backbone)
         "optimize_config": {
             "learning_rate": _resolve_learning_rate(),
             "beta1": 0.9,
@@ -139,13 +139,13 @@ class TrainConfig(object):
             "min_learning_rate": 0.0,
             "grad_clip_norm": 5.0,
         },
-        # RankMixer_Shen0118 超参（论文 100M 配置）
+        # RankMixer_Shen0118 hyperparameters (paper 100M configuration)
         "rankmixer": {
-            # ===== 模型规模 =====
+            # ===== Model scale =====
             "d_model": 368,
             "num_layers": 8,
             "num_tokens": 23,
-            "num_heads": 23,  # 论文要求 H = T
+            "num_heads": 23,  # Paper requires H = T
             "ffn_mult": 8,
 
             # ===== Tokenization =====
@@ -165,7 +165,7 @@ class TrainConfig(object):
             "ffn_activation": "gelu",
             "ffn_dropout": 0.0,
 
-            # ===== LN 风格 =====
+            # ===== LN style =====
             "ln_style": "pre",
             "input_ln": False,
             "use_final_ln": True,
@@ -175,7 +175,7 @@ class TrainConfig(object):
             "add_cls_token": False,
             "head_dropout": 0.0,
 
-            # ===== MoE（100M 关闭） =====
+            # ===== MoE (disabled for 100M) =====
             "use_moe": False,
             "moe_num_experts": 8,
             "moe_sparsity_ratio": 0.125,
@@ -183,7 +183,7 @@ class TrainConfig(object):
             "moe_l1_lambda": 0.01,
             "moe_use_dtsi": True,
 
-            # ===== 其他基础配置 =====
+            # ===== Other base settings =====
             "use_other_features": True,
             "seq_pool": "mean",
             "embedding_size": 9,
@@ -194,226 +194,226 @@ class TrainConfig(object):
             "use_conditional_cvr": False,
         },
 
-        # 资源与动态表策略（与 baseline 对齐）
-        "ps_num": 1,                  # TFRA 动态表挂至 GPU:0，避免回落 CPU
-        "restrict": True,             # 控制动态表规模，显存可控
+        # Resource and dynamic table strategy (aligned with baseline)
+        "ps_num": 1,                  # Place TFRA dynamic tables on GPU:0 to avoid CPU fallback
+        "restrict": True,             # Control dynamic table size to keep memory manageable
         "l2_reg": 1e-6,
     }
 
-    # ======================= 数据 Schema =======================
-    data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "is_conversion", "features", "app_pkg_src", "app_pkg", "app_first_type", "seq_features" ] #必填
+    # ======================= Data Schema =======================
+    data_schema = ["user_id", "requestid", "combination_un_id", "is_click", "is_conversion", "features", "app_pkg_src", "app_pkg", "app_first_type", "seq_features" ] # required
     label_schema = {"is_click": "ctr_label",
-                    "is_conversion": "ctcvr_label"}                                                        #必填
-    # seq_feature配置
+                    "is_conversion": "ctcvr_label"}                                                        # required
+    # seq_feature config
     seq_features_config = [
         {"name": "user_awake_90d_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户90天唤醒包序列"},
+         "description": "User awake package sequence over the past 90 days"},
         {"name": "user_awake_90d_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户90天唤醒包一级分类序列"},
+         "description": "User awake package first-level app category sequence over the past 90 days"},
         {"name": "user_awake_30d_recent_10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日最近10次唤醒序列"},
+         "description": "User most recent 10 awake events sequence over the past 30 days"},
         {"name": "user_awake_30d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日唤醒包频次最多10个序列"},
+         "description": "User top 10 most frequent awake packages sequences over the past 30 days"},
         {"name": "user_awake_30d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个唤醒包序列"},
+         "description": "User top 10 highest-stickiness awake packages sequences over the past 30 days"},
         {"name": "user_first_awke_90d_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户90天首唤包序列"},
+         "description": "User first-awake package sequence over the past 90 days"},
         {"name": "user_first_awke_90d_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户90天首唤包一级分类序列"},
+         "description": "User first-awake package first-level app category sequence over the past 90 days"},
         {"name": "user_first_awke_30d_recent_10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日最近10次首唤序列"},
+         "description": "User most recent 10 first-awake events sequence over the past 30 days"},
         {"name": "user_first_awke_30d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日首唤包频次最多10个序列"},
+         "description": "User top 10 most frequent first-awake packages sequences over the past 30 days"},
         {"name": "user_first_awke_30d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个首唤包序列"},
+         "description": "User top 10 highest-stickiness first-awake packages sequences over the past 30 days"},
         {"name": "user_imp_app_90d_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户90天曝光包序列"},
+         "description": "User impression package sequence over the past 90 days"},
         {"name": "user_imp_app_90d_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户90天曝光包应用一级分类序列"},
+         "description": "User impression package first-level app category sequence over the past 90 days"},
         {"name": "user_imp_app_30d_recent_10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30最近10次曝光包序列"},
+         "description": "User most recent 10 impression packages sequence over the past 30 days"},
         {"name": "user_imp_app_30d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日曝光包频次最多10个序列"},
+         "description": "User top 10 most frequent impression packages sequences over the past 30 days"},
         {"name": "user_imp_app_30d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个曝光包序列"},
+         "description": "User top 10 highest-stickiness impression packages sequences over the past 30 days"},
         {"name": "user_clk_app_90d_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户90天点击包序列"},
+         "description": "User click package sequence over the past 90 days"},
         {"name": "user_clk_app_90d_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户90天点击包应用一级分类序列"},
+         "description": "User click package first-level app category sequence over the past 90 days"},
         {"name": "user_clk_app_30d_recent_10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30最近10次点击包序列"},
+         "description": "User most recent 10 click packages sequence over the past 30 days"},
         {"name": "user_clk_app_30d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日点击包频次最多10个序列"},
+         "description": "User top 10 most frequent click packages sequences over the past 30 days"},
         {"name": "user_clk_app_30d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个点击包序列"},
+         "description": "User top 10 highest-stickiness click packages sequences over the past 30 days"},
         {"name": "user_imp_launch_recent_5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户最近5次曝光启动序列"},
+         "description": "User most recent 5 impression launches sequence"},
         {"name": "user_imp_launch_30d_freq_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户30日曝光启动频次最多10个序列"},
+         "description": "User top 10 most frequent impression launches sequences over the past 30 days"},
         {"name": "user_imp_launch_30d_sticky_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个曝光启动序列"},
+         "description": "User top 10 highest-stickiness impression launches sequences over the past 30 days"},
         {"name": "user_clk_launch_recent_5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户最近5次点击启动序列"},
+         "description": "User most recent 5 click launches sequence"},
         {"name": "user_clk_launch_30d_freq_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户30日点击启动频次最多10个序列"},
+         "description": "User top 10 most frequent click launches sequences over the past 30 days"},
         {"name": "user_clk_launch_30d_sticky_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户30日粘性最高10个点击启动序列"},
+         "description": "User top 10 highest-stickiness click launches sequences over the past 30 days"},
         {"name": "user_awake_7d_recent_5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日最近5次唤醒序列"},
+         "description": "User most recent 5 awake events sequence over the past 7 days"},
         {"name": "user_awake_15d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日唤醒频次最多10个序列"},
+         "description": "User top 10 most frequent awake events sequences over the past 15 days"},
         {"name": "user_awake_7d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日唤醒频次最多10个序列"},
+         "description": "User top 10 most frequent awake events sequences over the past 7 days"},
         {"name": "user_awake_1d_freq_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日唤醒频次最多5个序列"},
+         "description": "User top 5 most frequent awake events sequences over the past 1 day"},
         {"name": "user_awake_15d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户15日唤醒包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent awake package first-level app categories sequences over the past 15 days"},
         {"name": "user_awake_7d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日唤醒包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent awake package first-level app categories sequences over the past 7 days"},
         {"name": "user_awake_1d_freq_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日唤醒包应用一级分类频次最多5个序列"},
+         "description": "User top 5 most frequent awake package first-level app categories sequences over the past 1 day"},
         {"name": "user_awake_15d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高10个唤醒序列"},
+         "description": "User top 10 highest-stickiness awake events sequences over the past 15 days"},
         {"name": "user_awake_7d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个唤醒序列"},
+         "description": "User top 10 highest-stickiness awake events sequences over the past 7 days"},
         {"name": "user_awake_1d_sticky_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个唤醒序列"},
+         "description": "User top 5 highest-stickiness awake events sequences over the past 1 day"},
         {"name": "user_awake_15d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高10个唤醒包应用一级分类序列"},
+         "description": "User top 10 highest-stickiness awake package first-level app categories sequences over the past 15 days"},
         {"name": "user_awake_7d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个唤醒包应用一级分类序列"},
+         "description": "User top 10 highest-stickiness awake package first-level app categories sequences over the past 7 days"},
         {"name": "user_awake_1d_sticky_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个唤醒包应用一级分类序列"},
+         "description": "User top 5 highest-stickiness awake package first-level app categories sequences over the past 1 day"},
         {"name": "user_first_awke_7d_recent_5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日最近5次首唤序列"},
+         "description": "User most recent 5 first-awake events sequence over the past 7 days"},
         {"name": "user_first_awke_15d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日首唤频次最多10个序列"},
+         "description": "User top 10 most frequent first-awake events sequences over the past 15 days"},
         {"name": "user_first_awke_7d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日首唤频次最多10个序列"},
+         "description": "User top 10 most frequent first-awake events sequences over the past 7 days"},
         {"name": "user_first_awke_1d_freq_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日首唤频次最多5个序列"},
+         "description": "User top 5 most frequent first-awake events sequences over the past 1 day"},
         {"name": "user_first_awke_15d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户15日首唤包应用一级分类频次最多10个序列"},
+         "pad": "0", "description": "User top 10 most frequent first-awake package first-level app categories sequences over the past 15 days"},
         {"name": "user_first_awke_7d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户7日首唤包应用一级分类频次最多10个序列"},
+         "pad": "0", "description": "User top 10 most frequent first-awake package first-level app categories sequences over the past 7 days"},
         {"name": "user_first_awke_1d_freq_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日首唤包应用一级分类频次最多5个序列"},
+         "description": "User top 5 most frequent first-awake package first-level app categories sequences over the past 1 day"},
         {"name": "user_first_awke_15d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高10个首唤序列"},
+         "description": "User top 10 highest-stickiness first-awake events sequences over the past 15 days"},
         {"name": "user_first_awke_7d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个首唤序列"},
+         "description": "User top 10 highest-stickiness first-awake events sequences over the past 7 days"},
         {"name": "user_first_awke_1d_sticky_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个首唤序列"},
+         "description": "User top 5 highest-stickiness first-awake events sequences over the past 1 day"},
         {"name": "user_first_awke_15d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户15日粘性最高10个首唤包应用一级分类序列"},
+         "pad": "0", "description": "User top 10 highest-stickiness first-awake package first-level app categories sequences over the past 15 days"},
         {"name": "user_first_awke_7d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户7日粘性最高10个首唤包应用一级分类序列"},
+         "pad": "0", "description": "User top 10 highest-stickiness first-awake package first-level app categories sequences over the past 7 days"},
         {"name": "user_first_awke_1d_sticky_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户1日粘性最高5个首唤包应用一级分类序列"},
+         "pad": "0", "description": "User top 5 highest-stickiness first-awake package first-level app categories sequences over the past 1 day"},
         {"name": "user_imp_app_7d_recent_5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日最近5次曝光包序列"},
+         "description": "User most recent 5 impression packages sequence over the past 7 days"},
         {"name": "user_imp_app_15d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日曝光包频次最多10个序列"},
+         "description": "User top 10 most frequent impression packages sequences over the past 15 days"},
         {"name": "user_imp_app_7d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日曝光包频次最多10个序列"},
+         "description": "User top 10 most frequent impression packages sequences over the past 7 days"},
         {"name": "user_imp_app_1d_freq_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日曝光包频次最多5个序列"},
+         "description": "User top 5 most frequent impression packages sequences over the past 1 day"},
         {"name": "user_imp_app_15d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户15日曝光包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent impression package first-level app categories sequences over the past 15 days"},
         {"name": "user_imp_app_7d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日曝光包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent impression package first-level app categories sequences over the past 7 days"},
         {"name": "user_imp_app_1d_freq_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日曝光包应用一级分类频次最多5个序列"},
+         "description": "User top 5 most frequent impression package first-level app categories sequences over the past 1 day"},
         {"name": "user_imp_app_15d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高10个曝光包序列"},
+         "description": "User top 10 highest-stickiness impression packages sequences over the past 15 days"},
         {"name": "user_imp_app_7d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个曝光包序列"},
+         "description": "User top 10 highest-stickiness impression packages sequences over the past 7 days"},
         {"name": "user_imp_app_1d_sticky_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个曝光包序列"},
+         "description": "User top 5 highest-stickiness impression packages sequences over the past 1 day"},
         {"name": "user_imp_app_15d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户15日粘性最高10个曝光包应用一级分类序列"},
+         "pad": "0", "description": "User top 10 highest-stickiness impression package first-level app categories sequences over the past 15 days"},
         {"name": "user_imp_app_7d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个曝光包应用一级分类序列"},
+         "description": "User top 10 highest-stickiness impression package first-level app categories sequences over the past 7 days"},
         {"name": "user_imp_app_1d_sticky_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个曝光包应用一级分类序列"},
+         "description": "User top 5 highest-stickiness impression package first-level app categories sequences over the past 1 day"},
         {"name": "user_clk_app_7d_recent_5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日最近5次点击包序列"},
+         "description": "User most recent 5 click packages sequence over the past 7 days"},
         {"name": "user_clk_app_15d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日点击包频次最多10个序列"},
+         "description": "User top 10 most frequent click packages sequences over the past 15 days"},
         {"name": "user_clk_app_7d_freq_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日点击包频次最多10个序列"},
+         "description": "User top 10 most frequent click packages sequences over the past 7 days"},
         {"name": "user_clk_app_1d_freq_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日点击包频次最多5个序列"},
+         "description": "User top 5 most frequent click packages sequences over the past 1 day"},
         {"name": "user_clk_app_15d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户15日点击包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent click package first-level app categories sequences over the past 15 days"},
         {"name": "user_clk_app_7d_freq_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日点击包应用一级分类频次最多10个序列"},
+         "description": "User top 10 most frequent click package first-level app categories sequences over the past 7 days"},
         {"name": "user_clk_app_1d_freq_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日点击包应用一级分类频次最多5个序列"},
+         "description": "User top 5 most frequent click package first-level app categories sequences over the past 1 day"},
         {"name": "user_clk_app_15d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高10个点击包序列"},
+         "description": "User top 10 highest-stickiness click packages sequences over the past 15 days"},
         {"name": "user_clk_app_7d_sticky_top10_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个点击包序列"},
+         "description": "User top 10 highest-stickiness click packages sequences over the past 7 days"},
         {"name": "user_clk_app_1d_sticky_top5_seq", "is_download": 1, "index": "26", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个点击包序列"},
+         "description": "User top 5 highest-stickiness click packages sequences over the past 1 day"},
         {"name": "user_clk_app_15d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20,
-         "pad": "0", "description": "用户15日粘性最高10个点击包应用一级分类序列"},
+         "pad": "0", "description": "User top 10 highest-stickiness click package first-level app categories sequences over the past 15 days"},
         {"name": "user_clk_app_7d_sticky_top10_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个点击包应用一级分类序列"},
+         "description": "User top 10 highest-stickiness click package first-level app categories sequences over the past 7 days"},
         {"name": "user_clk_app_1d_sticky_top5_app_type_seq", "is_download": 1, "index": "27", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个点击包应用一级分类序列"},
+         "description": "User top 5 highest-stickiness click package first-level app categories sequences over the past 1 day"},
         {"name": "user_imp_launch_15d_freq_top20_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户15日曝光启动频次最多20个序列"},
+         "description": "User top 20 most frequent impression launches sequences over the past 15 days"},
         {"name": "user_imp_launch_7d_freq_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户7日曝光启动频次最多10个序列"},
+         "description": "User top 10 most frequent impression launches sequences over the past 7 days"},
         {"name": "user_imp_launch_1d_freq_top5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户1日曝光启动频次最多5个序列"},
+         "description": "User top 5 most frequent impression launches sequences over the past 1 day"},
         {"name": "user_imp_launch_15d_sticky_top20_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高20个曝光启动序列"},
+         "description": "User top 20 highest-stickiness impression launches sequences over the past 15 days"},
         {"name": "user_imp_launch_7d_sticky_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个曝光启动序列"},
+         "description": "User top 10 highest-stickiness impression launches sequences over the past 7 days"},
         {"name": "user_imp_launch_1d_sticky_top5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个曝光启动序列"},
+         "description": "User top 5 highest-stickiness impression launches sequences over the past 1 day"},
         {"name": "user_clk_launch_15d_freq_top20_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户15日点击启动频次最多20个序列"},
+         "description": "User top 20 most frequent click launches sequences over the past 15 days"},
         {"name": "user_clk_launch_7d_freq_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户7日点击启动频次最多10个序列"},
+         "description": "User top 10 most frequent click launches sequences over the past 7 days"},
         {"name": "user_clk_launch_1d_freq_top5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户1日点击启动频次最多5个序列"},
+         "description": "User top 5 most frequent click launches sequences over the past 1 day"},
         {"name": "user_clk_launch_15d_sticky_top20_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户15日粘性最高20个点击启动序列"},
+         "description": "User top 20 highest-stickiness click launches sequences over the past 15 days"},
         {"name": "user_clk_launch_7d_sticky_top10_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户7日粘性最高10个点击启动序列"},
+         "description": "User top 10 highest-stickiness click launches sequences over the past 7 days"},
         {"name": "user_clk_launch_1d_sticky_top5_seq", "is_download": 1, "index": "3", "length": 20, "pad": "0",
-         "description": "用户1日粘性最高5个点击启动序列"},
+         "description": "User top 5 highest-stickiness click launches sequences over the past 1 day"},
     ]
 
-    # ======================= 标签映射 / 预测输出列 =======================
-    # 跟模型中prediction中out的输出对其，给模型输出补key，组成json格式，用于推理模型的效果存储
+    # ======================= Label Mapping / Prediction Output Columns =======================
+    # Align with model prediction output; add keys to build JSON for inference result storage
     predict_columns = [k for k,v in label_schema.items() if v.endswith("_label")] \
-                    + [v.replace("_label", "_pred") for k,v in label_schema.items() if v.endswith("_label")]  # 必填
+                    + [v.replace("_label", "_pred") for k,v in label_schema.items() if v.endswith("_label")]  # required
 
-    # ======================= 解析/压缩配置 =======================
-    field_sep = "\003"  # 字段的分隔符
-    features_sep = "\002"  # features特征的分隔符
-    compression_type = "GZIP"  # 数据压缩格式
+    # ======================= Parsing/Compression Config =======================
+    field_sep = "\003"  # Field separator
+    features_sep = "\002"  # Features separator
+    compression_type = "GZIP"  # Data compression format
 
-    # ======================= 线下特征/分桶等配置 =======================
-    # 定义分桶且特征选择表
+    # ======================= Offline Feature/Bucket Config =======================
+    # Define bucketed table with feature selection
     binning_table_name = "tmp_ad_rank_cvr_activation_sample_data_v2"
     partitions = "ds_date='{day}',durations='1',model_type='TO5'"
     downodps_datas = ['20250901']
 
-    # ======================= 本地/OSS 配置路径 =======================
-    schema_path = f"{dirname}/config/{model_version}/schema.conf"  # 该文件必须要
-    slot_path = f"{dirname}/config/{model_version}/slot.conf"  # 该文件必须要
+    # ======================= Local/OSS Paths =======================
+    schema_path = f"{dirname}/config/{model_version}/schema.conf"  # Required
+    slot_path = f"{dirname}/config/{model_version}/slot.conf"  # Required
     sel_feat_path = f"{dirname}/config/{model_version}/select_feature.conf"
-    boundaries_map_path = f"{dirname}/config/{model_version}/boundaries_map.json"  # 该文件必须要
-    fg_path = f"{dirname}/config/{model_version}/fg.json"  # 该文件必须要
+    boundaries_map_path = f"{dirname}/config/{model_version}/boundaries_map.json"  # Required
+    fg_path = f"{dirname}/config/{model_version}/fg.json"  # Required
     feature_config_path = f"{dirname}/config/{model_version}/feature_config.json"
     body_json_name = f"{dirname}/config/{model_version}/body.json"
 
-    # ======================= Estimator 运行配置（与 baseline 一致） =======================
+    # ======================= Estimator Run Config (aligned with baseline) =======================
     es_run_config = {
         "keep_checkpoint_max": 1,
         "save_checkpoints_steps": 100000,
@@ -421,7 +421,7 @@ class TrainConfig(object):
         "save_summary_steps": 10000
     }
 
-    # ======================= Dataset input_fn 配置 =======================
+    # ======================= Dataset input_fn Config =======================
     data_nm = "TO5"
     inp_fn_config = {
         "train_spec": {
@@ -436,16 +436,16 @@ class TrainConfig(object):
         "batch_size": 1024
     }
 
-    # ======================= 写回/导出/指标 =======================
-    # infer数据写入的结果表
+    # ======================= Writeback/Export/Metrics =======================
+    # Result table for inference writes
     infer_table_name = 'adx_dmp.ads_algorithm_yoyo_model_offline_shallow_predict'
     ### upload
     oss_bucket_name = "adx-oss"
-    upload_oss_path = "rankmixer_shen0202_model_test"  #定义模型导出OSS路径
-    oss_offline_root_path = "deep_model/offline"  # 离线特征推送OSS路径，判断特征是否推线上，再推模型到OSS供线上推理使用
-    # 模型训练指标写入表, yoyo_model独有
+    upload_oss_path = "rankmixer_shen0202_model_test"  # Model export OSS path
+    oss_offline_root_path = "deep_model/offline"  # Offline feature OSS path; check feature push before pushing model
+    # Model training metrics table (yoyo_model only)
     metric_table = 'adx_dmp.ads_algorithm_yoyo_model_eval_metric_table_dm'
-    # 当前模型类型，ctr,cvr,ctcvr..
+    # Current model type: ctr, cvr, ctcvr, etc.
     eval_type = "ctcvr"
     # deep_model/offline/{}/20250924/_FEATURE_SUCCESS is exists
     oss_offline_model_ver = "rankmixer_shen0202"

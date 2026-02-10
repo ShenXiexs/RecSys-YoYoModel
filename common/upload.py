@@ -12,9 +12,9 @@ try:
 except:
     from utils import train_config
 
-flags.DEFINE_string('model_ver',getattr(train_config, "oss_offline_model_ver", train_config.model_version),'模型版本')
-flags.DEFINE_string('oss_offline_root_path',train_config.oss_offline_root_path,'模型离线特征存储路径')
-flags.DEFINE_string('upload_oss_path',train_config.upload_oss_path,'模型导出OSS路径')
+flags.DEFINE_string('model_ver',getattr(train_config, "oss_offline_model_ver", train_config.model_version),'Model version')
+flags.DEFINE_string('oss_offline_root_path',train_config.oss_offline_root_path,'Offline feature storage path for model')
+flags.DEFINE_string('upload_oss_path',train_config.upload_oss_path,'Model export OSS path')
 flags.DEFINE_string('oss_bucket_name',train_config.oss_bucket_name,'oss bucket')
 FLAGS = flags.FLAGS
 
@@ -76,7 +76,7 @@ def feat_file_exists():
         is_success = get_oss(FLAGS.oss_bucket_name).object_exists(offline_feat_path)
         if is_success is False:
             logger().warning(f"offline_feat_path: {offline_feat_path} is not exist, sleep 2m ...")
-            logger().warning(f"已经等待: {cnt} 次，curr_time: {time.strftime('%Y%m%d%H%M')}")
+            logger().warning(f"Waited: {cnt} times, curr_time: {time.strftime('%Y%m%d%H%M')}")
             time.sleep(120)
         else:
             logger().info(f"offline_feat_path: {offline_feat_path} is exist.. model train success...")

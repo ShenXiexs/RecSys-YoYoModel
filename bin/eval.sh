@@ -28,7 +28,8 @@ fi
 #    }
 #    print task ", " time ", " loss ", " auc ", " pcoc;
 #}')
-##需要针对ocpc模型，输出会按ctr、cvr两塔的指标，把cvr塔指标切割出来写入模型指标表中，供dataworks的模型训练指标监控的依赖
+## For OCPC models, metrics are split by CTR/CVR towers; extract CVR tower metrics and write to the model
+## metrics table for DataWorks training metric monitoring.
 #echo "---------------------------------save_eval_metric------------------------------------"
 #python3 ${code_dir}/common/save_eval_metric.py "${metric_data_str}"
 
