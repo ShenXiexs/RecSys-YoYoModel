@@ -1,7 +1,6 @@
 # models/rankmixer_shen0202.py
 # RankMixer_Shen0202 Estimator: strict paper-style token mixing + per-token FFN (+ optional MoE).
 from collections import OrderedDict
-import os
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -85,11 +84,9 @@ def _log_feature_usage(rank_cfg):
         schema_feats = get_exists_schema()
     except Exception:
         schema_feats = None
-    used_set = set(used_feats)
-    schema_set = set(schema_feats) if schema_feats else set()
-    missing = []
-    extra = []
     if schema_feats:
+        used_set = set(used_feats)
+        schema_set = set(schema_feats)
         missing = sorted(schema_set - used_set)
         extra = sorted(used_set - schema_set)
         logger.info("Schema coverage: schema=%d used=%d missing=%d extra=%d",
@@ -101,14 +98,12 @@ def _log_feature_usage(rank_cfg):
 
     # Semantic group coverage
     groups = rank_cfg.get("semantic_groups") if rank_cfg else None
-    group_set = set()
-    missing_in_groups = []
-    extra_in_groups = []
     if groups:
         group_feats = []
         for g in groups:
             group_feats.extend(g.get("features") or [])
         group_set = set(group_feats)
+        used_set = set(used_feats)
         missing_in_groups = sorted(used_set - group_set)
         extra_in_groups = sorted(group_set - used_set)
         logger.info("Semantic groups coverage: groups=%d group_features=%d missing=%d extra=%d",
@@ -119,43 +114,6 @@ def _log_feature_usage(rank_cfg):
             logger.info("Semantic extra (first 100): %s", extra_in_groups[:100])
     else:
         logger.info("Semantic groups: None (skip coverage check).")
-
-    # Write full lists to file for audit.
-    output_path = os.environ.get("FEATURE_USAGE_PATH")
-    if not output_path:
-        model_root = os.environ.get("MODEL_ROOT")
-        model_task = os.environ.get("MODEL_TASK")
-        if model_root and model_task:
-            output_path = os.path.join(model_root, model_task, "logs", "feature_usage_rankmixer_shen0202.txt")
-        else:
-            output_path = os.path.join(os.getcwd(), "feature_usage_rankmixer_shen0202.txt")
-    try:
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, "w") as wf:
-            wf.write("Feature usage (RankMixer_Shen0202)\n")
-            wf.write("dense=%d\nseq=%d\ntotal=%d\n\n" %
-                     (len(dense_feats), len(seq_feats), len(used_feats)))
-            wf.write("[used_features]\n")
-            wf.write("\n".join(used_feats) + "\n\n")
-            if schema_feats:
-                wf.write("[schema_coverage]\n")
-                wf.write("schema=%d used=%d missing=%d extra=%d\n" %
-                         (len(schema_set), len(used_set), len(missing), len(extra)))
-                wf.write("[missing_features]\n")
-                wf.write("\n".join(missing) + "\n\n")
-                wf.write("[extra_features]\n")
-                wf.write("\n".join(extra) + "\n\n")
-            if groups:
-                wf.write("[semantic_groups]\n")
-                wf.write("groups=%d group_features=%d missing=%d extra=%d\n" %
-                         (len(groups), len(group_set), len(missing_in_groups), len(extra_in_groups)))
-                wf.write("[semantic_missing]\n")
-                wf.write("\n".join(missing_in_groups) + "\n\n")
-                wf.write("[semantic_extra]\n")
-                wf.write("\n".join(extra_in_groups) + "\n\n")
-        logger.info("Feature usage file written: %s", output_path)
-    except Exception as exc:
-        logger.warning("Feature usage file write failed: %s", exc)
 
 
 # Build seq_length if missing.
@@ -804,11 +762,14 @@ def model_fn(features, labels, mode, params):
     model.ctcvr_labels = [ctcvr_label]
     model.ctcvr_probs = [ctcvr_prob]
     model.predictions = predictions
+    #model.outputs = {
+    #    "out": out_tensor,
+    #    "ctr_output": ctr_prob,
+    #    "cvr_output": cvr_prob,
+    #    "ctcvr_output": ctcvr_prob
+    #}
     model.outputs = {
-        "out": out_tensor,
-        "ctr_output": ctr_prob,
-        "cvr_output": cvr_prob,
-        "ctcvr_output": ctcvr_prob
+        "outputs": tf.concat([ctr_prob, cvr_prob, ctcvr_prob], axis=1)
     }
 
     predict_outputs = model.outputs
