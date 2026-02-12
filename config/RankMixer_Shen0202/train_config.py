@@ -390,8 +390,14 @@ class TrainConfig(object):
 
     # ======================= Label Mapping / Prediction Output Columns =======================
     # Align with model prediction output; add keys to build JSON for inference result storage
-    predict_columns = [k for k,v in label_schema.items() if v.endswith("_label")] \
-                    + [v.replace("_label", "_pred") for k,v in label_schema.items() if v.endswith("_label")]  # required
+    # [ctr_label, ctcvr_label, ctr_prob, cvr_prob, ctcvr_prob]
+    predict_columns = [
+        "is_click",
+        "is_conversion",
+        "ctr_pred",
+        "cvr_pred",
+        "ctcvr_pred",
+    ]  # required
 
     # ======================= Parsing/Compression Config =======================
     field_sep = "\003"  # Field separator
