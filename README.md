@@ -1,6 +1,6 @@
 # YoYo Recommendation Model
 
-**!!! For Some Satey reasons, I removed all the config files and some models version. !!!**
+**!!! For Some Safey and Security reasons, I removed all the config files and some models version. !!!**
 
 YoYo Recommendation Model is a TensorFlow-based ranking and conversion prediction stack that powers multi-task ad recommendation research. The repo contains production-style pipelines for downloading features from MaxCompute/ODPS, training several neural architectures (e.g., TIGER, RankMixer, DeepFM variants, sequence-aware HSTU models), evaluating performance, exporting SavedModels, and syncing artifacts to OSS.
 
